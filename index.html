@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MathAnchor – Every math topic, explained</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--mark:#FFD23F;--markink:#12263A;--teal:#0E7C6B;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 "Instrument Sans",system-ui,"Noto Sans",sans-serif;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:10px;height:60px}
+.logo{font:800 1.25rem "Bricolage Grotesque",sans-serif;margin-right:auto;white-space:nowrap}
+.logo span{background:var(--mark);color:var(--markink);padding:0 6px;border-radius:4px;margin-right:2px}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.fill{background:var(--mark);color:var(--markink);border-color:var(--markink)}
+.btn:hover{transform:translateY(-1px)}
+.lang{position:relative}
+.lang>button{display:flex;gap:6px;align-items:center;padding:8px 10px}
+.menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px;list-style:none;margin:0;width:200px;max-height:60vh;overflow:auto;display:none;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.menu.open{display:block}
+.menu button{width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+.menu button:hover,.menu button[aria-current="true"]{background:var(--grid)}
+.menu button[disabled]{opacity:.5;cursor:default}
+.hero{padding:56px 0 48px;display:grid;gap:36px;grid-template-columns:1.1fr .9fr;align-items:center}
+.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-.02em}
+.hero p{font-size:1.15rem;color:var(--mute);max-width:46ch;margin:18px 0 26px}
+.demo{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:18px;box-shadow:6px 6px 0 var(--mark)}
+.demo h3{font-size:1.1rem;margin-bottom:4px}
+.demo small{color:var(--mute)}
+.step{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px dashed var(--line);padding:12px 0;cursor:pointer}
+.step b{font:700 1.35rem "Bricolage Grotesque",sans-serif;letter-spacing:.02em}
+.step em{display:none;font-style:normal;color:var(--teal);margin-top:4px}
+.step[aria-expanded="true"] em{display:block}
+.step .q{float:right;font-size:.85rem;color:var(--mute)}
+section{padding:44px 0;border-top:1px solid var(--line)}
+section h2{font-size:clamp(1.6rem,4vw,2.3rem);margin-bottom:22px}
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.why h3{font-size:1.2rem;margin-bottom:6px}
+.why p{margin:0;color:var(--mute)}
+.topics{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);column-gap:36px}
+.topics li{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--line);padding:12px 0}
+.topics .s{font:700 1.5rem "Bricolage Grotesque",sans-serif;color:var(--teal);width:44px;flex:none;text-align:center}
+.topics b{display:block}
+.topics span{color:var(--mute);font-size:.92rem}
+.cta{text-align:center;background:var(--mark);color:var(--markink);border:2px solid var(--markink);border-radius:16px;padding:44px 20px;margin:20px 0 48px}
+.cta h2{margin-bottom:10px}
+.cta p{margin:0 auto 20px;max-width:44ch}
+.cta .btn{background:var(--markink);color:#fff;font-size:1.1rem;padding:12px 26px}
+footer{padding:0 0 32px;color:var(--mute);font-size:.9rem;text-align:center}
+dialog{border:2px solid var(--ink);border-radius:14px;background:var(--card);color:var(--ink);width:min(380px,92vw);padding:24px}
+dialog::backdrop{background:rgba(10,20,30,.55)}
+dialog h2{font-size:1.6rem;margin-bottom:14px}
+label{display:block;font-weight:600;margin:12px 0 4px}
+input{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg)}
+.row{display:flex;gap:10px;margin-top:18px}
+.note{font-size:.85rem;color:var(--mute);margin-top:12px}
+.err{color:#C0392B;font-size:.88rem;min-height:1.2em;margin-top:8px}
+@media (max-width:760px){.hero,.why,.topics{grid-template-columns:1fr}.hero{padding-top:32px}.btn{padding:8px 10px}.logo{font-size:1.05rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+ <div class="logo"><span>Math</span>Anchor</div>
+ <div class="lang">
+  <button class="btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Language">🌐 <span id="langName">English</span></button>
+  <ul class="menu" id="menu"></ul>
+ </div>
+ <button class="btn" data-i="login" id="loginBtn">Log in</button>
+ <button class="btn fill" data-i="signup" id="signupBtn">Sign up</button>
+</div></header>
+
+<main class="wrap">
+ <div class="hero">
+  <div>
+   <h1 data-i="h1">Stuck on a step? Start here.</h1>
+   <p data-i="sub">Clear, step-by-step explanations for every math topic, from counting to calculus, in your language.</p>
+   <button class="btn fill" data-open="signup" data-i="cta" style="font-size:1.1rem;padding:12px 22px">Get started free</button>
+  </div>
+  <div class="demo">
+   <h3 data-i="demoT">Solve 2x + 6 = 14</h3>
+   <small data-i="demoS">Tap any line you don’t understand.</small>
+   <button class="step" aria-expanded="false"><span class="q">?</span><b>2x + 6 = 14</b><em data-i="e1">Our goal: get x alone on one side.</em></button>
+   <button class="step" aria-expanded="false"><span class="q">?</span><b>2x = 8</b><em data-i="e2">Subtract 6 from both sides to keep the equation balanced.</em></button>
+   <button class="step" aria-expanded="false"><span class="q">?</span><b>x = 4</b><em data-i="e3">Divide both sides by 2. Check: 2·4 + 6 = 14 ✓</em></button>
+  </div>
+ </div>
+
+ <section>
+  <h2 data-i="whyT">Why learners come back</h2>
+  <div class="why">
+   <div><h3 data-i="w1t">Explained from zero</h3><p data-i="w1">Every lesson starts with the basics, so you never hit a wall of unfamiliar terms.</p></div>
+   <div><h3 data-i="w2t">Worked examples</h3><p data-i="w2">See each problem solved line by line, and tap any step to learn why it works.</p></div>
+   <div><h3 data-i="w3t">Your language</h3><p data-i="w3">Learn in the language you think in. We’re adding more all the time.</p></div>
+  </div>
+ </section>
+
+ <section>
+  <h2 data-i="topT">Every topic, one place</h2>
+  <ul class="topics">
+   <li><span class="s">+</span><div><b data-i="t1">Arithmetic</b><span>Addition, multiplication, order of operations</span></div></li>
+   <li><span class="s">½</span><div><b data-i="t2">Fractions & decimals</b><span>Ratios, percentages, conversions</span></div></li>
+   <li><span class="s">x</span><div><b data-i="t3">Algebra</b><span>Equations, functions, polynomials</span></div></li>
+   <li><span class="s">△</span><div><b data-i="t4">Geometry</b><span>Shapes, angles, proofs, area and volume</span></div></li>
+   <li><span class="s">sin</span><div><b data-i="t5">Trigonometry</b><span>Triangles, the unit circle, identities</span></div></li>
+   <li><span class="s">∫</span><div><b data-i="t6">Calculus</b><span>Limits, derivatives, integrals, series</span></div></li>
+   <li><span class="s">σ</span><div><b data-i="t7">Statistics & probability</b><span>Averages, distributions, hypothesis tests</span></div></li>
+   <li><span class="s">[ ]</span><div><b data-i="t8">Linear algebra</b><span>Vectors, matrices, eigenvalues</span></div></li>
+   <li><span class="s">∀</span><div><b data-i="t9">Discrete math & logic</b><span>Sets, graphs, counting, proofs</span></div></li>
+   <li><span class="s">π</span><div><b data-i="t10">Number theory</b><span>Primes, divisibility, modular arithmetic</span></div></li>
+  </ul>
+ </section>
+
+ <div class="cta">
+  <h2 data-i="ctaT">Start understanding math today</h2>
+  <p data-i="ctaP">Free to join. No credit card. Pick a topic and get unstuck.</p>
+  <button class="btn" data-open="signup" data-i="cta">Get started free</button>
+ </div>
+</main>
+<footer>© 2026 MathAnchor</footer>
+
+<dialog id="dlg">
+ <h2 id="dT"></h2>
+ <label for="em" data-i="email">Email</label><input id="em" type="email" autocomplete="email">
+ <div id="nameRow"><label for="nm" data-i="name">Name</label><input id="nm" autocomplete="name"></div>
+ <label for="pw" data-i="pass">Password</label><input id="pw" type="password" autocomplete="current-password">
+ <div class="err" id="err" role="alert"></div>
+ <div class="row"><button class="btn fill" id="go" style="flex:1"></button><button class="btn" id="cancel" data-i="cancel">Cancel</button></div>
+ <p class="note" id="note"></p>
+</dialog>
+
+<script>
+const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["de","Deutsch"],["fr","Français"],["pt","Português"],["ar","العربية"],["ja","日本語"],["ko","한국어"],["tr","Türkçe"]];
+const K=["login","signup","h1","sub","cta","ctaT","ctaP"];
+const T={
+en:["Log in","Sign up","Stuck on a step? Start here.","Clear, step-by-step explanations for every math topic, from counting to calculus, in your language.","Get started free","Start understanding math today","Free to join. No credit card. Pick a topic and get unstuck."],
+es:["Iniciar sesión","Registrarse","¿Atascado en un paso? Empieza aquí.","Explicaciones claras, paso a paso, de cada tema de matemáticas, en tu idioma.","Empieza gratis","Empieza hoy a entender matemáticas","Es gratis. Sin tarjeta. Elige un tema y avanza."],
+it:["Accedi","Registrati","Bloccato su un passaggio? Parti da qui.","Spiegazioni chiare, passo dopo passo, per ogni argomento di matematica, nella tua lingua.","Inizia gratis","Inizia oggi a capire la matematica","Iscrizione gratuita. Nessuna carta. Scegli un argomento e sblocca."],
+pl:["Zaloguj się","Zarejestruj się","Utknąłeś na kroku? Zacznij tutaj.","Jasne, krok po kroku wyjaśnienia każdego tematu z matematyki, w Twoim języku.","Zacznij za darmo","Zacznij rozumieć matematykę już dziś","Darmowe konto. Bez karty. Wybierz temat i ruszaj dalej."],
+ru:["Войти","Регистрация","Застряли на шаге? Начните здесь.","Понятные пошаговые объяснения по каждой теме математики на вашем языке.","Начать бесплатно","Начните понимать математику сегодня","Бесплатно. Без карты. Выберите тему и разберитесь."],
+uk:["Увійти","Реєстрація","Застрягли на кроці? Почніть тут.","Зрозумілі покрокові пояснення з кожної теми математики вашою мовою.","Почати безкоштовно","Почніть розуміти математику сьогодні","Безкоштовно. Без картки. Оберіть тему й розберіться."],
+zh:["登录","注册","卡在某一步？从这里开始。","用你的语言，一步一步讲清每个数学主题。","免费开始","今天就开始搞懂数学","免费加入，无需信用卡。选一个主题，解开困惑。"],
+hi:["लॉग इन","साइन अप","किसी स्टेप पर अटके हैं? यहाँ से शुरू करें।","गणित के हर विषय की साफ़, चरण-दर-चरण व्याख्या, आपकी भाषा में।","मुफ़्त शुरू करें","आज ही गणित समझना शुरू करें","मुफ़्त जुड़ें। कार्ड की ज़रूरत नहीं। कोई विषय चुनें।"],
+de:["Anmelden","Registrieren","Bei einem Schritt hängen geblieben? Starte hier.","Klare Schritt-für-Schritt-Erklärungen zu jedem Mathethema, in deiner Sprache.","Kostenlos starten","Verstehe Mathe ab heute","Kostenlos. Keine Karte nötig. Thema wählen und weiterkommen."],
+fr:["Connexion","S’inscrire","Bloqué sur une étape ? Commencez ici.","Des explications claires, pas à pas, pour chaque sujet de maths, dans votre langue.","Commencer gratuitement","Comprenez les maths dès aujourd’hui","Inscription gratuite. Sans carte. Choisissez un sujet."]};
+const FORM={en:["Email","Name","Password","Cancel","Create account"],es:["Correo","Nombre","Contraseña","Cancelar","Crear cuenta"],it:["Email","Nome","Password","Annulla","Crea account"],pl:["E-mail","Imię","Hasło","Anuluj","Utwórz konto"],ru:["Эл. почта","Имя","Пароль","Отмена","Создать аккаунт"],uk:["Ел. пошта","Ім’я","Пароль","Скасувати","Створити акаунт"],zh:["邮箱","姓名","密码","取消","创建账户"],hi:["ईमेल","नाम","पासवर्ड","रद्द करें","खाता बनाएँ"],de:["E-Mail","Name","Passwort","Abbrechen","Konto erstellen"],fr:["E-mail","Nom","Mot de passe","Annuler","Créer un compte"]};
+const READY=Object.keys(T);let lang="en",mode="signup";
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const menu=$("#menu"),btn=$("#langBtn"),dlg=$("#dlg");
+LANGS.forEach(([c,n])=>{const li=document.createElement("li"),b=document.createElement("button");b.textContent=READY.includes(c)?n:n+" (soon)";b.disabled=!READY.includes(c);b.onclick=()=>{setLang(c);toggle(false)};b.dataset.c=c;li.append(b);menu.append(li)});
+function toggle(o){menu.classList.toggle("open",o);btn.setAttribute("aria-expanded",o)}
+btn.onclick=e=>{e.stopPropagation();toggle(!menu.classList.contains("open"))};
+document.addEventListener("click",()=>toggle(false));
+function setLang(c){lang=c;try{localStorage.setItem("ma-lang",c)}catch(e){}document.documentElement.lang=c;$("#langName").textContent=LANGS.find(l=>l[0]===c)[1];
+ K.forEach((k,i)=>$$('[data-i="'+k+'"]').forEach(el=>el.textContent=T[c][i]));
+ ["email","name","pass","cancel"].forEach((k,i)=>$$('[data-i="'+k+'"]').forEach(el=>el.textContent=FORM[c][i]));
+ $$(".menu button").forEach(b=>b.setAttribute("aria-current",b.dataset.c===c));draw()}
+function draw(){const s=mode==="signup";$("#dT").textContent=T[lang][s?1:0];$("#go").textContent=s?FORM[lang][4]:T[lang][0];$("#nameRow").style.display=s?"block":"none";$("#err").textContent="";
+ $("#note").textContent=s?"":"";}
+function open(m){mode=m;draw();dlg.showModal()}
+$("#loginBtn").onclick=()=>location.href="login.html";$("#signupBtn").onclick=()=>location.href="signup.html";
+$$("[data-open]").forEach(b=>b.onclick=()=>location.href="signup.html");
+$("#cancel").onclick=()=>dlg.close();
+$("#go").onclick=()=>{const e=$("#em").value.trim(),p=$("#pw").value;
+ if(!/^\S+@\S+\.\S+$/.test(e)){$("#err").textContent="Enter a valid email address.";return}
+ if(p.length<8){$("#err").textContent="Password must be at least 8 characters.";return}
+ $("#err").textContent="";$("#note").textContent="Preview only: accounts aren’t saved yet. Nothing was sent.";};
+$$(".step").forEach(b=>b.onclick=()=>b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")!=="true"));
+let sv="en";try{sv=localStorage.getItem("ma-lang")||"en"}catch(e){}
+setLang(READY.includes(sv)?sv:"en");
+</script>
+</body>
+</html>
