@@ -18,13 +18,12 @@ h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-seri
 button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 header{display:flex;align-items:center;gap:10px;padding:0 16px;height:60px;border-bottom:1px solid var(--line);background:var(--bg);flex:none}
-.logo{font:800 1.2rem "Bricolage Grotesque",sans-serif;color:var(--ink);text-decoration:none;white-space:nowrap}
-.logo span{background:var(--mark);color:var(--markink);padding:0 6px;border-radius:4px;margin-right:2px}
+.logo{display:flex;align-items:center;gap:8px;font:800 1.2rem "Bricolage Grotesque",sans-serif;color:var(--ink);text-decoration:none;white-space:nowrap;cursor:pointer}
+.logo .m{background:var(--mark);color:var(--markink);padding:0 6px;border-radius:4px;margin-right:2px}
 .search{flex:1;max-width:460px;margin-left:auto;padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card)}
 .btn{border:1.5px solid var(--ink);background:transparent;border-radius:8px;padding:8px 12px;font-weight:600;cursor:pointer}
 .btn.fill{background:var(--mark);color:var(--markink);border-color:var(--markink)}
 .btn.on{background:var(--teal);color:var(--bg);border-color:var(--teal)}
-#menuBtn{display:none}
 .layout{display:flex;flex:1;min-height:0}
 aside{width:290px;flex:none;overflow-y:auto;border-right:1px solid var(--line);padding:14px 10px;background:var(--bg)}
 aside h2{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0 8px 10px}
@@ -101,6 +100,21 @@ select{width:100%}
 .pk input[type=file]{max-width:100%}
 .me{display:flex;align-items:center;gap:8px;font-weight:600;white-space:nowrap}.me b{max-width:130px;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:800px){.me b{display:none}}
+.hero{position:relative;text-align:center;padding:38px 16px 32px;overflow:hidden;background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--mark);margin-bottom:10px}
+.hero>*:not(.sym){position:relative}
+.hero h1{font-size:clamp(1.7rem,4.5vw,2.5rem);font-weight:800;margin:16px 0 6px}
+.hero .lead{margin:0 auto 14px}
+.sym i{position:absolute;font:700 2.2rem "Bricolage Grotesque",sans-serif;font-style:normal;color:var(--teal);opacity:.12;animation:flo 7s ease-in-out infinite}
+@keyframes flo{50%{transform:translateY(-14px) rotate(8deg)}}
+.brand{font:800 clamp(2.4rem,7vw,3.6rem)/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em}
+.brand .m{background:var(--mark);color:var(--markink);padding:0 10px;border-radius:8px;margin-right:4px}
+.pbar{height:10px;background:var(--grid);border-radius:6px;overflow:hidden;max-width:360px;margin:12px auto 6px}
+.pbar i{display:block;height:100%;background:var(--teal)}
+.sec{font-size:1.3rem;margin:26px 0 12px}
+aside .gh{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:16px 8px 4px;font-family:"Instrument Sans",system-ui,sans-serif}
+aside{transition:width .2s}
+@media (min-width:801px){.layout.closed aside{width:0;padding:0;border:0;overflow:hidden}}
+@media (prefers-reduced-motion:reduce){.sym i{animation:none}}
 .in.wide{max-width:1000px}
 .pr{display:grid;grid-template-columns:5fr 6fr;gap:16px;align-items:start}
 .help{position:sticky;top:0;margin:16px 0;font-size:.95rem}
@@ -120,7 +134,7 @@ select{width:100%}
 @keyframes fl{0%{opacity:0}15%,80%{opacity:1}100%{opacity:0}}
 .fb .how{display:block;font-weight:400;color:var(--ink);margin-top:4px}
 @media (max-width:800px){.pr{grid-template-columns:1fr}.help{position:static}}
-@media (max-width:800px){#menuBtn{display:block}.search{margin-left:0}.logo{display:none}
+@media (max-width:800px){.search{margin-left:0}.logo .wm{display:none}#menuBtn .wm{display:none}
 aside{position:fixed;z-index:30;top:calc(60px + env(safe-area-inset-top,0px));bottom:0;left:0;width:min(310px,86vw);transform:translateX(-102%);transition:transform .2s;box-shadow:6px 0 24px rgba(0,0,0,.25)}
 aside.open{transform:none}main{padding:22px 16px 48px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -137,8 +151,8 @@ aside.open{transform:none}main{padding:22px 16px 48px}}
 </head>
 <body>
 <header>
- <button class="btn" id="menuBtn" aria-label="Show subjects" aria-expanded="false">☰ Subjects</button>
- <a class="logo" href="index.html"><span>Math</span>Anchor</a>
+ <button class="btn" id="menuBtn" aria-label="Show or hide the menu" aria-expanded="true">☰ <span class="wm">Menu</span></button>
+ <a class="logo" href="#" data-go="" aria-label="MathAnchor home"><img src="logo.svg" alt="" width="28" height="28"><span class="wm"><span class="m">Math</span>Anchor</span></a>
  <input class="search" id="q" type="search" placeholder="What are you stuck on? e.g. “solve for x”" aria-label="Search topics" autocomplete="off">
  <span class="me" id="me"></span>
  <button class="btn" id="setBtn" aria-label="Settings" title="Settings">⚙</button>
@@ -359,17 +373,1665 @@ Mathematical physics|The math behind relativity and quantum mechanics.`]
 N.forEach(n=>S.push([n[0],n[1],n[2],n[3].split("\n").map(l=>l.split("|"))]));
 
 
+const OVT=`#pre|#|Pre-algebra & Basics
+Counting and number sense|Understanding what numbers mean and how they relate.
+Place value|How a digit’s position decides its value.
+Comparing and ordering numbers|Using <, > and = to compare.
+Addition and subtraction facts|Core facts that make later math faster.
+Multiplication tables|Products up to 12 × 12.
+Division facts|Division as the reverse of multiplication.
+Even and odd numbers|Patterns in whole numbers.
+Number lines|Seeing numbers as points on a line.
+Rounding and estimating|Swapping numbers for simpler ones.
+Properties of operations|Commutative, associative and distributive rules.
+Mental math tricks|Shortcuts for computing in your head.
+Word problems|Turning a story into a math sentence.
+Patterns and sequences|Spotting the rule behind a list.
+Telling time|Reading analog and digital clocks.
+Time, money and measurement|Everyday math with clocks, prices and rulers.
+Units and conversions|Changing between meters, feet, liters and kilograms.
+Basic shapes|Names and properties of common shapes.
+Reading graphs and charts|Bar graphs, line graphs and pictographs.
+Integers and absolute value|Negative numbers and distance from zero.
+Factors and multiples|What divides a number and what it divides.
+Prime and composite numbers|Numbers with exactly two factors, and the rest.
+Introduction to variables|Letters that stand for unknown numbers.
+Evaluating expressions|Plugging numbers into an expression.
+One-step equations|Solving with a single operation.
+Introduction to exponents|Repeated multiplication.
+Square roots|The number that squares to a given number.
+Rates and unit rates|Comparing quantities per one unit.
+Basic probability ideas|How likely something is to happen.
+#arith|+|Arithmetic
+Order of operations|The agreed order for evaluating an expression.
+Mixed operations with brackets|Using parentheses to control a calculation.
+Adding and subtracting with regrouping|Carrying and borrowing.
+Long multiplication|Multiplying multi-digit numbers.
+Multiplication strategies|Quick ways to multiply using patterns and grouping.
+Long division|Splitting a big number into equal groups, one digit at a time.
+Negative numbers|Numbers below zero.
+Absolute value|Distance from zero on the number line.
+Exponents and square roots|Repeated multiplication, and the reverse.
+Scientific notation|Writing huge or tiny numbers with powers of ten.
+Number systems|Whole numbers, integers, rationals and reals.
+Binary and other number bases|Counting in base 2, 8 and 16.
+Roman numerals|Reading and writing them.
+Significant figures|Counting the meaningful digits.
+#frac|½|Fractions, Decimals & Percents
+Parts of a whole|What a fraction means.
+Equivalent fractions|Different fractions with the same value.
+Simplifying fractions|Dividing top and bottom by the same number.
+Comparing fractions|Deciding which fraction is larger.
+Mixed numbers and improper fractions|Switching between the two forms.
+Adding fractions|Adding pieces of the same size.
+Subtracting fractions|Finding a common denominator first.
+Multiplying and dividing fractions|Multiply across; to divide, flip and multiply.
+Complex fractions|Fractions with fractions inside them.
+Fractions on a number line|Seeing fractions between whole numbers.
+Decimals and place value|Tenths, hundredths and thousandths.
+Adding and subtracting decimals|Lining up the decimal point.
+Multiplying and dividing decimals|Moving the decimal point.
+Converting fractions, decimals and percents|Three ways to write the same amount.
+Repeating decimals|Decimals that never end, like 0.333…
+Percentages|A percent means out of 100.
+Percent change|Increase and decrease as a percent.
+Discounts, tax and tips|Everyday percent problems.
+Ratios|Comparing two quantities.
+Proportions|Two equal ratios, used to find a missing value.
+Scale drawings and maps|Using ratios to read maps and models.
+Fraction word problems|Turning stories into fraction math.
+#alg|x|Algebra 1
+Variables and expressions|Writing math with letters.
+Combining like terms|Simplifying by adding matching terms.
+The distributive property|Multiplying across a bracket.
+Solving linear equations|Undoing operations to isolate x.
+Solving multi-step equations|Equations needing several steps.
+Equations with variables on both sides|Collecting x terms on one side.
+Literal equations|Solving a formula for one variable.
+Inequalities|Solving with <, >, ≤ and ≥.
+Compound inequalities|Two inequalities joined by and or or.
+Absolute value equations|Distance from zero, two cases.
+Absolute value inequalities|Inequalities with distance.
+Graphing on the coordinate plane|Plotting points and reading graphs.
+Slope|Steepness: rise over run.
+Graphing lines|Using y = mx + b.
+Writing equations of lines|Point-slope and slope-intercept form.
+Standard form of a line|Ax + By = C and its intercepts.
+Parallel and perpendicular lines|Slope relationships.
+Linear inequalities in two variables|Shading regions of the plane.
+Systems of equations|Two equations, one solution pair.
+Systems by substitution|Solving one equation, plugging into the other.
+Systems by elimination|Adding equations to cancel a variable.
+Systems of inequalities|Overlapping shaded regions.
+Functions and function notation|Inputs, outputs and f(x).
+Functions and domain|Which inputs are allowed.
+Domain and range|All inputs and all outputs of a function.
+Exponent rules|How powers combine.
+Negative and zero exponents|What x⁰ and x⁻² mean.
+Radicals and simplifying square roots|Pulling perfect squares out of roots.
+Polynomials|Expressions built from powers of x.
+Adding and subtracting polynomials|Combining like terms across polynomials.
+Multiplying polynomials|FOIL and distributing.
+Special products|Squares of binomials and difference of squares.
+Factoring: greatest common factor|Pulling out the largest shared factor.
+Factoring by grouping|Factoring four-term expressions.
+Factoring quadratics|Rewriting x² + bx + c as two brackets.
+Factoring special forms|Difference of squares and perfect squares.
+Solving quadratics by factoring|Using the zero product property.
+Completing the square|Rewriting a quadratic as a perfect square.
+Quadratic formula|A formula that solves any quadratic equation.
+The discriminant|How many real solutions a quadratic has.
+Graphing quadratics|Parabolas, vertices and intercepts.
+Introduction to exponential functions|Quantities that multiply each step.
+Direct and inverse variation|Quantities that scale together or oppositely.
+Distance, rate and time problems|d = rt word problems.
+Algebra word problems|Setting up equations from stories.
+#alg2|x²|Algebra 2 & College Algebra
+Transformations of functions|Shifting, stretching and flipping graphs.
+Piecewise and absolute value functions|Functions defined in parts.
+Composition of functions|Putting one function inside another.
+Inverse functions|Functions that undo each other.
+Even and odd functions|Symmetry of graphs.
+Polynomial long division|Dividing polynomials by hand.
+Synthetic division|A shortcut for dividing by x − c.
+Remainder and factor theorems|Using values to test factors.
+Rational root theorem|Listing possible rational zeros.
+Zeros of polynomials|Finding where a polynomial equals zero.
+Graphing polynomials|End behavior, zeros and turning points.
+Complex numbers and i|Numbers built on the square root of −1.
+Quadratics with complex solutions|When the discriminant is negative.
+Radicals and rational exponents|Roots written as fractional powers.
+Solving radical equations|Isolating roots and checking answers.
+Rational expressions|Fractions with polynomials.
+Solving rational equations|Clearing denominators.
+Partial fractions|Splitting a fraction into simpler ones.
+Exponential functions|Graphs and growth of aˣ.
+Logarithms|The reverse of exponents.
+Properties of logarithms|Product, quotient and power rules.
+Solving exponential and logarithmic equations|Using logs to solve for exponents.
+Natural logarithm and e|The special base e ≈ 2.718.
+Compound interest and continuous growth|A = P(1 + r/n)^(nt) and Pe^(rt).
+Arithmetic and geometric sequences|Adding or multiplying by a constant each step.
+Series and sigma notation|Adding up the terms of a sequence.
+Matrices and determinants|Arrays of numbers and their determinants.
+Cramer’s rule|Solving systems with determinants.
+Systems of three equations|Three equations, three unknowns.
+Nonlinear systems|Systems with curves, like a line and a parabola.
+Polynomial and rational inequalities|Sign charts and test points.
+Joint and combined variation|Variation with several variables.
+Quadratic and exponential modeling|Fitting real data to a curve.
+Mathematical modeling with functions|Choosing the right function for a situation.
+#geo|△|Geometry
+Points, lines and planes|The undefined terms everything is built on.
+Segments, rays and angles|Naming and measuring basic figures.
+Angle relationships|Complementary, supplementary and vertical angles.
+Parallel lines and transversals|The angle pairs made when a line crosses parallel lines.
+Angles in triangles|The three angles add up to 180°.
+Classifying triangles|By sides and by angles.
+Triangle congruence|SSS, SAS, ASA and AAS.
+Similar and congruent shapes|Same form, or exactly the same size and form.
+Similar triangles|Equal angles and proportional sides.
+Special segments in triangles|Medians, altitudes and bisectors.
+Triangle inequality|Which three lengths can make a triangle.
+Pythagorean theorem|a² + b² = c² in right triangles.
+Special right triangles|45-45-90 and 30-60-90.
+Area and perimeter|The space inside a shape and the distance around it.
+Area of triangles, parallelograms and trapezoids|Area formulas for common shapes.
+Angles in polygons|Interior and exterior angle sums.
+Quadrilaterals|Properties of squares, rectangles, rhombi and more.
+Regular polygons|Equal sides and equal angles.
+Circles|Circumference, area, arcs and sectors.
+Chords, tangents and secants|Lines that touch or cut a circle.
+Inscribed angles|Angles with their vertex on a circle.
+Arc length and sector area|Parts of a circle.
+Volume and surface area|How much space a solid holds and how much surface it has.
+Prisms and cylinders|Volume and surface area.
+Pyramids and cones|Volume and surface area.
+Spheres|Volume and surface area of a ball.
+Coordinate geometry|Distance, midpoints and lines on the x-y plane.
+Equation of a circle|(x − h)² + (y − k)² = r².
+Geometric transformations|Translations, rotations, reflections and dilations.
+Symmetry|Line and rotational symmetry.
+Tessellations|Tiling the plane with shapes.
+Geometric proofs|Building logical arguments from definitions and theorems.
+Ruler-and-compass constructions|Drawing exact shapes with a straightedge and compass.
+Geometric probability|Probability using lengths and areas.
+Right-triangle trigonometry|Sine, cosine and tangent in triangles.
+Locus|The set of points that fit a rule.
+Euclid’s axioms|The foundations of classical geometry.
+Non-Euclidean geometry|Geometry on curved surfaces.
+Projective geometry|The geometry of perspective.
+Fractals|Shapes that repeat at every scale.
+#trig|sin|Trigonometry
+SOH-CAH-TOA|Sine, cosine and tangent as ratios in right triangles.
+Angles in standard position|Angles measured from the positive x-axis.
+Radians and degrees|Two ways to measure angles.
+The unit circle|The point at angle θ is (cos θ, sin θ).
+Reference angles|Using a first-quadrant angle to find any trig value.
+Reciprocal trig functions|Secant, cosecant and cotangent.
+Graphs of sine and cosine|Waves, amplitude, period and phase shift.
+Graphs of tangent and other functions|Asymptotes and periods.
+Inverse trig functions|Finding the angle when you know the ratio.
+Trig identities|Equations that are always true.
+Pythagorean identities|sin² + cos² = 1 and its relatives.
+Sum and difference formulas|sin(A + B) and cos(A + B).
+Double-angle and half-angle formulas|Formulas for 2θ and θ/2.
+Product-to-sum formulas|Turning products into sums.
+Trig equations|Solving equations like sin x = 1/2.
+Law of sines|Sides and opposite angles in any triangle.
+Law of cosines|Finding a side from two sides and the angle between.
+Area of a triangle with sines|Area = ½ab sin C.
+Vectors and trigonometry|Components and direction angles.
+Polar form of complex numbers|Using angle and distance to write complex numbers.
+De Moivre’s theorem|A formula for powers of complex numbers.
+Hyperbolic functions|Cousins of sine and cosine built from exponentials.
+Applications of trigonometry|Angles of elevation, bearings and waves.
+#pc|ƒ|Precalculus
+Functions review|Domain, range and function behavior.
+Polynomial functions|Graphs, roots and end behavior.
+Rational functions|Fractions of polynomials, with asymptotes.
+Asymptotes|Lines a graph approaches.
+Exponential growth and decay|Quantities that multiply by the same factor over time.
+Logarithmic functions|Graphs and properties of logs.
+Piecewise-defined models|Functions made from several rules.
+Sequences and series in precalculus|Patterns of terms and their sums.
+Mathematical induction basics|Proving statements for all whole numbers.
+Binomial expansion|Expanding (a + b)ⁿ.
+Conic sections|Circles, ellipses, parabolas and hyperbolas.
+Parametric equations|Describing curves with a parameter.
+Polar coordinates|Describing points by distance and angle.
+Polar graphs|Roses, cardioids and spirals.
+Complex numbers|Numbers with a real part and an imaginary part.
+Vectors in the plane|Magnitude, direction and operations.
+Matrices|Arrays of numbers and their operations.
+Systems and determinants|Solving systems using matrices.
+Introduction to limits|The idea that leads to calculus.
+Average rate of change|Slope of a secant line.
+Trigonometric models|Modeling periodic data.
+Data modeling|Choosing and fitting functions.
+#calc|∫|Calculus
+Limits|The value a function approaches as x approaches a point.
+One-sided limits and infinity|Limits from the left, right and at infinity.
+Continuity|When a function’s graph has no jumps or holes.
+Intermediate value theorem|Continuous functions hit every value in between.
+Definition of the derivative|The limit of the difference quotient.
+Derivatives: the power rule|The slope of a graph, for powers of x.
+Derivatives of trig functions|Derivatives of sin, cos and tan.
+Derivatives of exponentials and logs|Derivatives of eˣ and ln x.
+Product, quotient and chain rules|Differentiating products, fractions and nested functions.
+Implicit differentiation|Finding slopes when y isn’t isolated.
+Logarithmic differentiation|Using logs to differentiate hard products.
+Derivatives of inverse functions|Slope of an inverse.
+Related rates|Rates that change together.
+Linear approximation|Using the tangent line to estimate.
+Mean value theorem|Somewhere the slope equals the average slope.
+L’Hôpital’s rule|Evaluating 0/0 limits using derivatives.
+Applications of derivatives|Maximums, minimums and curve sketching.
+Increasing, decreasing and concavity|What the first and second derivatives say.
+Antiderivatives|Reversing differentiation.
+Integrals|Adding up tiny pieces to give area under a curve.
+Riemann sums|Approximating area with rectangles.
+Definite integrals|The exact area under a curve between two points.
+Fundamental theorem of calculus|The link between derivatives and integrals.
+Integration by substitution|Reversing the chain rule.
+Integration by parts|Reversing the product rule.
+Trigonometric integrals|Integrals of powers of sine and cosine.
+Trigonometric substitution|Substituting for square roots of quadratics.
+Integration techniques|Substitution, parts and partial fractions.
+Partial fraction integration|Integrating rational functions.
+Improper integrals|Integrals that go on forever or hit a break.
+Area between curves|Area enclosed by two graphs.
+Volumes of revolution|Disks, washers and shells.
+Arc length and surface area|Length of curves.
+Work, fluids and center of mass|Physics applications of integrals.
+Sequences and series|Adding infinitely many terms.
+Series convergence tests|Ratio, root, comparison and integral tests.
+Alternating series|Series that switch sign.
+Power series|Series with powers of x.
+Taylor series|Approximating functions with polynomials.
+Parametric and polar calculus|Calculus with parametric and polar curves.
+Differential equations preview|Separable equations and growth models.
+#mvc|∇|Multivariable Calculus
+Vectors in space|Vectors in three dimensions.
+Dot and cross products|Two ways to multiply vectors.
+Lines and planes in space|Equations of lines and planes.
+Surfaces in space|Quadric surfaces and cylinders.
+Vector-valued functions|Curves in space and their derivatives.
+Arc length and curvature|Measuring and bending curves.
+Functions of several variables|Level curves and surfaces.
+Limits and continuity in several variables|Approaching a point from many directions.
+Partial derivatives|Rates of change when a function has several inputs.
+Tangent planes and linearization|The best flat approximation.
+Chain rule for several variables|Derivatives of compositions.
+Gradient and directional derivatives|The direction of steepest increase.
+Maximums and minimums|Critical points and the second derivative test.
+Lagrange multipliers|Finding extremes under a constraint.
+Double integrals|Adding up values over a flat region.
+Double integrals in polar coordinates|Integrating over circular regions.
+Triple integrals|Adding up values over a 3D region.
+Cylindrical and spherical coordinates|Coordinates suited to round shapes.
+Change of variables and the Jacobian|Substituting in multiple integrals.
+Vector fields|Assigning a vector to each point.
+Line integrals|Adding up values along a curve.
+Conservative fields and potentials|Fields where path doesn’t matter.
+Green’s theorem|Linking line integrals and area integrals.
+Surface integrals|Adding up values over a surface.
+Divergence and curl|Measuring spreading and rotation of a field.
+Stokes’ theorem|Linking surface and boundary integrals.
+Divergence theorem|Linking volume and boundary integrals.
+Green’s, Stokes’ and divergence theorems|Links between integrals over regions and over their boundaries.
+#de|dy|Differential Equations
+Differential equations basics|Equations involving a function and its derivatives.
+Slope fields|Visualizing solutions without solving.
+First-order equations|Equations with a function and its first derivative.
+Separable equations|Moving x and y to opposite sides.
+Linear first-order equations|Using integrating factors.
+Exact equations|Equations from a potential function.
+Growth, decay and mixing models|Real-world first-order models.
+Existence and uniqueness|When an equation has exactly one solution.
+Autonomous equations|Equations where time doesn’t appear.
+Second-order linear equations|Models of springs and circuits.
+Homogeneous equations with constant coefficients|The characteristic equation.
+Undetermined coefficients|Guessing a particular solution.
+Variation of parameters|A general method for particular solutions.
+Mechanical vibrations|Springs, damping and resonance.
+Series solutions|Solving ODEs with power series.
+Laplace transforms|Turning differential equations into algebra.
+Systems of ODEs|Several changing quantities that affect each other.
+Phase portraits|Drawing how a system evolves in the plane.
+Stability and linearization|Behavior near equilibrium points.
+Numerical solutions of ODEs|Euler’s method and Runge–Kutta.
+Boundary value problems|Conditions at two points.
+Sturm–Liouville theory|Eigenvalue problems for ODEs.
+Partial differential equations|Equations with several variables, like heat and waves.
+Heat equation|How temperature spreads.
+Wave equation|Vibrating strings and membranes.
+Laplace’s equation|Steady-state potentials.
+Fourier series for PDEs|Solving PDEs with sines and cosines.
+#stat|σ|Statistics
+Types of data|Categorical, numerical, discrete and continuous.
+Data displays|Histograms, box plots and scatter plots.
+Mean, median and mode|Three ways to describe the center of a data set.
+Range, quartiles and IQR|Measuring spread with order statistics.
+Standard deviation|A number showing how spread out the data is.
+Outliers|Values far from the rest.
+Z-scores|How many standard deviations from the mean.
+Sampling methods|Choosing a sample that represents a population.
+Bias in sampling and surveys|How samples go wrong.
+Experimental design|Controls, randomization and blinding.
+Probability basics|How likely something is, from 0 to 1.
+Conditional probability|The chance of something given that something else happened.
+Independence|When one event doesn’t affect another.
+Bayes’ theorem|Updating a probability with new evidence.
+Discrete random variables|Variables with countable outcomes.
+Expected value|The long-run average.
+Binomial distribution|Counting successes in repeated trials.
+Normal distribution|The bell curve and the 68-95-99.7 rule.
+Sampling distributions|How a statistic varies from sample to sample.
+Central limit theorem|Why bell curves show up everywhere.
+Confidence intervals|A range likely to contain the true value.
+Hypothesis testing|Deciding whether data is strong evidence against a claim.
+P-values|How surprising the data would be under the null.
+Type I and Type II errors|The two ways a test can be wrong.
+t-tests|Comparing means with small samples.
+Tests for proportions|Hypothesis tests about percentages.
+Chi-square tests|Testing whether categories fit expectations.
+ANOVA|Comparing the means of three or more groups.
+Correlation|Measuring the strength of a linear relationship.
+Linear regression|Fitting the best line through data.
+Residuals and model checking|Seeing whether a model fits.
+Multiple regression|Predicting with several variables.
+Logistic regression|Modeling yes-or-no outcomes.
+Nonparametric tests|Tests that don’t assume a distribution.
+Bayesian statistics|Updating beliefs with data.
+Time series|Analyzing data collected over time.
+Statistical inference summary|Choosing the right test.
+#prb|P|Probability Theory
+Sample spaces and events|The set of outcomes and subsets of it.
+Axioms of probability|The rules every probability obeys.
+Counting for probability|Using permutations and combinations.
+Conditional probability and independence|Updating and decoupling events.
+Total probability and Bayes|Splitting by cases.
+Random variables|Numbers that depend on chance.
+Probability mass and density functions|Describing distributions.
+Cumulative distribution functions|Probability up to a value.
+Expected value of random variables|The long-run average of a random outcome.
+Variance and covariance|Measuring spread and co-movement.
+Common distributions|Binomial, Poisson, exponential and more.
+Joint distributions|Several random variables at once.
+Moment generating functions|Encoding all the moments of a distribution.
+Transformations of random variables|Distribution of a function of X.
+Law of large numbers|Why averages settle down with more trials.
+Central limit theorem proof ideas|Why sums look normal.
+Markov chains|Processes where the next step depends only on now.
+Poisson processes|Random events occurring over time.
+Random walks|Step-by-step random movement.
+Martingales|Fair games and their mathematics.
+Brownian motion|The random walk in continuous time.
+Stochastic processes|Random behavior evolving over time.
+Concentration inequalities|Bounds like Chebyshev and Chernoff.
+#lin|[ ]|Linear Algebra
+Vectors|Quantities with both size and direction.
+Dot product|A way to multiply vectors to get a number.
+Linear combinations and span|Everything you can build from some vectors.
+Systems of linear equations|Many equations at once.
+Solving systems with matrices|Gaussian elimination and row reduction.
+Row echelon form|The staircase shape of reduced matrices.
+Matrix operations|Adding, scaling and transposing matrices.
+Matrix multiplication|Combining grids by rows times columns.
+Matrix inverses|The matrix that undoes another matrix.
+Determinants|A number from a square matrix telling if it is invertible.
+Linear independence|Vectors that add no new directions.
+Basis and dimension|The smallest set that spans a space.
+Vector spaces|Sets where things can be added and scaled.
+Subspaces|Smaller spaces inside a space.
+Null space and column space|Solutions and outputs of a matrix.
+Rank and nullity|Counting dimensions.
+Linear transformations|Functions on vectors that keep addition and scaling.
+Change of basis|Rewriting vectors in new coordinates.
+Eigenvalues and eigenvectors|Directions a matrix only stretches.
+Diagonalization|Rewriting a matrix using its eigenvectors.
+Orthogonality and Gram–Schmidt|Making vectors perpendicular.
+Orthogonal projections|The closest point in a subspace.
+Least squares|The best approximate solution when no exact one exists.
+Inner product spaces|Vector spaces with angle and length.
+Symmetric matrices and the spectral theorem|Matrices with real eigenvalues.
+Singular value decomposition|Breaking any matrix into stretching and rotation.
+Positive definite matrices|Matrices with positive energy.
+Jordan form|Canonical form for non-diagonalizable matrices.
+Matrix norms and condition numbers|Measuring size and sensitivity.
+Tensors and multilinear algebra|Generalizing vectors and matrices.
+Linear algebra over other fields|Beyond the real numbers.
+#disc|∀|Discrete Math & Logic
+Sets|Collections of distinct things.
+Set operations|Union, intersection and complement.
+Relations and functions|Pairing elements of sets.
+Equivalence relations|Relations that split a set into classes.
+Partial orders and lattices|Ordering where some items can’t be compared.
+Propositional logic|AND, OR, NOT, implications and truth tables.
+Predicate logic and quantifiers|For all and there exists.
+Proof techniques|Direct, contrapositive and contradiction.
+Proof by induction|Proving a statement for all whole numbers.
+Strong induction|Assuming all earlier cases.
+Recursion|Defining things in terms of themselves.
+Counting principles|The sum and product rules.
+Permutations vs combinations|Whether order matters when counting.
+Pigeonhole principle|If there are more items than boxes, some box holds two.
+Recurrence relations|Sequences defined by earlier terms.
+Boolean algebra|The algebra of true and false that powers circuits.
+Graph basics|Vertices, edges and degrees.
+Graph algorithms|Breadth-first and depth-first search, shortest paths.
+Trees|Connected graphs with no cycles.
+Finite automata|Simple machines that recognize patterns.
+Formal languages|Sets of strings described by rules.
+Algorithms and complexity basics|How running time grows.
+Discrete probability|Probability with finite outcomes.
+#num|π|Number Theory
+Primes and factorization|Every number breaks into primes in just one way.
+Divisibility rules|Quick tests for dividing by 2, 3, 5, 9, 10 and more.
+GCD and LCM|Greatest common divisor and least common multiple.
+Euclidean algorithm|An efficient way to find the GCD.
+Bézout’s identity|Writing the GCD as a combination.
+Linear Diophantine equations|Whole-number solutions to ax + by = c.
+Modular arithmetic|Arithmetic that wraps around, like a clock.
+Congruences|Equations in modular arithmetic.
+Modular inverses|Dividing in modular arithmetic.
+Chinese remainder theorem|Solving several modular equations at once.
+Fermat’s little theorem|A prime-based rule for powers modulo p.
+Euler’s theorem and the totient|Extending Fermat to any modulus.
+Wilson’s theorem|A rule linking factorials and primes.
+Primitive roots|Generators of the multiplicative group.
+Quadratic residues|Which numbers are squares modulo n.
+Quadratic reciprocity|A deep law about squares modulo primes.
+Arithmetic functions|Divisor sums, σ and τ.
+Perfect numbers and Mersenne primes|Numbers equal to the sum of their divisors.
+Diophantine equations|Equations where only whole-number answers count.
+Pythagorean triples|Whole-number right triangles.
+Pell’s equation|x² − Dy² = 1.
+Continued fractions|Nested fractions for the best approximations.
+Sums of squares|Which numbers are sums of two or four squares.
+RSA encryption|Public-key cryptography built on factoring.
+Primality testing|Checking if a number is prime.
+Distribution of primes|The prime number theorem.
+Riemann zeta function|Linking primes to a complex function.
+Elliptic curves|Curves with a surprising group structure.
+p-adic numbers|A different way to measure closeness.
+#cmb|C|Combinatorics
+Basic counting|Sum, product and complement rules.
+Permutations|Ordered arrangements.
+Combinations|Unordered selections.
+Binomial theorem|Expanding (a + b)ⁿ with Pascal’s triangle.
+Multinomial coefficients|Splitting into several groups.
+Stars and bars|Counting distributions of identical items.
+Pigeonhole principle and Ramsey ideas|If there are more items than boxes, some box holds two.
+Inclusion–exclusion|Counting overlapping groups without double counting.
+Derangements|Permutations with no fixed points.
+Counting with recurrences|Counting with recursive rules.
+Generating functions|Encoding a sequence as a polynomial.
+Catalan numbers|A famous sequence that counts many structures.
+Stirling and Bell numbers|Counting partitions.
+Partitions of integers|Ways to write a number as a sum.
+Burnside’s lemma|Counting up to symmetry.
+Pólya enumeration|Counting colorings with symmetry.
+Ramsey theory|Order that must appear in large enough structures.
+Combinatorial designs|Balanced arrangements.
+Extremal combinatorics|How big can a structure be.
+Probabilistic method|Proving existence with randomness.
+#gt|◦–◦|Graph Theory
+Graphs and trees|Dots connected by lines, and connected graphs with no loops.
+Degrees and the handshake lemma|Counting edges by vertex degree.
+Paths and cycles|Walking through a graph.
+Connectivity|How hard a graph is to disconnect.
+Euler paths and circuits|Walks that use every edge once.
+Hamilton paths and cycles|Walks that visit every vertex once.
+Trees and spanning trees|Minimal connected subgraphs.
+Minimum spanning trees|Cheapest way to connect everything.
+Shortest paths|Dijkstra’s and Bellman–Ford.
+Graph coloring|Coloring dots so neighbors differ.
+Planar graphs|Graphs that can be drawn without crossing lines.
+Euler’s formula for planar graphs|V − E + F = 2.
+Network flows|Moving as much as possible through a network.
+Matchings|Pairing up vertices, like jobs and workers.
+Bipartite graphs|Graphs with two sides.
+Directed graphs|Edges with a direction.
+Spectral graph theory|Studying graphs with matrices and eigenvalues.
+Extremal graph theory|How big a graph can get before a pattern must appear.
+Random graphs|Graphs formed by chance.
+Graph minors|Deep structure theorems.
+#lg|⊢|Logic & Foundations
+Propositional logic and truth tables|Statements, connectives and truth tables.
+Logical equivalence|Statements that always agree.
+Predicate logic|Logic with for all and there exists.
+Proof techniques in logic|Direct proof, contradiction and contrapositive.
+Naive set theory|Sets, relations and functions.
+Set theory axioms|The rules that build all of mathematics.
+Cardinality and infinity|Comparing sizes of infinite sets.
+Ordinals and well-ordering|Counting past infinity.
+The axiom of choice|A powerful, controversial axiom.
+Formal proof systems|Deduction rules.
+Completeness theorem|Truth and provability agree.
+Compactness theorem|Finite pieces control the whole.
+Model theory|Studying structures that satisfy sentences.
+Proof theory|Studying proofs as mathematical objects.
+Computability|What can and can’t be computed.
+Recursion theory|The theory of computable functions.
+Gödel’s incompleteness theorems|Limits on what formal systems can prove.
+Intuitionistic logic|A logic without the law of the excluded middle.
+Type theory|Foundations built on types.
+Category-theoretic foundations|Math from structure instead of sets.
+#ra|ε|Real Analysis (Advanced Calculus)
+The real number system|Axioms for the reals and ordered fields.
+Completeness of the reals|Why the real numbers have no gaps.
+Supremum and infimum|Least upper and greatest lower bounds.
+Countable and uncountable sets|Comparing sizes of infinite sets.
+Epsilon-delta proofs|The precise definition of a limit.
+Sequences and convergence|When an infinite list of numbers settles on a value.
+Monotone convergence and subsequences|Bounded monotone sequences converge.
+Cauchy sequences|Sequences that bunch together.
+Bolzano–Weierstrass theorem|Bounded sequences have convergent subsequences.
+Limits of functions|The rigorous limit of f(x).
+Continuity proofs|Proving continuity with epsilon and delta.
+Uniform continuity|Continuity with one rule that works everywhere.
+Compactness in the reals|Closed and bounded sets.
+Heine–Borel theorem|Compact means closed and bounded.
+Extreme and intermediate value theorems|Continuous functions on intervals.
+Differentiability proofs|Rigorous derivatives.
+Mean value theorem proof|Rolle’s theorem and its consequences.
+Taylor’s theorem with remainder|Error bounds for approximations.
+Riemann integration|The rigorous definition of the integral.
+Fundamental theorem proof|Linking derivatives and integrals rigorously.
+Rigorous series convergence tests|Ratio, root and comparison tests.
+Absolute and conditional convergence|Rearranging series.
+Sequences of functions|Pointwise and uniform convergence.
+Uniform convergence and integration|Passing limits through integrals.
+Power series and analyticity|Radius of convergence.
+Fourier series basics|Decomposing functions into waves.
+Metric spaces|Spaces where distance is defined.
+Open and closed sets in metric spaces|The topology of distance.
+Completeness of metric spaces|Spaces with no missing limits.
+Contraction mapping theorem|Fixed points and Picard iteration.
+Arzelà–Ascoli theorem|Compactness in function spaces.
+Stone–Weierstrass theorem|Polynomials approximate continuous functions.
+Multivariable analysis|Derivatives of maps between Euclidean spaces.
+Inverse and implicit function theorems|When maps can be inverted locally.
+Differential forms basics|Integrating over curves and surfaces.
+Measure and Lebesgue integration|A more powerful way to measure and integrate.
+#ca|ℂ|Complex Analysis
+Complex numbers and the complex plane|Geometry of a + bi.
+Complex functions|Functions whose inputs and outputs are complex.
+Limits and continuity in the plane|Convergence in ℂ.
+Analytic functions|Functions with a complex derivative.
+Cauchy–Riemann equations|Conditions for complex differentiability.
+Harmonic functions|Solutions of Laplace’s equation.
+Elementary functions|Exponential, log and trig in ℂ.
+Multivalued functions and branches|Handling logs and roots.
+Contour integrals|Integrals along paths in the complex plane.
+Cauchy’s theorem|Closed-loop integrals of analytic functions vanish.
+Cauchy’s integral formula|Values inside from values on the boundary.
+Liouville’s theorem|Bounded entire functions are constant.
+Fundamental theorem of algebra|Every polynomial has a root.
+Power series in ℂ|Radius of convergence.
+Taylor and Laurent series|Expansions around points and singularities.
+Singularities|Removable, poles and essential.
+Residues|A shortcut for evaluating hard integrals.
+Residue theorem|Integrals from the residues inside.
+Evaluating real integrals with residues|Contour methods.
+Argument principle and Rouché’s theorem|Counting zeros and poles.
+Conformal maps|Transformations that preserve angles.
+Möbius transformations|Maps of the form (az + b)/(cz + d).
+Riemann mapping theorem|Simply connected regions are equivalent to a disk.
+Analytic continuation|Extending functions beyond their domain.
+Riemann surfaces|Surfaces where multivalued functions live.
+Entire functions and Picard’s theorem|Growth and values of entire functions.
+Gamma and zeta functions|Special functions in ℂ.
+#aa|∘|Abstract Algebra
+Groups|Sets with one operation, capturing symmetry.
+Examples of groups|Integers, symmetries and permutations.
+Subgroups|Smaller groups inside groups.
+Cyclic groups|Groups generated by one element.
+Cosets and Lagrange’s theorem|How a subgroup splits a group.
+Normal subgroups and quotient groups|Groups built from groups.
+Homomorphisms|Maps that preserve algebraic structure.
+Isomorphism theorems|Structure of quotients.
+Permutation groups|Symmetric and alternating groups.
+Group actions|Groups acting on sets, with orbit counting.
+Sylow theorems|Structure results about finite groups.
+Direct and semidirect products|Building bigger groups.
+Finite abelian groups|The structure theorem.
+Solvable and simple groups|Building blocks of groups.
+Rings|Sets with addition and multiplication.
+Ring homomorphisms and ideals|The ring version of normal subgroups.
+Quotient rings|Rings built from ideals.
+Integral domains and fields|Rings where you can cancel or divide.
+Polynomial rings|Factoring and irreducibility of polynomials.
+Euclidean domains and PIDs|Rings with division algorithms.
+Unique factorization domains|Rings with unique factoring.
+Field extensions|Fields inside bigger fields.
+Splitting fields and finite fields|Fields where polynomials factor.
+Galois theory|Why some equations can’t be solved with formulas.
+Constructible numbers|What a ruler and compass can build.
+Modules|Vector spaces over rings.
+Representation theory|Studying groups through matrices.
+Noetherian rings and Hilbert’s basis theorem|Finiteness conditions.
+Commutative algebra basics|Localization and primary decomposition.
+Tensor products|Building bilinear structure.
+#top|◌|Topology
+Topological spaces|Spaces defined with open sets.
+Open and closed sets|The basic building blocks of a topological space.
+Bases and subspaces|Generating and restricting topologies.
+Continuity in topology|Continuity defined without distance.
+Homeomorphisms|When spaces are topologically the same.
+Product and quotient topologies|Building new spaces.
+Connectedness|Whether a space is in one piece.
+Path-connectedness|Whether paths join any two points.
+Compactness|A finiteness property of spaces.
+Hausdorff and separation axioms|How well points can be separated.
+Countability axioms|First and second countable spaces.
+Metrizability|When a topology comes from a metric.
+Urysohn’s lemma and Tietze extension|Extending continuous functions.
+Tychonoff’s theorem|Products of compact spaces are compact.
+Manifolds|Spaces that look flat up close, like a sphere.
+Surfaces and classification|Compact surfaces up to homeomorphism.
+Homotopy|Continuously deforming one map into another.
+Fundamental group|Using loops to tell spaces apart.
+Covering spaces|Spaces that wrap around other spaces.
+Van Kampen’s theorem|Computing fundamental groups.
+Knot theory|Classifying tangled loops.
+Simplicial complexes|Spaces built from triangles.
+Homology|Counting holes with algebra.
+Euler characteristic|A numerical invariant of spaces.
+#dg|κ|Differential Geometry
+Curves|Describing paths with parameters, length and curvature.
+Curvature and torsion of space curves|How curves bend and twist.
+Frenet–Serret frames|A moving frame along a curve.
+Surfaces|Studying 2D shapes living in 3D space.
+First fundamental form|Measuring length on a surface.
+Curvature|How sharply a curve or surface bends.
+Gaussian and mean curvature|Two key curvatures of surfaces.
+Second fundamental form|How a surface bends in space.
+Geodesics|The shortest paths on a curved surface.
+Gauss–Bonnet theorem|Linking curvature to topology.
+Smooth manifolds|Spaces where calculus makes sense.
+Tangent spaces|The flat approximation to a curved space at a point.
+Vector fields and flows|Differential equations on manifolds.
+Differential forms|Objects you can integrate over curves, surfaces and manifolds.
+Exterior derivative and Stokes’ theorem|The general theorem of calculus.
+Riemannian metrics|Measuring distance on curved spaces.
+Connections and covariant derivatives|Differentiating on curved spaces.
+Riemann curvature tensor|The full measure of curvature.
+Lie groups|Groups that are also smooth manifolds.
+Geometry of general relativity|Spacetime as a curved manifold.
+#nm|⟨⟩|Numerical Methods & Optimization
+Floating-point arithmetic|How computers store numbers.
+Error analysis|How big mistakes in computation can get.
+Root finding|Newton’s method and bisection for solving equations.
+Fixed-point iteration|Solving x = g(x).
+Interpolation|Building a curve through known points.
+Polynomial and spline interpolation|Smooth curves through data.
+Finite differences|Approximating derivatives with nearby values.
+Numerical integration|Estimating integrals with the trapezoid and Simpson’s rules.
+Gaussian quadrature|Choosing the best sample points.
+Numerical ODE solvers|Euler’s method and Runge–Kutta.
+Stability of numerical methods|When errors blow up.
+Numerical linear algebra|Solving big systems accurately and fast.
+LU and QR factorization|Matrix factorizations.
+Iterative methods for linear systems|Jacobi, Gauss–Seidel and CG.
+Eigenvalue algorithms|The power method and QR algorithm.
+Least squares and regression numerically|Fitting data stably.
+Gradient descent|Finding a minimum by walking downhill.
+Newton’s method for optimization|Using curvature to optimize faster.
+Linear programming|Best outcomes under linear constraints.
+Convex optimization|Minimization problems with no false minima.
+Finite element method|Breaking a region into pieces to solve PDEs.
+Monte Carlo methods|Using random sampling to compute.
+Fast Fourier transform|A fast way to compute frequencies.
+#ap|$|Applied & Financial Math
+Simple and compound interest|How money grows over time.
+Annuities and time value of money|Valuing streams of payments.
+Loans and mortgages|Payments, interest and amortization.
+Bonds and yields|Pricing fixed-income securities.
+Probability for finance|Risk, return and variance.
+Black–Scholes option pricing|Pricing financial options.
+Actuarial science|Using probability to price insurance and pensions.
+Optimization for business|Linear and integer programming for real decisions.
+Game theory|Strategy when your best choice depends on others.
+Nash equilibrium|When no player wants to change.
+Cryptography basics|Using number theory to keep secrets.
+Mathematical modeling|Turning real situations into equations.
+Population and epidemic models|SIR and growth models.
+Fourier series|Building any wave from sines and cosines.
+Signal processing basics|Filtering and sampling.
+Queueing theory|Modeling waiting lines.
+Mathematical biology|Equations for living systems.
+Mathematical economics|Utility, equilibrium and optimization.
+#mm|Σ|Math Methods for Science
+Fourier transforms|Converting between time and frequency.
+Laplace transforms in practice|Solving engineering ODEs.
+Tensor calculus|Calculus for quantities in any coordinate system.
+Calculus of variations|Finding functions that minimize integrals.
+Special functions|Bessel, Legendre and gamma functions.
+Green’s functions|Solving linear equations with point sources.
+Complex methods for physics|Using complex numbers to evaluate physics integrals.
+Asymptotic methods|Approximating hard integrals and equations.
+Perturbation theory|Solving problems that are nearly solvable.
+Dimensional analysis|Using units to find relationships.
+Vector calculus for physics|Fields, flux and potentials.
+Group theory in physics|Symmetry and conservation laws.
+#dyn|↻|Dynamical Systems & Chaos
+Iterated maps|Repeatedly applying a function, like the logistic map.
+Fixed points and stability|Where systems settle, and whether they stay there.
+Bifurcations|Sudden changes in behavior as a parameter shifts.
+Chaos and the Lorenz system|Sensitive dependence on starting conditions.
+Lyapunov exponents|Measuring how fast orbits separate.
+Fractal dimension|Measuring the size of rough, self-similar shapes.
+Cellular automata|Simple rules on a grid that create complex patterns.
+Strange attractors|Fractal sets that attract orbits.
+Hamiltonian systems|Conservative mechanics.
+Ergodic theory|Long-time averages of dynamics.
+#cs|{}|Math for Computer Science
+Big-O and algorithm analysis|How running time grows with input size.
+Divide-and-conquer recurrences|Analyzing algorithms with the master theorem.
+Sorting and searching analysis|Counting comparisons.
+Graph algorithms and complexity|Paths, flows and hardness.
+Automata and formal languages|Machines and the patterns they recognize.
+Regular and context-free languages|Two levels of language power.
+Turing machines|The standard model of computation.
+Complexity classes|P, NP and the limits of efficient computation.
+NP-completeness|The hardest problems in NP.
+Randomized algorithms|Using chance to make algorithms fast.
+Boolean circuits|Computation built from AND, OR and NOT.
+Cryptography foundations|One-way functions and security.
+Coding for computers|Hashing and error detection.
+Computational geometry|Algorithms for shapes.
+#ml|AI|Math for Machine Learning
+Linear regression with matrices|Fitting models with least squares.
+Gradient descent in practice|Learning rates, momentum and convergence.
+Logistic regression and classification|Predicting categories.
+Backpropagation|Using the chain rule to train neural networks.
+Activation functions and loss functions|Building blocks of networks.
+Principal component analysis|Finding the most important directions in data.
+Bias, variance and overfitting|Why models fail to generalize.
+Regularization|Penalizing complexity.
+Probabilistic models|Modeling uncertainty with distributions.
+Cross-entropy and KL divergence|Information measures used as loss functions.
+Maximum likelihood estimation|Picking the parameters that make the data most likely.
+Bayesian inference for ML|Posterior distributions over parameters.
+Support vector machines|Maximum-margin classifiers.
+Kernel methods|Linear methods in feature spaces.
+Clustering and k-means|Grouping unlabeled data.
+Optimization for deep learning|Adam, SGD and landscapes.
+Convolutions and Fourier ideas|Math behind CNNs.
+Attention and transformers|The math of sequence models.
+#it|bit|Information & Coding Theory
+Entropy|Measuring information and surprise.
+Mutual information|How much two variables share.
+Data compression|Huffman coding and the limits of compression.
+Source coding theorem|The limit of lossless compression.
+Channel capacity|How much information a noisy channel can carry.
+Error-correcting codes|Adding redundancy to fix mistakes.
+Hamming codes|A classic single-error-correcting code.
+Reed–Solomon codes|Codes used on discs and QR codes.
+Kolmogorov complexity|The shortest description of data.
+#comp|★|Competition Math
+Problem-solving strategies|Working backward, finding patterns and casework.
+Number theory for contests|Modular tricks, Vieta jumping and lifting the exponent.
+AM-GM and inequalities|Classic tools for proving inequalities.
+Cauchy–Schwarz and rearrangement|More inequality tools.
+Functional equations|Finding functions from the rules they obey.
+Polynomials in contests|Vieta, roots of unity and interpolation.
+Olympiad geometry|Angle chasing, power of a point and inversion.
+Combinatorics for contests|Counting and bijections.
+Invariants and extremal principles|Proof tricks that show up in olympiads.
+Generating functions for contests|Counting with polynomials.
+Probability and expected value for contests|Linearity of expectation.
+Sequences and recursions in contests|Telescoping and closed forms.
+Mathematical induction in contests|Clever induction setups.
+Modular and p-adic tricks|Divisibility in olympiad problems.
+#adv|∞|Advanced & Research Topics
+Category theory|A language for structure shared across mathematics.
+Functors and natural transformations|Maps between categories.
+Homological algebra|Chain complexes and derived functors.
+Algebraic geometry|Studying shapes defined by polynomial equations.
+Algebraic topology|Using algebra to classify spaces.
+Analytic number theory|Using calculus to study primes.
+Algebraic number theory|Number fields and their integers.
+Functional analysis|Analysis on spaces of functions.
+Operator algebras|Algebras of operators on Hilbert spaces.
+Lie algebras|The infinitesimal version of Lie groups.
+Class field theory|Generalizing arithmetic to extensions of the rationals.
+Modular forms|Highly symmetric functions with deep links to number theory.
+Arithmetic geometry|Solving polynomial equations over number systems.
+Geometric topology|Low-dimensional manifolds and the Poincaré conjecture.
+Mathematical physics|The math behind relativity and quantum mechanics.
+Quantum information mathematics|Mathematics of qubits and entanglement.
+Ergodic and spectral theory|Long-time and frequency behavior.
+Mathematical logic research topics|Forcing, large cardinals and more.
+#pde|∂|Partial Differential Equations (Graduate)
+Classification of PDEs|Elliptic, parabolic and hyperbolic types.
+Method of characteristics|Solving first-order PDEs along curves.
+Separation of variables|Reducing PDEs to ODEs.
+Fourier methods for PDEs|Eigenfunction expansions.
+Maximum principles|Bounds on solutions of elliptic and parabolic equations.
+Weak solutions and Sobolev spaces|Solutions that need not be differentiable.
+Existence for elliptic problems|Lax–Milgram and variational methods.
+Regularity theory|How smooth solutions are.
+Fundamental solutions|Building solutions from point sources.
+Duhamel’s principle|Solving inhomogeneous problems.
+Hyperbolic systems and shocks|Conservation laws and discontinuities.
+Dispersive equations|Schrödinger and KdV.
+Nonlinear PDEs|Burgers, reaction-diffusion and more.
+Calculus of variations and PDEs|Euler–Lagrange equations.
+Navier–Stokes equations|The equations of fluid flow.
+#meas|μ|Measure Theory
+σ-algebras|Collections of measurable sets.
+Measures|Assigning size to sets.
+Outer measure and Carathéodory|Constructing measures.
+Lebesgue measure|Length, area and volume done right.
+Measurable functions|Functions compatible with measure.
+Lebesgue integral|Integrating by value instead of position.
+Monotone and dominated convergence|Passing limits through integrals.
+Fatou’s lemma|A key inequality for limits.
+Lp spaces|Spaces of integrable functions.
+Product measures and Fubini’s theorem|Iterated integrals.
+Signed measures and Radon–Nikodym|Densities of measures.
+Differentiation of measures|Lebesgue’s differentiation theorem.
+Modes of convergence|Almost everywhere, in measure and in Lp.
+Probability measures and independence|Measure-theoretic probability.
+Conditional expectation|Expectation given a σ-algebra.
+Hausdorff measure|Measuring fractal sets.
+#fa|‖|Functional Analysis
+Normed spaces|Vector spaces with a notion of length.
+Banach spaces|Complete normed spaces.
+Hilbert spaces|Complete inner product spaces.
+Bounded linear operators|Continuous linear maps.
+Hahn–Banach theorem|Extending linear functionals.
+Open mapping and closed graph theorems|Consequences of completeness.
+Uniform boundedness principle|Banach–Steinhaus.
+Dual spaces|Spaces of linear functionals.
+Weak and weak-* topologies|Coarser topologies on spaces.
+Banach–Alaoglu theorem|Compactness in the dual.
+Compact operators|Operators that squeeze sets.
+Spectral theory of operators|Spectrum of bounded operators.
+Spectral theorem for self-adjoint operators|Diagonalizing in infinite dimensions.
+Unbounded operators|Operators defined on a domain.
+Banach algebras|Algebras with a norm.
+C*-algebras|Algebras of operators.
+Distributions|Generalized functions.
+Sobolev spaces|Spaces of weakly differentiable functions.
+#harm|~|Harmonic Analysis
+Fourier series convergence|When series converge to the function.
+Fourier transform on the line|Frequency decomposition of functions.
+Plancherel and Parseval|Energy is preserved.
+Convolution|Mixing two functions.
+Approximate identities|Smoothing and approximation.
+Hardy–Littlewood maximal function|Controlling averages.
+Singular integrals|Calderón–Zygmund theory.
+Interpolation of operators|Riesz–Thorin and Marcinkiewicz.
+Hardy spaces|Spaces of analytic functions with boundary values.
+Wavelets|Localized building blocks of functions.
+Uncertainty principles|Limits on localization in time and frequency.
+Fourier analysis on groups|Characters and Pontryagin duality.
+#atop|⊕|Algebraic Topology
+Chain complexes|Algebraic objects with a boundary map.
+Singular homology|Homology of any space.
+Homotopy invariance|Homology respects deformation.
+Mayer–Vietoris sequence|Computing homology by cutting.
+Cellular homology|Homology from cell structure.
+Cohomology|The dual of homology.
+Cup products and cohomology rings|Multiplying cohomology classes.
+Poincaré duality|Duality on manifolds.
+Higher homotopy groups|Maps from spheres.
+Fibrations and fiber bundles|Spaces fibered over others.
+Spectral sequences|A computational tool for homology.
+Characteristic classes|Invariants of vector bundles.
+K-theory|Invariants from vector bundles.
+Simplicial sets|A combinatorial model of spaces.
+#ag|⌂|Algebraic Geometry
+Affine varieties|Zero sets of polynomials.
+Ideals and Hilbert’s Nullstellensatz|The algebra–geometry dictionary.
+Projective varieties|Adding points at infinity.
+Morphisms and rational maps|Maps between varieties.
+Dimension and smoothness|Measuring and testing varieties.
+Schemes|Generalizing varieties with rings.
+Sheaves|Local data glued globally.
+Divisors and line bundles|Codimension-one data.
+Sheaf cohomology|Measuring obstruction to gluing.
+Curves and the Riemann–Roch theorem|The geometry of one-dimensional varieties.
+Elliptic curves in algebraic geometry|Genus-one curves.
+Intersection theory|Counting intersections.
+Blowups and resolution of singularities|Fixing bad points.
+Moduli spaces|Parameter spaces of geometric objects.
+#ant|ℚ|Algebraic Number Theory
+Number fields|Finite extensions of the rationals.
+Rings of integers|Algebraic integers in a number field.
+Unique factorization of ideals|Dedekind domains.
+Ideal class group|Measuring failure of unique factorization.
+Dirichlet’s unit theorem|Structure of units.
+Norm, trace and discriminant|Key invariants of number fields.
+Splitting of primes|How primes factor in extensions.
+Ramification|When primes split with multiplicity.
+Cyclotomic fields|Fields from roots of unity.
+Local fields and p-adics|Completing at a prime.
+Class field theory overview|Abelian extensions.
+Zeta and L-functions|Analytic invariants of number fields.
+Reciprocity laws|Generalizing quadratic reciprocity.
+#rep|ρ|Representation Theory & Lie Theory
+Group representations|Groups acting linearly.
+Characters|Traces of representations.
+Maschke’s theorem and irreducibles|Decomposing representations.
+Character tables|Summarizing representations of finite groups.
+Representations of symmetric groups|Young tableaux.
+Induced representations|Building from subgroups.
+Lie groups and Lie algebras|Continuous symmetry.
+The exponential map|From algebra to group.
+Representations of sl(2)|The simplest nontrivial case.
+Semisimple Lie algebras|Classification and structure.
+Root systems and Dynkin diagrams|Pictures of Lie algebras.
+Highest weight theory|Classifying irreducibles.
+Weyl character formula|Computing characters.
+Quivers and their representations|Combinatorial representation theory.
+#cat|→|Category Theory & Homological Algebra
+Categories and morphisms|Objects and arrows.
+Functors|Maps between categories.
+Natural transformations|Maps between functors.
+Universal properties|Defining things by their maps.
+Products and coproducts|Categorical products and sums.
+Limits and colimits|General constructions.
+Adjoint functors|A fundamental pairing.
+Yoneda lemma|Objects are determined by maps into them.
+Monads|Algebraic structure in categories.
+Abelian categories|Categories where homology works.
+Exact sequences|Sequences with matching kernels and images.
+Derived functors|Ext and Tor.
+Homological dimension|Measuring complexity of modules.
+Triangulated and derived categories|Modern homological algebra.
+Higher categories|Categories with morphisms between morphisms.
+#mstat|θ|Mathematical Statistics
+Estimators and their properties|Bias, variance and consistency.
+Method of moments|Estimating by matching moments.
+Maximum likelihood theory|Asymptotic properties of MLE.
+Sufficient statistics|Data summaries that lose nothing.
+Rao–Blackwell and UMVUE|Best unbiased estimation.
+Fisher information and Cramér–Rao|Limits on estimator accuracy.
+Neyman–Pearson lemma|Most powerful tests.
+Likelihood ratio tests|General testing method.
+Bayesian estimation|Posterior inference.
+Decision theory|Choosing procedures by risk.
+Asymptotic theory|Large-sample behavior.
+Bootstrap and resampling|Estimating uncertainty by resampling.
+Nonparametric statistics|Distribution-free methods.
+Generalized linear models|Regression beyond normal errors.
+High-dimensional statistics|When variables outnumber samples.
+Causal inference|Finding cause from data.
+#sp|∿|Stochastic Processes & Finance
+Discrete-time Markov chains|States, transitions and stationary distributions.
+Continuous-time Markov chains|Rates and generators.
+Renewal processes|Counting repeated events.
+Queueing models|Waiting lines in continuous time.
+Branching processes|Population growth models.
+Martingale convergence|Limits of fair games.
+Optional stopping theorem|Stopping fair games.
+Brownian motion and Wiener process|Continuous random paths.
+Stochastic integration and Itô’s formula|Calculus for random paths.
+Stochastic differential equations|Equations driven by noise.
+Girsanov’s theorem and change of measure|Reweighting probabilities.
+Black–Scholes derivation|Pricing options with Itô calculus.
+Interest rate models|Vasicek and Cox–Ingersoll–Ross.
+Risk measures|VaR and expected shortfall.
+Hidden Markov models|Inferring hidden states.
+#opt|↓|Optimization
+Convex sets and functions|The basic objects of convex analysis.
+Linear programming duality|Primal and dual problems.
+The simplex method|A classic LP algorithm.
+Integer programming|Optimization with whole-number variables.
+Unconstrained optimization theory|Optimality conditions.
+Constrained optimization and KKT|First-order conditions with constraints.
+Lagrangian duality|Dual problems for general optimization.
+Gradient methods|Descent and convergence rates.
+Newton and quasi-Newton methods|Second-order algorithms.
+Conjugate gradient|Efficient solves for quadratic problems.
+Interior-point methods|Barrier algorithms.
+Proximal and subgradient methods|Optimization for nonsmooth problems.
+Stochastic optimization|Optimization with noise.
+Semidefinite programming|Optimization over matrices.
+Network optimization|Flows, shortest paths and matching.
+Dynamic programming|Optimal decisions over time.
+Optimal control|Optimizing dynamics.
+Combinatorial optimization|Optimizing over discrete structures.
+`,FULLT=`@alg
+T:Combining like terms
+W:Like terms have the same variable part, so you can add or subtract their coefficients.
+U:Simplifying expressions like 3x + 5 + 2x − 1 before solving or graphing.
+M:Combining terms with different variables or powers, like adding 3x and 3x².
+E:Simplify 3x + 5 + 2x − 1~~Group like terms: (3x + 2x) + (5 − 1)~~Add the x-terms: 5x~~Add the numbers: 4~~The answer is 5x + 4
+Q:Simplify 4x + 3x. What is the coefficient of x?|7|4x + 3x = 7x, so the coefficient is 7.
+Q:Simplify 6y − 2y + 5. What is the coefficient of y?|4|6y − 2y = 4y, so the coefficient is 4 and the expression is 4y + 5.
+Q:Simplify 2a + 7 + 3a − 4. What is the constant term?|3|The numbers combine as 7 − 4 = 3, so the expression is 5a + 3.
+T:The distributive property
+W:a(b + c) = ab + ac. Multiply the number outside the brackets by every term inside.
+U:Clearing brackets in expressions and equations, and in mental math.
+M:Multiplying only the first term inside the bracket, or losing a negative sign.
+E:Expand 3(x + 4)~~Multiply 3 by x to get 3x~~Multiply 3 by 4 to get 12~~The answer is 3x + 12
+Q:Expand 5(x + 2). What is the constant term?|10|5 × 2 = 10, so 5(x + 2) = 5x + 10.
+Q:Expand −2(x − 3). What is the constant term?|6|−2 × −3 = +6, so −2(x − 3) = −2x + 6.
+Q:Use distribution to find 7 × 12 as 7(10 + 2).|84|7 × 10 = 70 and 7 × 2 = 14, and 70 + 14 = 84.
+T:Solving multi-step equations
+W:Equations that need more than one operation. Simplify each side, then undo the operations in reverse order.
+U:Equations like 2(x + 3) − 4 = 10.
+M:Forgetting to distribute, or not doing the same thing to both sides.
+E:Solve 2(x + 3) − 4 = 10~~Distribute: 2x + 6 − 4 = 10~~Combine: 2x + 2 = 10~~Subtract 2: 2x = 8~~Divide by 2: x = 4
+Q:Solve 3x + 2x − 4 = 16. What is x?|4|Combine to get 5x − 4 = 16, so 5x = 20 and x = 4.
+Q:Solve 2(x − 1) + 5 = 13. What is x?|5|2x − 2 + 5 = 13 gives 2x + 3 = 13, so 2x = 10 and x = 5.
+Q:Solve 4(x + 2) = 3x + 11. What is x?|3|4x + 8 = 3x + 11, so x = 3.
+T:Equations with variables on both sides
+W:Move all the x terms to one side and all the numbers to the other, then solve.
+U:Comparing two prices or plans that both depend on x.
+M:Moving a term across the equals sign without changing its sign.
+E:Solve 5x − 3 = 2x + 9~~Subtract 2x from both sides: 3x − 3 = 9~~Add 3: 3x = 12~~Divide by 3: x = 4
+Q:Solve 7x + 1 = 3x + 13. What is x?|3|Subtract 3x to get 4x + 1 = 13, then 4x = 12 and x = 3.
+Q:Solve 5x − 8 = 2x + 4. What is x?|4|Subtract 2x to get 3x − 8 = 4, then 3x = 12 and x = 4.
+Q:Solve 3(x + 1) = x + 9. What is x?|3|3x + 3 = x + 9 gives 2x = 6, so x = 3.
+T:Inequalities
+W:Inequalities compare two sides using <, >, ≤ or ≥. Solve them like equations, but flip the sign when you multiply or divide by a negative number.
+U:Budgets, limits, minimums and maximums.
+M:Forgetting to flip the inequality sign when dividing by a negative.
+E:Solve −2x + 3 > 11~~Subtract 3: −2x > 8~~Divide by −2 and flip the sign: x < −4~~Any x less than −4 works
+Q:Solve 2x + 1 < 9. x is less than what?|4|2x < 8, so x < 4.
+Q:Solve −3x ≥ 12. x is at most what?|-4|Dividing by −3 flips the sign, so x ≤ −4.
+Q:What is the smallest whole number that satisfies x + 5 > 9?|5|x > 4, so the smallest whole number is 5.
+T:Absolute value equations
+W:abs(x) is the distance of x from zero, so abs(x) = 5 means x = 5 or x = −5.
+U:Distances, tolerances and error margins.
+M:Forgetting the negative case and finding only one solution.
+E:Solve abs(x − 2) = 5~~Two cases: x − 2 = 5 or x − 2 = −5~~First case: x = 7~~Second case: x = −3
+Q:Solve abs(x) = 8. What is the positive solution?|8|abs(x) = 8 means x = 8 or x = −8.
+Q:Solve abs(x − 1) = 4. What is the larger solution?|5|x − 1 = 4 gives x = 5, and x − 1 = −4 gives x = −3.
+Q:Solve abs(2x) = 10. What is the negative solution?|-5|2x = 10 or 2x = −10, so x = 5 or x = −5.
+T:Slope
+W:Slope measures steepness: rise over run, or (y₂ − y₁) ÷ (x₂ − x₁).
+U:Rates of change, ramps and the graph of any line.
+M:Subtracting the coordinates in different orders on top and bottom.
+E:Find the slope through (1, 2) and (3, 8)~~Rise: 8 − 2 = 6~~Run: 3 − 1 = 2~~Slope = 6 ÷ 2 = 3
+Q:Find the slope through (0, 1) and (2, 5).|2|(5 − 1) ÷ (2 − 0) = 4 ÷ 2 = 2.
+Q:Find the slope through (1, 7) and (4, 1).|-2|(1 − 7) ÷ (4 − 1) = −6 ÷ 3 = −2.
+Q:What is the slope of y = 5x − 2?|5|In y = mx + b the slope is m, which is 5.
+T:Graphing lines
+W:The line y = mx + b has slope m and crosses the y-axis at b. Plot b first, then use the slope to find more points.
+U:Seeing linear relationships such as cost over time.
+M:Mixing up slope and intercept, or moving the wrong direction for a negative slope.
+E:Graph y = 2x + 1~~The y-intercept is 1, so plot (0, 1)~~The slope 2 means up 2 and right 1, so plot (1, 3)~~Draw a line through the points
+Q:Where does y = 3x − 4 cross the y-axis? Give the y-value.|-4|The intercept b is −4.
+Q:For y = −x + 6, what is y when x = 2?|4|−2 + 6 = 4.
+Q:Where does y = 2x − 6 cross the x-axis? Give the x-value.|3|Set y = 0: 2x = 6, so x = 3.
+T:Writing equations of lines
+W:Use point-slope form y − y₁ = m(x − x₁) with a point and a slope, then simplify to y = mx + b.
+U:Building a line from data points.
+M:Sign mistakes with the point’s coordinates.
+E:Line with slope 3 through (2, 5)~~Point-slope: y − 5 = 3(x − 2)~~Distribute: y − 5 = 3x − 6~~Add 5: y = 3x − 1
+Q:A line has slope 2 and passes through (0, 4). It is y = 2x + what?|4|The point (0, 4) is the y-intercept, so b = 4.
+Q:A line has slope 3 and passes through (1, 5). It is y = 3x + what?|2|y − 5 = 3(x − 1) gives y = 3x + 2.
+Q:Find the y-intercept of the line through (1, 3) and (3, 7).|1|The slope is 2, so y − 3 = 2(x − 1) gives y = 2x + 1.
+T:Parallel and perpendicular lines
+W:Parallel lines have equal slopes. Perpendicular lines have slopes that are negative reciprocals of each other.
+U:Geometry on the coordinate plane.
+M:Taking the reciprocal but forgetting to flip the sign.
+E:Find the slope of a line perpendicular to y = 2x + 3~~The given slope is 2~~Reciprocal: 1/2~~Flip the sign: −1/2
+Q:What is the slope of a line parallel to y = 4x − 1?|4|Parallel lines have the same slope.
+Q:A line has slope −1/4. What is the slope of a perpendicular line?|4|The negative reciprocal of −1/4 is 4.
+Q:A line has slope 5. What is the slope of a perpendicular line?|-1/5~-0.2|The negative reciprocal of 5 is −1/5.
+T:Systems by substitution
+W:Solve one equation for a variable, then substitute it into the other equation.
+U:When one variable is already isolated, like y = 2x.
+M:Substituting back into the same equation you started from.
+E:Solve y = 2x and x + y = 9~~Substitute y = 2x: x + 2x = 9~~3x = 9, so x = 3~~y = 2(3) = 6
+Q:Solve y = x + 1 and x + y = 7. What is x?|3|x + (x + 1) = 7 gives 2x = 6, so x = 3.
+Q:In the same system, what is y?|4|y = x + 1 = 3 + 1 = 4.
+Q:Solve x = 2y and x + y = 12. What is y?|4|2y + y = 12 gives 3y = 12, so y = 4.
+T:Systems by elimination
+W:Add or subtract the equations so one variable cancels, then solve for the other.
+U:When both equations are in standard form like 2x + y = 10.
+M:Adding the equations but forgetting to combine every term, or not scaling both sides.
+E:Solve 2x + y = 10 and 2x − y = 2~~Add the equations: 4x = 12, so x = 3~~Put x = 3 into 2x + y = 10: 6 + y = 10~~y = 4
+Q:Solve 3x + y = 11 and x − y = 1. What is x?|3|Adding gives 4x = 12, so x = 3.
+Q:Solve 2x + 3y = 12 and 2x + y = 8. What is y?|2|Subtracting gives 2y = 4, so y = 2.
+Q:Solve x + 2y = 7 and 3x − 2y = 5. What is x?|3|Adding gives 4x = 12, so x = 3.
+T:Functions and function notation
+W:A function gives exactly one output for each input. f(x) means the output of f when the input is x.
+U:Describing rules in math, science and programming.
+M:Reading f(3) as f times 3.
+E:If f(x) = 2x + 1, find f(3)~~Replace x with 3: 2(3) + 1~~6 + 1 = 7
+Q:If f(x) = x² + 1, what is f(4)?|17|4² + 1 = 16 + 1 = 17.
+Q:If f(x) = 3x − 5, what is f(0)?|-5|3(0) − 5 = −5.
+Q:If f(x) = 2x + 3 and f(x) = 11, what is x?|4|2x + 3 = 11 gives 2x = 8, so x = 4.
+T:Exponent rules
+W:Multiplying powers with the same base adds the exponents. Dividing subtracts them. A power of a power multiplies them.
+U:Simplifying algebra and working with scientific notation.
+M:Adding exponents in a power of a power, such as writing (x²)³ as x⁵.
+E:Simplify x³ · x⁴ and (x²)³~~Same base multiplied: add exponents, x⁷~~Power of a power: multiply exponents, x⁶
+Q:x⁵ · x² equals x to what power?|7|5 + 2 = 7.
+Q:(x³)⁴ equals x to what power?|12|3 × 4 = 12.
+Q:x⁹ ÷ x⁶ equals x to what power?|3|9 − 6 = 3.
+T:Multiplying polynomials
+W:Multiply every term of one polynomial by every term of the other, then combine like terms. For two binomials this is called FOIL.
+U:Expanding products like (x + 2)(x + 5).
+M:Dropping the middle terms, like writing (x + 3)² as x² + 9.
+E:Expand (x + 2)(x + 5)~~First: x · x = x²~~Outer and inner: 5x + 2x = 7x~~Last: 2 · 5 = 10~~The answer is x² + 7x + 10
+Q:(x + 1)(x + 4) = x² + ?x + 4. What is ?|5|x · 4 + 1 · x = 5x.
+Q:(x − 2)(x + 3) = x² + ?x − 6. What is ?|1|3x − 2x = x.
+Q:(2x + 1)(x + 3) = 2x² + ?x + 3. What is ?|7|2x · 3 + 1 · x = 7x.
+T:Special products
+W:Three shortcuts: (a + b)² = a² + 2ab + b², (a − b)² = a² − 2ab + b², and (a + b)(a − b) = a² − b².
+U:Expanding and factoring quickly.
+M:Writing (a + b)² as a² + b² and missing the middle term.
+E:Expand (x + 3)²~~Square the first term: x²~~Middle term: 2 · x · 3 = 6x~~Square the last: 9~~The answer is x² + 6x + 9
+Q:(x + 4)² = x² + ?x + 16. What is ?|8|2 · x · 4 = 8x.
+Q:(x + 5)(x − 5) = x² − ?. What is ?|25|The difference of squares gives x² − 25.
+Q:(x − 6)² = x² − ?x + 36. What is ?|12|2 · x · 6 = 12x.
+T:Factoring: greatest common factor
+W:Pull out the largest factor that all terms share, then write what is left in brackets.
+U:The first step in almost every factoring problem.
+M:Taking out a factor that is not the greatest, or forgetting that a term can become 1.
+E:Factor 6x² + 9x~~The GCF of 6 and 9 is 3, and of x² and x is x~~Pull out 3x: 3x(2x + 3)
+Q:What is the greatest common factor of 12x and 18?|6|The largest number dividing 12 and 18 is 6.
+Q:Factor 4x + 8 as 4(x + ?). What is ?|2|8 ÷ 4 = 2.
+Q:Factor 5x² + 10x as 5x(x + ?). What is ?|2|10x ÷ 5x = 2.
+T:Solving quadratics by factoring
+W:Move everything to one side so it equals zero, factor, then set each factor equal to zero.
+U:Finding where a parabola crosses the x-axis.
+M:Not moving everything to one side first.
+E:Solve x² − 5x + 6 = 0~~Factor: (x − 2)(x − 3) = 0~~Set each factor to 0: x − 2 = 0 or x − 3 = 0~~x = 2 or x = 3
+Q:Solve x² − 7x + 12 = 0. What is the smaller solution?|3|(x − 3)(x − 4) = 0, so x = 3 or 4.
+Q:Solve x² + x − 6 = 0. What is the positive solution?|2|(x + 3)(x − 2) = 0, so x = −3 or 2.
+Q:Solve x² = 9x. What is the non-zero solution?|9|x² − 9x = 0 gives x(x − 9) = 0, so x = 0 or 9.
+T:Completing the square
+W:To complete x² + bx, add (b/2)². Then x² + bx + (b/2)² = (x + b/2)².
+U:Solving quadratics that do not factor, and finding the vertex of a parabola.
+M:Adding the number on one side only, not both sides.
+E:Solve x² + 6x = 7~~Half of 6 is 3, and 3² = 9~~Add 9 to both sides: x² + 6x + 9 = 16~~Write (x + 3)² = 16, so x + 3 = ±4~~x = 1 or x = −7
+Q:Complete the square: x² + 10x + ? What number goes in the blank?|25|Half of 10 is 5, and 5² = 25.
+Q:Solve x² + 4x = 5. What is the positive solution?|1|x² + 4x + 4 = 9, so x + 2 = ±3 and x = 1 or −5.
+Q:Complete the square: x² − 8x + ? What number goes in the blank?|16|Half of −8 is −4, and (−4)² = 16.
+T:Quadratic formula
+W:For ax² + bx + c = 0, x = (−b ± √(b² − 4ac)) ÷ (2a).
+U:Solving any quadratic, especially ones that do not factor.
+M:Forgetting the minus sign on b, or dividing only part of the top by 2a.
+E:Solve x² + 3x − 10 = 0~~a = 1, b = 3, c = −10~~b² − 4ac = 9 + 40 = 49~~x = (−3 ± 7) ÷ 2~~x = 2 or x = −5
+Q:Solve x² − 2x − 8 = 0. What is the positive solution?|4|Discriminant 4 + 32 = 36, so x = (2 ± 6) ÷ 2 = 4 or −2.
+Q:Solve x² − 6x + 5 = 0. What is the smaller solution?|1|Discriminant 36 − 20 = 16, so x = (6 ± 4) ÷ 2 = 5 or 1.
+Q:Solve x² + 2x − 15 = 0. What is the positive solution?|3|Discriminant 4 + 60 = 64, so x = (−2 ± 8) ÷ 2 = 3 or −5.
+T:The discriminant
+W:The discriminant b² − 4ac tells you how many real solutions a quadratic has: positive means two, zero means one, negative means none.
+U:Checking solutions without solving.
+M:Getting the sign of c wrong when computing 4ac.
+E:How many real solutions does x² + 4x + 5 = 0 have?~~a = 1, b = 4, c = 5~~b² − 4ac = 16 − 20 = −4~~Negative, so there are no real solutions
+Q:What is the discriminant of x² + 2x + 1?|0|2² − 4(1)(1) = 0.
+Q:What is the discriminant of x² − 3x − 4?|25|(−3)² − 4(1)(−4) = 9 + 16 = 25.
+Q:How many real solutions does x² − 4x + 5 = 0 have?|0|The discriminant is 16 − 20 = −4, which is negative.
+T:Graphing quadratics
+W:The graph of y = ax² + bx + c is a parabola. Its vertex is at x = −b ÷ (2a), and it opens upward when a > 0.
+U:Projectiles, areas and profit models.
+M:Using b ÷ (2a) and forgetting the negative sign.
+E:Find the vertex of y = x² − 4x + 1~~x = −b ÷ (2a) = 4 ÷ 2 = 2~~y = 4 − 8 + 1 = −3~~The vertex is (2, −3)
+Q:What is the x-coordinate of the vertex of y = x² + 6x?|-3|−6 ÷ 2 = −3.
+Q:What is the y-coordinate of the vertex of y = x² − 2x + 3?|2|The vertex is at x = 1, and y = 1 − 2 + 3 = 2.
+Q:What is the maximum value of y = −x² + 4x?|4|The vertex is at x = 2, and y = −4 + 8 = 4.
+@alg2
+T:Composition of functions
+W:The composition (f∘g)(x) = f(g(x)) means you put the output of g into f.
+U:Chaining processes, like converting units and then applying a rule.
+M:Doing f first instead of g.
+E:Let f(x) = x + 2 and g(x) = 3x. Find f(g(2))~~First g: g(2) = 6~~Then f: f(6) = 8
+Q:If f(x) = 2x and g(x) = x + 1, what is f(g(3))?|8|g(3) = 4, and f(4) = 8.
+Q:With the same f and g, what is g(f(3))?|7|f(3) = 6, and g(6) = 7.
+Q:If f(x) = x² and g(x) = x − 1, what is f(g(4))?|9|g(4) = 3, and f(3) = 9.
+T:Inverse functions
+W:The inverse f⁻¹ undoes f. To find it, swap x and y in y = f(x) and solve for y.
+U:Reversing a formula, like converting Celsius to Fahrenheit back again.
+M:Thinking f⁻¹(x) means 1 divided by f(x).
+E:Find the inverse of f(x) = 2x + 6~~Write y = 2x + 6 and swap: x = 2y + 6~~Subtract 6: x − 6 = 2y~~Divide by 2: y = (x − 6) ÷ 2
+Q:If f(x) = x + 5, what is f⁻¹(9)?|4|f⁻¹(x) = x − 5, so f⁻¹(9) = 4.
+Q:If f(x) = 3x, what is f⁻¹(12)?|4|f⁻¹(x) = x ÷ 3, so f⁻¹(12) = 4.
+Q:If f(x) = 3x + 2, what is f⁻¹(11)?|3|3y + 2 = 11 gives y = 3.
+T:Polynomial long division
+W:Divide polynomials the way you divide numbers: divide the leading terms, multiply, subtract, bring down, repeat.
+U:Factoring higher-degree polynomials and finding asymptotes.
+M:Forgetting to subtract the whole product, which causes sign errors.
+E:Divide x² + 5x + 6 by x + 2~~x² ÷ x = x, and x(x + 2) = x² + 2x~~Subtract to get 3x + 6~~3x ÷ x = 3, and 3(x + 2) = 3x + 6~~The remainder is 0, so the quotient is x + 3
+Q:(x² + 7x + 12) ÷ (x + 3) = x + ?. What is ?|4|(x + 3)(x + 4) = x² + 7x + 12.
+Q:(x² − 9) ÷ (x − 3) = x + ?. What is ?|3|(x − 3)(x + 3) = x² − 9.
+Q:(x² − x − 6) ÷ (x − 3) = x + ?. What is ?|2|(x − 3)(x + 2) = x² − x − 6.
+T:Complex numbers and i
+W:The number i is defined by i² = −1. A complex number looks like a + bi.
+U:Solving equations with no real solutions, electronics and signals.
+M:Treating i² as +1.
+E:Multiply (2 + 3i)(1 + i)~~Expand: 2 + 2i + 3i + 3i²~~Use i² = −1: 2 + 5i − 3~~The answer is −1 + 5i
+Q:What is i²?|-1|By definition i² = −1.
+Q:Add (3 + 2i) and (1 − 5i). What is the imaginary part?|-3|2i − 5i = −3i.
+Q:Multiply (1 + i)(1 − i).|2|1 − i² = 1 − (−1) = 2.
+T:Radicals and rational exponents
+W:A fractional exponent means a root: x^(1/2) is the square root, x^(1/3) is the cube root, and x^(m/n) is the n-th root of x raised to the power m.
+U:Simplifying roots and preparing for calculus.
+M:Taking the numerator as the root instead of the denominator.
+E:Evaluate 8^(2/3)~~The denominator 3 means cube root: the cube root of 8 is 2~~The numerator 2 means square it: 2² = 4
+Q:What is 16^(1/2)?|4|The square root of 16 is 4.
+Q:What is 27^(1/3)?|3|The cube root of 27 is 3.
+Q:What is 4^(3/2)?|8|The square root of 4 is 2, and 2³ = 8.
+T:Logarithms
+W:log_b(x) answers the question: what power of b gives x?
+U:Scales like pH, decibels and earthquake magnitude.
+M:Mixing up the base and the argument.
+E:Find log₂ 8~~Ask: 2 to what power gives 8?~~2³ = 8~~So log₂ 8 = 3
+Q:What is log₅ 25?|2|5² = 25.
+Q:What is log₁₀ 0.01?|-2|10⁻² = 0.01.
+Q:What is log₄ 1?|0|4⁰ = 1.
+T:Properties of logarithms
+W:log(ab) = log a + log b, log(a ÷ b) = log a − log b, and log(aⁿ) = n · log a.
+U:Solving exponential equations and working with decibels and pH.
+M:Writing log(a + b) as log a + log b, which is false.
+E:Simplify log₂ 8 + log₂ 4~~Add the logs by multiplying inside: log₂(8 · 4) = log₂ 32~~2⁵ = 32, so the answer is 5
+Q:What is log₁₀ 1000?|3|10³ = 1000.
+Q:What is log₂ 16 − log₂ 2?|3|log₂(16 ÷ 2) = log₂ 8 = 3.
+Q:What is log₃ 81?|4|3⁴ = 81.
+T:Solving exponential and logarithmic equations
+W:To solve for an exponent, write both sides with the same base or use logs. To solve a log equation, rewrite it as an exponent.
+U:Growth, decay and half-life problems.
+M:Forgetting to check that the argument of every log is positive.
+E:Solve 2^x = 32~~Write 32 as 2⁵~~Same base, so x = 5
+Q:Solve 3^x = 81. What is x?|4|81 = 3⁴.
+Q:Solve log₂ x = 5. What is x?|32|2⁵ = 32.
+Q:Solve 5^(x + 1) = 125. What is x?|2|125 = 5³, so x + 1 = 3 and x = 2.
+T:Arithmetic and geometric sequences
+W:An arithmetic sequence adds the same number d each step: aₙ = a₁ + (n − 1)d. A geometric sequence multiplies by the same ratio r: aₙ = a₁ · rⁿ⁻¹.
+U:Savings plans, growth patterns and loan schedules.
+M:Using n instead of n − 1 in the formula.
+E:Find the 10th term of 3, 7, 11, …~~The difference is d = 4 and a₁ = 3~~a₁₀ = 3 + 9 · 4~~a₁₀ = 39
+Q:Find the 10th term of the arithmetic sequence 5, 8, 11, …|32|5 + 9 · 3 = 32.
+Q:Find the 5th term of the geometric sequence 2, 6, 18, …|162|2 · 3⁴ = 162.
+Q:An arithmetic sequence has a₁ = 10 and d = −3. What is the 6th term?|-5|10 + 5(−3) = −5.
+@geo
+T:Area of triangles, parallelograms and trapezoids
+W:Triangle: ½ × base × height. Parallelogram: base × height. Trapezoid: ½ × (sum of the parallel sides) × height.
+U:Land area, painting, flooring and design.
+M:Using the slanted side instead of the perpendicular height.
+E:Trapezoid with parallel sides 4 and 6 and height 5~~Add the parallel sides: 4 + 6 = 10~~Half of that: 5~~Multiply by the height: 5 × 5 = 25
+Q:A triangle has base 10 and height 6. What is its area?|30|½ × 10 × 6 = 30.
+Q:A parallelogram has base 7 and height 4. What is its area?|28|7 × 4 = 28.
+Q:A trapezoid has parallel sides 4 and 6 and height 5. What is its area?|25|½ × (4 + 6) × 5 = 25.
+T:Angles in polygons
+W:The interior angles of a polygon with n sides add up to (n − 2) × 180°. A regular polygon has equal angles.
+U:Floor tiles, designing shapes and geometry proofs.
+M:Using n × 180 instead of (n − 2) × 180.
+E:Find the sum of the interior angles of a hexagon~~A hexagon has 6 sides~~(6 − 2) × 180 = 4 × 180~~The sum is 720°
+Q:What is the sum of the interior angles of a hexagon?|720|(6 − 2) × 180 = 720.
+Q:What is each interior angle of a regular pentagon, in degrees?|108|The sum is 3 × 180 = 540, and 540 ÷ 5 = 108.
+Q:What is the sum of the interior angles of an octagon?|1080|(8 − 2) × 180 = 1080.
+T:Special right triangles
+W:In a 45-45-90 triangle the sides are in ratio 1 : 1 : √2. In a 30-60-90 triangle they are in ratio 1 : √3 : 2.
+U:Quick side lengths without a calculator.
+M:Putting the 2 on the wrong side of the 30-60-90 ratio. The hypotenuse is the longest side.
+E:A 30-60-90 triangle has hypotenuse 10. Find the short leg~~The short leg is opposite 30°~~Its ratio is 1 against 2 for the hypotenuse~~Short leg = 10 ÷ 2 = 5
+Q:In a 30-60-90 triangle the hypotenuse is 12. How long is the short leg?|6|The short leg is half the hypotenuse.
+Q:In a 30-60-90 triangle the short leg is 4. How long is the hypotenuse?|8|The hypotenuse is twice the short leg.
+Q:In a 45-45-90 triangle the hypotenuse is 7√2. How long is each leg?|7|Each leg is the hypotenuse divided by √2.
+T:Circles
+W:Circumference is C = 2πr and area is A = πr², where r is the radius.
+U:Wheels, pizzas, pipes and tanks.
+M:Using the diameter in the area formula instead of the radius.
+E:A circle has radius 5. Find C and A~~C = 2π(5) = 10π~~A = π(5²) = 25π
+Q:A circle has radius 3. Its area is ?π. What is ?|9|π × 3² = 9π.
+Q:A circle has diameter 10. Its circumference is ?π. What is ?|10|C = π × diameter = 10π.
+Q:A circle has circumference 14π. What is its radius?|7|2πr = 14π gives r = 7.
+T:Volume and surface area
+W:Volume measures the space inside a solid. Surface area is the total area of its outside faces. A box has volume l × w × h.
+U:Packing, painting, filling tanks and shipping.
+M:Mixing square units for area with cubic units for volume.
+E:Find the volume of a 2 by 3 by 4 box~~Volume = length × width × height~~2 × 3 × 4 = 24~~The volume is 24 cubic units
+Q:What is the volume of a box that is 2 by 3 by 4?|24|2 × 3 × 4 = 24.
+Q:What is the surface area of a cube with side 3?|54|A cube has 6 faces of area 9, and 6 × 9 = 54.
+Q:A cylinder has radius 2 and height 5. Its volume is ?π. What is ?|20|π × 2² × 5 = 20π.
+T:Similar and congruent shapes
+W:Congruent shapes have exactly the same size and shape. Similar shapes have the same shape, with all lengths in the same ratio called the scale factor.
+U:Maps, models and scaling a design.
+M:Forgetting that areas scale by the square of the scale factor.
+E:Two similar triangles have scale factor 3. A side of the small one is 5~~Multiply lengths by the scale factor~~5 × 3 = 15~~The area grows by 3² = 9 times
+Q:Two similar triangles have scale factor 3. A side of the small triangle is 5. How long is the matching side of the large one?|15|5 × 3 = 15.
+Q:A shape is enlarged by scale factor 2. By what factor does its area grow?|4|Area scales by the square, 2² = 4.
+Q:Matching sides of two similar triangles are 3 and 9. What is the scale factor from small to large?|3|9 ÷ 3 = 3.
+T:Parallel lines and transversals
+W:When a line crosses two parallel lines, corresponding angles are equal, alternate interior angles are equal, and same-side interior angles add up to 180°.
+U:Proofs and finding missing angles.
+M:Assuming angles are equal when the lines are not parallel.
+E:A transversal crosses parallel lines and one angle is 70°~~The corresponding angle is also 70°~~The alternate interior angle is also 70°~~The same-side interior angle is 180 − 70 = 110°
+Q:A transversal crosses two parallel lines. One angle is 70°. What is its corresponding angle?|70|Corresponding angles are equal.
+Q:What is the same-side interior angle of 70°?|110|They add up to 180°, and 180 − 70 = 110.
+Q:An alternate interior angle to 55° has what measure?|55|Alternate interior angles are equal.
+T:Coordinate geometry
+W:The distance between (x₁, y₁) and (x₂, y₂) is √((x₂ − x₁)² + (y₂ − y₁)²). The midpoint is the average of the x-values and the average of the y-values.
+U:Maps, graphics and checking shapes on a grid.
+M:Forgetting to take the square root, or adding instead of averaging for the midpoint.
+E:Find the distance from (0, 0) to (6, 8)~~Differences: 6 and 8~~Squares: 36 + 64 = 100~~Square root: 10
+Q:What is the distance from (0, 0) to (6, 8)?|10|√(36 + 64) = √100 = 10.
+Q:What is the x-coordinate of the midpoint of (2, 4) and (8, 10)?|5|(2 + 8) ÷ 2 = 5.
+Q:What is the distance from (1, 1) to (4, 5)?|5|√(9 + 16) = √25 = 5.
+@trig
+T:Law of sines
+W:In any triangle, a ÷ sin A = b ÷ sin B = c ÷ sin C. It links sides to the opposite angles.
+U:Solving triangles that do not have a right angle.
+M:Pairing a side with the wrong angle. Each side goes with the angle opposite it.
+E:A = 30°, B = 90°, a = 6. Find b~~Set a ÷ sin A = b ÷ sin B~~6 ÷ 0.5 = b ÷ 1~~b = 12
+Q:A = 30°, B = 90°, a = 6. What is b?|12|b = a · sin B ÷ sin A = 6 · 1 ÷ 0.5 = 12.
+Q:A = 90°, B = 30°, a = 10. What is b?|5|b = 10 · 0.5 ÷ 1 = 5.
+Q:A = 45°, B = 45°, a = 7. What is b?|7|Equal angles have equal opposite sides.
+T:Law of cosines
+W:c² = a² + b² − 2ab cos C. It generalizes the Pythagorean theorem to any triangle.
+U:Finding a side when you know two sides and the angle between them.
+M:Forgetting the minus sign, or using the wrong angle.
+E:a = 3, b = 4 and C = 90°. Find c~~cos 90° = 0~~c² = 9 + 16 − 0 = 25~~c = 5
+Q:a = 3, b = 4 and C = 90°. What is c?|5|cos 90° = 0, so c² = 25 and c = 5.
+Q:a = 1, b = 1 and C = 60°. What is c?|1|cos 60° = 0.5, so c² = 1 + 1 − 1 = 1.
+Q:a = 5, b = 5 and C = 90°. What is c²?|50|c² = 25 + 25 = 50.
+T:Trig identities
+W:The key identity is sin²θ + cos²θ = 1. Also tan θ = sin θ ÷ cos θ.
+U:Simplifying expressions and solving trig equations.
+M:Writing sin²θ as sin(θ²).
+E:If sin θ = 0.6 and θ is in the first quadrant, find cos θ~~sin²θ + cos²θ = 1~~0.36 + cos²θ = 1, so cos²θ = 0.64~~cos θ = 0.8
+Q:If sin θ = 0.6, what is cos²θ?|0.64~16/25|1 − 0.36 = 0.64.
+Q:If sin θ = 0.6 and cos θ = 0.8, what is tan θ?|0.75~3/4|0.6 ÷ 0.8 = 0.75.
+Q:If sin²θ = 0.25, what is cos²θ?|0.75~3/4|1 − 0.25 = 0.75.
+T:Graphs of sine and cosine
+W:For y = A sin(Bx), the amplitude is A and the period is 2π ÷ B. Cosine has the same shape, shifted.
+U:Waves, sound, tides and seasons.
+M:Using B as the period instead of 2π ÷ B.
+E:For y = 3 sin 2x find the amplitude and period~~Amplitude is the number in front: 3~~Period is 2π ÷ 2 = π
+Q:What is the amplitude of y = 3 sin x?|3|The amplitude is the coefficient 3.
+Q:The period of y = sin 2x is ?π. What is ?|1|2π ÷ 2 = π.
+Q:What is the maximum value of y = 2 cos x + 1?|3|The cosine has maximum 1, so 2(1) + 1 = 3.
+T:Inverse trig functions
+W:The inverse functions sin⁻¹, cos⁻¹ and tan⁻¹ give the angle when you know the ratio.
+U:Finding an angle in a right triangle.
+M:Reading sin⁻¹ as 1 ÷ sin.
+E:Find the angle with sin θ = 0.5~~Use the inverse: θ = sin⁻¹(0.5)~~The angle in the first quadrant is 30°
+Q:What is sin⁻¹(0.5) in degrees?|30|sin 30° = 0.5.
+Q:What is cos⁻¹(0) in degrees?|90|cos 90° = 0.
+Q:What is tan⁻¹(1) in degrees?|45|tan 45° = 1.
+T:Trig equations
+W:To solve an equation like sin x = 1/2, find the reference angle, then use the unit circle for every angle with that value in the interval you need.
+U:Finding all angles that fit a condition.
+M:Giving only one solution when there are two in a full circle.
+E:Solve 2 sin x = 1 for x between 0° and 360°~~sin x = 0.5~~The reference angle is 30°~~Sine is positive in quadrants I and II: x = 30° or x = 150°
+Q:Solve 2 sin x = 1 for x between 0° and 90°. What is x in degrees?|30|sin x = 0.5, so x = 30°.
+Q:Solve cos x = 0 for x between 0° and 180°. What is x in degrees?|90|cos 90° = 0.
+Q:Solve tan x = 1 for x between 0° and 90°. What is x in degrees?|45|tan 45° = 1.
+@pc
+T:Exponential growth and decay
+W:A quantity that changes by the same percent each period follows A = P(1 + r)ᵗ for growth, or P(1 − r)ᵗ for decay.
+U:Money, populations, radioactive decay and viral spread.
+M:Using the growth rate as a flat addition instead of repeated multiplication.
+E:$100 grows 10% per year for 2 years~~Multiply by 1.10 each year~~After year 1: 110~~After year 2: 110 × 1.10 = 121
+Q:$100 grows 10% per year. What is it worth after 2 years, in dollars?|121|100 × 1.1 × 1.1 = 121.
+Q:A population of 50 doubles every 3 years. What is it after 6 years?|200|Two doublings: 50 × 2 × 2 = 200.
+Q:A value of 80 halves every year. What is it after 3 years?|10|80 ÷ 2 ÷ 2 ÷ 2 = 10.
+T:Asymptotes
+W:A vertical asymptote is a line x = a where the function blows up, often where the denominator is zero. A horizontal asymptote is the height the graph approaches far away.
+U:Graphing rational functions.
+M:Forgetting that a zero in the denominator can also be cancelled, which leaves a hole instead.
+E:Find the asymptotes of f(x) = (2x + 1) ÷ (x − 1)~~The denominator is zero at x = 1, so there is a vertical asymptote at x = 1~~Compare the leading coefficients: 2 ÷ 1~~The horizontal asymptote is y = 2
+Q:f(x) = 1 ÷ (x − 3) has a vertical asymptote at x = what?|3|The denominator is zero at x = 3.
+Q:f(x) = (2x + 1) ÷ (x − 1) has a horizontal asymptote at y = what?|2|The ratio of leading coefficients is 2 ÷ 1.
+Q:f(x) = 5 ÷ (x + 2) has a vertical asymptote at x = what?|-2|The denominator is zero at x = −2.
+T:Polar coordinates
+W:A point can be described by its distance r from the origin and its angle θ. Convert with x = r cos θ and y = r sin θ.
+U:Circles, spirals, radar and rotation.
+M:Using degrees in a calculator set to radians, or the other way around.
+E:Convert (r, θ) = (4, 0°) to x and y~~x = 4 cos 0° = 4~~y = 4 sin 0° = 0~~The point is (4, 0)
+Q:What is x for the polar point (4, 0°)?|4|4 cos 0° = 4.
+Q:What is y for the polar point (2, 90°)?|2|2 sin 90° = 2.
+Q:What is r for the point (3, 4)?|5|√(9 + 16) = 5.
+@calc
+T:Product, quotient and chain rules
+W:Product rule: (fg)′ = f′g + fg′. Quotient rule: (f ÷ g)′ = (f′g − fg′) ÷ g². Chain rule: differentiate the outer function, then multiply by the derivative of the inside.
+U:Differentiating anything built from products, fractions or nested functions.
+M:Forgetting to multiply by the derivative of the inside in the chain rule.
+E:Differentiate (2x + 1)³~~Outer function: something cubed, derivative 3(something)²~~Inner function: 2x + 1, derivative 2~~Multiply: 3(2x + 1)² · 2 = 6(2x + 1)²
+Q:Differentiate x²(x + 1) with the product rule and evaluate it at x = 1.|5|2x(x + 1) + x² · 1 = 4 + 1 = 5 at x = 1.
+Q:Differentiate (2x + 1)³ and evaluate it at x = 0.|6|3(2x + 1)² · 2 = 3 · 1 · 2 = 6 at x = 0.
+Q:Differentiate x ÷ (x + 1) and evaluate it at x = 1.|1/4~0.25|The quotient rule gives 1 ÷ (x + 1)², which is 1/4 at x = 1.
+T:Implicit differentiation
+W:When y is mixed into the equation, differentiate both sides with respect to x and treat y as a function of x, so each y term gets a factor dy/dx.
+U:Finding slopes of circles and other curves that are not functions.
+M:Forgetting the dy/dx factor when differentiating a y term.
+E:Find dy/dx for x² + y² = 25~~Differentiate each term: 2x + 2y · dy/dx = 0~~Solve: dy/dx = −x ÷ y~~At (3, 4) the slope is −3/4
+Q:For x² + y² = 25, what is the slope at (3, 4)?|-3/4~-0.75|dy/dx = −x ÷ y = −3/4.
+Q:For xy = 6, what is the slope at (2, 3)?|-3/2~-1.5|y + x · dy/dx = 0, so dy/dx = −y ÷ x = −3/2.
+Q:For x² + y = 7, what is dy/dx at x = 2?|-4|y = 7 − x², so dy/dx = −2x = −4.
+T:Related rates
+W:If two quantities are linked by an equation, their rates of change are linked too. Differentiate the equation with respect to time.
+U:Growing balloons, ladders sliding and filling tanks.
+M:Plugging in numbers before differentiating.
+E:A square’s side is 4 and grows at 3 per second. How fast does its area grow?~~A = s², so dA/dt = 2s · ds/dt~~Plug in s = 4 and ds/dt = 3~~dA/dt = 2 · 4 · 3 = 24 per second
+Q:A square’s side is 4 and grows at 3 per second. How fast is its area growing?|24|dA/dt = 2s · ds/dt = 2 · 4 · 3 = 24.
+Q:A circle’s radius is 5 and grows at 2 per second. Its circumference grows at ?π per second. What is ?|4|C = 2πr, so dC/dt = 2π · 2 = 4π.
+Q:A cube’s side is 2 and grows at 1 per second. How fast is its volume growing?|12|dV/dt = 3s² · ds/dt = 3 · 4 · 1 = 12.
+T:L’Hôpital’s rule
+W:If a limit gives 0/0 or ∞/∞, you can differentiate the top and bottom separately, then take the limit again.
+U:Limits that look stuck, like sin x ÷ x as x → 0.
+M:Using the quotient rule on the fraction instead of differentiating top and bottom separately.
+E:Find the limit of sin(3x) ÷ x as x → 0~~Plugging in gives 0/0~~Differentiate the top and bottom: 3cos(3x) ÷ 1~~At x = 0 this is 3
+Q:Find the limit of sin(3x) ÷ x as x → 0.|3|3cos(3x) ÷ 1 = 3 at x = 0.
+Q:Find the limit of (e^(2x) − 1) ÷ x as x → 0.|2|2e^(2x) ÷ 1 = 2 at x = 0.
+Q:Find the limit of (x² − 9) ÷ (x − 3) as x → 3.|6|2x ÷ 1 = 6 at x = 3.
+T:Applications of derivatives
+W:The maximum or minimum of a smooth function happens where its derivative is zero. Set f′(x) = 0, solve, then check which kind of point it is.
+U:Maximizing profit, area or strength, and minimizing cost or material.
+M:Forgetting to find the actual value of the function at the critical point.
+E:Maximize f(x) = −x² + 6x~~Differentiate: f′(x) = −2x + 6~~Set to zero: x = 3~~f(3) = −9 + 18 = 9, the maximum value
+Q:At what x does f(x) = −x² + 6x reach its maximum?|3|f′(x) = −2x + 6 = 0 gives x = 3.
+Q:What is the maximum value of f(x) = −x² + 6x?|9|f(3) = −9 + 18 = 9.
+Q:Two numbers add up to 10. What is the largest possible product?|25|Maximize x(10 − x), which peaks at x = 5, giving 25.
+T:Definite integrals
+W:The definite integral from a to b is F(b) − F(a), where F is an antiderivative. It gives the exact signed area under the curve.
+U:Area, distance traveled and total accumulated change.
+M:Subtracting in the wrong order, or forgetting to evaluate at both ends.
+E:Evaluate the integral of 3x² from 0 to 2~~An antiderivative is x³~~Evaluate: 2³ − 0³~~The answer is 8
+Q:Evaluate the integral of 3x² from 0 to 2.|8|x³ from 0 to 2 is 8 − 0 = 8.
+Q:Evaluate the integral of 2x from 1 to 3.|8|x² from 1 to 3 is 9 − 1 = 8.
+Q:Evaluate the integral of (x + 1) from 0 to 3.|15/2~7.5|x²/2 + x from 0 to 3 is 4.5 + 3 = 7.5.
+T:Integration by substitution
+W:Let u be the inside of a complicated function, so that du accounts for the leftover factor. Rewrite the integral in u, solve it, and change the limits too.
+U:Reversing the chain rule.
+M:Forgetting to change the limits of integration to u-values.
+E:Evaluate the integral of 2x(x² + 1) from 0 to 1~~Let u = x² + 1, so du = 2x dx~~New limits: x = 0 gives u = 1, and x = 1 gives u = 2~~Integrate u from 1 to 2: (4 − 1) ÷ 2 = 3/2
+Q:Evaluate the integral of 2x(x² + 1) from 0 to 1.|3/2~1.5|With u = x² + 1 the integral of u from 1 to 2 is (4 − 1) ÷ 2.
+Q:Evaluate the integral of 2x(x² + 3) from 0 to 1.|7/2~3.5|With u = x² + 3 the integral of u from 3 to 4 is (16 − 9) ÷ 2.
+Q:Evaluate the integral of 4x(2x² + 1) from 0 to 1.|4|With u = 2x² + 1 and du = 4x dx, the integral of u from 1 to 3 is (9 − 1) ÷ 2 = 4.
+T:Sequences and series
+W:A geometric series a + ar + ar² + … adds up to a ÷ (1 − r) when r is between −1 and 1. Otherwise it does not settle on a number.
+U:Repeating decimals, compound growth and bouncing balls.
+M:Using the formula when the ratio is 1 or more.
+E:Find 1 + 1/2 + 1/4 + 1/8 + …~~First term a = 1 and ratio r = 1/2~~Sum = 1 ÷ (1 − 1/2)~~The sum is 2
+Q:Find 1 + 1/2 + 1/4 + 1/8 + …|2|1 ÷ (1 − 1/2) = 2.
+Q:Find 3 + 1 + 1/3 + 1/9 + …|9/2~4.5|a = 3 and r = 1/3, so the sum is 3 ÷ (2/3) = 4.5.
+Q:Find 0.9 + 0.09 + 0.009 + …|1|a = 0.9 and r = 0.1, so the sum is 0.9 ÷ 0.9 = 1.
+@stat
+T:Normal distribution
+W:A normal distribution is the bell curve. About 68% of values fall within 1 standard deviation of the mean, 95% within 2, and 99.7% within 3. A z-score is (value − mean) ÷ standard deviation.
+U:Test scores, heights, measurement errors and quality control.
+M:Mixing up the standard deviation with the variance.
+E:IQ has mean 100 and standard deviation 15. Where do 95% of people fall?~~95% lie within 2 standard deviations~~2 × 15 = 30~~Between 70 and 130
+Q:About what percent of a normal distribution lies within 1 standard deviation of the mean?|68|The 68-95-99.7 rule gives 68%.
+Q:The mean is 70 and the standard deviation is 5. What is the z-score of 85?|3|(85 − 70) ÷ 5 = 3.
+Q:The mean is 50 and the standard deviation is 10. About 95% of values lie between 30 and what?|70|50 + 2 × 10 = 70.
+T:Conditional probability
+W:P(A given B) = P(A and B) ÷ P(B). It is the chance of A when you already know B happened.
+U:Medical tests, cards, weather and risk.
+M:Dividing by P(A) instead of P(B).
+E:P(A and B) = 0.2 and P(B) = 0.5. Find P(A given B)~~Divide the joint probability by P(B)~~0.2 ÷ 0.5~~The answer is 0.4
+Q:P(A and B) = 0.2 and P(B) = 0.5. What is P(A given B)?|0.4~2/5|0.2 ÷ 0.5 = 0.4.
+Q:A bag has 3 red and 2 blue balls. You draw one red ball and keep it. What is the chance the next ball is red?|1/2~0.5|Two red balls remain among four, so 2/4 = 1/2.
+Q:P(A and B) = 0.1 and P(A) = 0.4. What is P(B given A)?|1/4~0.25|0.1 ÷ 0.4 = 0.25.
+T:Bayes’ theorem
+W:P(A given B) = P(B given A) × P(A) ÷ P(B). It flips a conditional probability around.
+U:Medical test results, spam filters and any update from new evidence.
+M:Treating P(A given B) and P(B given A) as the same number.
+E:P(B given A) = 0.5, P(A) = 0.2 and P(B) = 0.4. Find P(A given B)~~Multiply: 0.5 × 0.2 = 0.1~~Divide by P(B): 0.1 ÷ 0.4~~The answer is 0.25
+Q:P(B given A) = 0.5, P(A) = 0.2 and P(B) = 0.4. What is P(A given B)?|1/4~0.25|0.5 × 0.2 ÷ 0.4 = 0.25.
+Q:Out of 1000 people, 10 have a disease and all 10 test positive. Another 90 healthy people also test positive. What is the chance of having the disease given a positive test?|0.1~1/10~10%|10 of the 100 positive tests are real cases, so 10 ÷ 100 = 0.1.
+Q:P(A) = 0.3, P(B given A) = 0.8 and P(B) = 0.6. What is P(A given B)?|0.4~2/5|0.8 × 0.3 ÷ 0.6 = 0.4.
+T:Confidence intervals
+W:A confidence interval gives a range likely to contain the true value. A common 95% interval is the sample mean ± about 2 standard errors, where the standard error is s ÷ √n.
+U:Polls, experiments and reporting uncertainty.
+M:Saying there is a 95% chance the true value is in one specific computed interval. The 95% describes the method.
+E:Mean 20 and standard error 1.5. Find an approximate 95% interval~~Margin = 2 × 1.5 = 3~~Lower end: 20 − 3 = 17~~Upper end: 20 + 3 = 23
+Q:A sample mean is 50 with a margin of error of 4. What is the upper end of the interval?|54|50 + 4 = 54.
+Q:The standard deviation is 10 and n = 25. What is the standard error?|2|10 ÷ √25 = 10 ÷ 5 = 2.
+Q:The mean is 20 and the standard error is 1.5. What is the upper end of an approximate 95% interval?|23|20 + 2 × 1.5 = 23.
+T:Linear regression
+W:Linear regression fits the line y = a + bx that is closest to the data. The slope b is the predicted change in y for each 1 unit in x, and a residual is actual − predicted.
+U:Predicting prices, grades and trends.
+M:Predicting far outside the range of the data.
+E:The fitted line is y = 2x + 1. Predict y at x = 5~~Plug in x = 5~~2(5) + 1~~The prediction is 11
+Q:The fitted line is y = 2x + 1. What is the prediction at x = 5?|11|2(5) + 1 = 11.
+Q:The points (0, 1), (1, 3) and (2, 5) lie on a line. What is its slope?|2|Each step of 1 in x adds 2 to y.
+Q:The actual value is 12 and the predicted value is 10. What is the residual?|2|Actual minus predicted is 12 − 10 = 2.
+T:Hypothesis testing
+W:A hypothesis test asks whether data is surprising enough to reject a default claim called the null hypothesis. If the p-value is below the significance level α, you reject the null.
+U:Medical trials, A/B tests and quality control.
+M:Believing the p-value is the probability that the null hypothesis is true.
+E:A test has p = 0.03 and α = 0.05~~Compare the p-value to α~~0.03 is smaller than 0.05~~Reject the null hypothesis
+Q:p = 0.03 and α = 0.05. Do you reject the null? Answer yes or no.|yes|0.03 < 0.05, so you reject it.
+Q:p = 0.20 and α = 0.05. Do you reject the null? Answer yes or no.|no|0.20 is greater than 0.05, so you do not reject.
+Q:z = 2.5 and the critical value is 1.96. Do you reject the null? Answer yes or no.|yes|2.5 is beyond 1.96, so you reject it.
+@lin
+T:Vectors
+W:A vector has a size and a direction and is written as a list of numbers like (3, 4). You add vectors component by component, and its length is √(sum of squares).
+U:Forces, velocities and data points.
+M:Adding the lengths of vectors instead of adding the vectors.
+E:Find the length of (3, 4)~~Square each part: 9 and 16~~Add: 25~~Take the square root: 5
+Q:What is the length of the vector (3, 4)?|5|√(9 + 16) = 5.
+Q:Add (1, 2) and (3, 5). What is the first component?|4|1 + 3 = 4.
+Q:Multiply (3, −1) by 2. What is the second component?|-2|2 × (−1) = −2.
+T:Solving systems with matrices
+W:Write the system as an augmented matrix and use row operations to reach a simple form, then read off the answers.
+U:Large systems from engineering, economics and computing.
+M:Doing a row operation to one entry but not the whole row.
+E:Solve x + y = 5 and x − y = 1~~Add the rows: 2x = 6, so x = 3~~Put back: 3 + y = 5~~y = 2
+Q:Solve x + y = 5 and x − y = 1. What is x?|3|Adding the equations gives 2x = 6.
+Q:Solve x + y = 5 and x − y = 1. What is y?|2|y = 5 − 3 = 2.
+Q:Solve 2x = 8 and 3y = 9. What is x + y?|7|x = 4 and y = 3, so x + y = 7.
+T:Matrix inverses
+W:The inverse A⁻¹ undoes A. For the 2 by 2 matrix with rows [a, b] and [c, d], the inverse is 1 ÷ (ad − bc) times the matrix with rows [d, −b] and [−c, a].
+U:Solving systems and reversing transformations.
+M:Forgetting to divide by the determinant, or swapping the wrong entries.
+E:Invert the matrix with rows [2, 1] and [5, 3]~~Determinant: 2 · 3 − 1 · 5 = 1~~Swap the diagonal and flip the other signs: rows [3, −1] and [−5, 2]~~Divide by the determinant 1~~The inverse has rows [3, −1] and [−5, 2]
+Q:The matrix with rows [2, 1] and [5, 3] has an inverse. What is its top-left entry?|3|The determinant is 1, and the top-left entry becomes d = 3.
+Q:The matrix with rows [1, 2] and [3, 4] has an inverse. What is its top-left entry?|-2|The determinant is −2 and d = 4, so 4 ÷ (−2) = −2.
+Q:The matrix with rows [3, 0] and [0, 2] has an inverse. What is its bottom-right entry?|1/2~0.5|The inverse has diagonal 1/3 and 1/2.
+T:Eigenvalues and eigenvectors
+W:An eigenvector of a matrix A is a direction that A only stretches: Av = λv. The number λ is the eigenvalue. For a 2 by 2 matrix, the eigenvalues add to the trace and multiply to the determinant.
+U:Vibrations, stability, search engines and data analysis.
+M:Thinking every vector is an eigenvector.
+E:Find the eigenvalues of the matrix with rows [2, 1] and [1, 2]~~The trace is 4 and the determinant is 4 − 1 = 3~~Two numbers adding to 4 and multiplying to 3~~The eigenvalues are 3 and 1
+Q:The matrix with rows [2, 0] and [0, 3] has eigenvalues 2 and what?|3|A diagonal matrix has its diagonal entries as eigenvalues.
+Q:The matrix with rows [4, 1] and [0, 2] is triangular. What is its smaller eigenvalue?|2|Triangular matrices have their diagonal entries as eigenvalues: 4 and 2.
+Q:The matrix with rows [2, 1] and [1, 2] has eigenvalues 3 and what?|1|The trace is 4, so the other eigenvalue is 4 − 3 = 1.
+@num
+T:Divisibility rules
+W:A number is divisible by 3 if its digits add up to a multiple of 3, and by 9 if its digits add up to a multiple of 9. It is divisible by 2 if it is even, and by 5 if it ends in 0 or 5.
+U:Quick factoring and simplifying fractions.
+M:Using the digit-sum rule for 3 on rules that need the last digits, like 4.
+E:Is 4,521 divisible by 3?~~Add the digits: 4 + 5 + 2 + 1 = 12~~12 is a multiple of 3~~Yes, 4,521 is divisible by 3
+Q:Is 4521 divisible by 3? Answer yes or no.|yes|The digits add up to 12, which is a multiple of 3.
+Q:Is 7314 divisible by 9? Answer yes or no.|no|The digits add up to 15, which is not a multiple of 9.
+Q:What is the smallest digit d that makes 52d divisible by 3?|2|5 + 2 + d must be a multiple of 3, and 7 + 2 = 9 works.
+T:Euclidean algorithm
+W:To find gcd(a, b), repeatedly replace the larger number by its remainder when divided by the smaller. The last non-zero remainder is the GCD.
+U:Simplifying fractions and the core of many number theory proofs.
+M:Stopping one step too early or too late.
+E:Find gcd(48, 18)~~48 = 2 × 18 + 12~~18 = 1 × 12 + 6~~12 = 2 × 6 + 0~~The GCD is 6
+Q:Find gcd(48, 18).|6|The last non-zero remainder is 6.
+Q:Find gcd(100, 75).|25|100 = 1 × 75 + 25 and 75 = 3 × 25.
+Q:Find gcd(81, 54).|27|81 = 1 × 54 + 27 and 54 = 2 × 27.
+@frac
+T:Simplifying fractions
+W:Divide the top and bottom by the same number. A fraction is fully simplified when the top and bottom share no factor except 1.
+U:Answers in math class and clearer everyday numbers.
+M:Dividing only the top or only the bottom.
+E:Simplify 12/18~~The greatest common factor of 12 and 18 is 6~~12 ÷ 6 = 2 and 18 ÷ 6 = 3~~The answer is 2/3
+Q:6/8 = ?/4. What is ?|3|Dividing the top and bottom by 2 gives 3/4.
+Q:Simplify 12/18.|2/3|The GCF is 6, which gives 2/3.
+Q:Simplify 18/24.|3/4|The GCF is 6, which gives 3/4.
+T:Multiplying and dividing fractions
+W:To multiply fractions, multiply the tops and multiply the bottoms. To divide, flip the second fraction and multiply.
+U:Scaling recipes and sharing amounts.
+M:Flipping the wrong fraction, or flipping when multiplying.
+E:Find 1/2 ÷ 1/4~~Flip the second fraction: 4/1~~Multiply: 1/2 × 4~~The answer is 2
+Q:Find 2/3 × 3/4.|1/2~0.5|6/12 simplifies to 1/2.
+Q:Find 1/2 ÷ 1/4.|2|1/2 × 4 = 2.
+Q:Find 3/5 ÷ 3.|1/5~0.2|3/5 × 1/3 = 3/15 = 1/5.
+T:Converting fractions, decimals and percents
+W:A percent is a fraction out of 100. To go from a decimal to a percent, multiply by 100. From a fraction, divide the top by the bottom first.
+U:Discounts, grades and statistics.
+M:Moving the decimal point the wrong way.
+E:Write 3/4 as a percent~~Divide: 3 ÷ 4 = 0.75~~Multiply by 100~~The answer is 75%
+Q:Write 3/4 as a percent. Give the number only.|75~75%|3 ÷ 4 = 0.75, which is 75%.
+Q:Write 0.2 as a percent. Give the number only.|20~20%|0.2 × 100 = 20.
+Q:Write 1/8 as a decimal.|0.125|1 ÷ 8 = 0.125.
+@arith
+T:Scientific notation
+W:Scientific notation writes a number as a × 10ⁿ with a between 1 and 10. Big numbers have a positive n, and tiny numbers have a negative n.
+U:Astronomy, chemistry and any very large or small measurement.
+M:Counting the wrong number of places when moving the decimal.
+E:Write 4,500 in scientific notation~~Move the decimal 3 places left: 4.5~~You moved 3 places~~The answer is 4.5 × 10³
+Q:4,500 = 4.5 × 10 to what power?|3|Moving the decimal 3 places gives 4.5 × 10³.
+Q:0.0007 = 7 × 10 to what power?|-4|Moving the decimal 4 places right gives 7 × 10⁻⁴.
+Q:What is 3 × 10⁵ as a regular number?|300000|3 followed by 5 zeros is 300,000.
+@pre
+T:Square roots
+W:The square root of a number is the number that multiplies by itself to give it. For example √49 = 7 because 7 × 7 = 49.
+U:Finding side lengths and simplifying expressions.
+M:Thinking √(a + b) equals √a + √b.
+E:Find √144~~Ask which number times itself is 144~~12 × 12 = 144~~The answer is 12
+Q:What is √49?|7|7 × 7 = 49.
+Q:What is √144?|12|12 × 12 = 144.
+Q:What is the square root of 0.25?|0.5~1/2|0.5 × 0.5 = 0.25.
+`,NEWQ={};
+(function(){
+ const sl=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+ const cur=[],full={},fullBy={};let c=null,sid=null,t=null;
+ OVT.split("\n").forEach(l=>{l=l.trim();if(!l)return;
+  if(l[0]==="#"){const p=l.slice(1).split("|");c={id:p[0],sym:p[1],title:p[2],list:[]};cur.push(c)}
+  else{const i=l.indexOf("|");c.list.push([l.slice(0,i),l.slice(i+1)])}});
+ FULLT.split("\n").forEach(l=>{l=l.trim();if(!l)return;
+  if(l[0]==="@"){sid=l.slice(1);full[sid]=full[sid]||[];return}
+  const k=l.slice(0,2),v=l.slice(2);
+  if(k==="T:"){t={n:v,w:"",u:"",m:"",ex:[],q:[]};full[sid].push(t);fullBy[sl(v)]=t}
+  else if(k==="W:")t.w=v;else if(k==="U:")t.u=v;else if(k==="M:")t.m=v;
+  else if(k==="E:")t.ex=v.split("~~");
+  else if(k==="Q:"){const a=v.split("|");t.q.push([a[0],a[1],a.slice(2).join("|")])}});
+ const oldBy={};S.forEach(s=>s[3].forEach(e=>{oldBy[sl(e[0])]=e}));
+ const seen=new Set(),out=[],mk=t=>{NEWQ[t.n]=t.q;return [t.n,t.w,t.u,t.m,t.ex]};
+ cur.forEach(sj=>{const list=[];
+  sj.list.forEach(([n,sm])=>{const k=sl(n);if(seen.has(k))return;seen.add(k);
+   if(fullBy[k])list.push(mk(fullBy[k]));else if(oldBy[k]&&oldBy[k].length>2)list.push(oldBy[k]);else list.push([n,sm])});
+  out.push([sj.id,sj.sym,sj.title,list])});
+ const byId={};out.forEach(s=>byId[s[0]]=s);
+ Object.keys(full).forEach(id=>full[id].forEach(t=>{const k=sl(t.n);if(!seen.has(k)&&byId[id]){seen.add(k);byId[id][3].push(mk(t))}}));
+ S.forEach(s=>s[3].forEach(e=>{const k=sl(e[0]);if(!seen.has(k)&&byId[s[0]]){seen.add(k);byId[s[0]][3].push(e)}}));
+ S.length=0;out.forEach(s=>S.push(s));
+})();
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const ALL=[];S.forEach(([sid,sym,sn,ts])=>ts.forEach(t=>ALL.push({id:slug(t[0]),sid,sym,sn,n:t[0],w:t[1],u:t[2],m:t[3],ex:t[4]})));
 const $=s=>document.querySelector(s);
 let done={};try{done=JSON.parse(localStorage.getItem("ma-done")||"{}")}catch(e){}
 const save=()=>{try{localStorage.setItem("ma-done",JSON.stringify(done))}catch(e){}};
 const open={};let cur="";
+const GRP={pre:"School math",calc:"College math",adv:"Advanced & graduate"};
+const GROUPS=[["School math",["pre","arith","frac","alg","alg2","geo","trig","pc"]],["College math",["calc","mvc","de","stat","prb","lin","disc","num","cmb","gt","lg","ra","ca","aa","top","dg","nm","ap","mm","dyn","cs","ml","it","comp"]],["Advanced & graduate",["adv","pde","meas","fa","harm","atop","ag","ant","rep","cat","mstat","sp","opt"]]];
 
 function nav(){
  const cs=(ALL.find(x=>x.id===cur)||{}).sid;
  $("#nav").innerHTML=S.map(([sid,sym,sn,ts])=>{const n=ts.filter(t=>done[slug(t[0])]).length,o=open[sid]!==undefined?open[sid]:cs===sid;
-  return `<details data-s="${sid}" ${o?"open":""}><summary><span class="s">${sym}</span>${sn}<span class="c">${n}/${ts.length}</span></summary>${ts.map(t=>{const i=slug(t[0]);return `<a href="#${i}" data-go="${i}" class="${i===cur?"cur":""} ${done[i]?"done":""} ${t.length<3?"ov":""}">${t[0]}</a>`}).join("")}</details>`}).join("");
+  return (GRP[sid]?`<h2 class="gh">${GRP[sid]}</h2>`:"")+`<details data-s="${sid}" ${o?"open":""}><summary><span class="s">${sym}</span>${sn}<span class="c">${ts.length}</span></summary>${ts.map(t=>{const i=slug(t[0]);return `<a href="#${i}" data-go="${i}" class="${i===cur?"cur":""} ${done[i]?"done":""} ${t.length<3?"ov":""}">${t[0]}</a>`}).join("")}</details>`}).join("");
 }
 $("#nav").onclick=e=>{const sm=e.target.closest("summary");if(!sm)return;e.preventDefault();
  const d=sm.parentNode,sid=d.dataset.s;
@@ -377,11 +2039,18 @@ $("#nav").onclick=e=>{const sm=e.target.closest("summary");if(!sm)return;e.preve
  open[sid]=true;if(location.hash.slice(1)==="s-"+sid)route();else location.hash="s-"+sid};
 const tile=s=>`<button class="tile" data-go="s-${s[0]}"><span class="s">${s[1]}</span><span><b>${s[2]}</b><small>${s[3].length} topics</small></span></button>`;
 function home(){
- $("#view").innerHTML=`<h1>What are you stuck on?</h1><p class="lead">${ALL.length} topics across ${S.length} subjects, from counting to research-level math. Pick a subject on the left, or search for what you’re working on. There’s no order to follow. Jump straight to the thing that’s confusing you.</p><div class="grid">${S.map(tile).join("")}</div>`;
+ const p=prof(),nm=eh(p.username||"there"),full=ALL.filter(t=>t.ex),n=full.filter(t=>done[t.id]).length,last=ALL.find(t=>t.id===LSg("ma-last"));
+ $("#view").innerHTML=`<div class="hero"><div class="sym" aria-hidden="true">${["∑","π","∫","√","∞","±","÷","θ","Δ","≈","%","x²"].map((c,i)=>`<i style="left:${(i*37+5)%90}%;top:${(i*53+8)%78}%;animation-delay:${i*-.8}s">${c}</i>`).join("")}</div>
+ <img src="logo.svg" alt="" width="84" height="84"><div class="brand"><span class="m">Math</span>Anchor</div>
+ <h1>Welcome, ${nm}!</h1><p class="lead">What will we be learning about today, ${nm}?</p>
+ <div class="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="${full.length}" aria-valuenow="${n}"><i style="width:${full.length?n/full.length*100:0}%"></i></div>
+ <p style="margin:0 0 14px;color:var(--mute);font-size:.92rem">You’ve understood ${n} of ${full.length} full lessons · ${ALL.length} topics across ${S.length} subjects</p>
+ ${last?`<button class="btn fill" data-go="${last.id}">Continue: ${last.n} →</button>`:`<span style="color:var(--mute)">Pick any subject below, or search for what’s confusing you.</span>`}</div>`
+ +GROUPS.map(g=>`<h2 class="sec">${g[0]}</h2><div class="grid">${g[1].map(id=>S.find(x=>x[0]===id)).filter(Boolean).map(tile).join("")}</div>`).join("");
 }
 function subject(sid){
  const s=S.find(x=>x[0]===sid);
- $("#view").innerHTML=`<h1>${s[2]}</h1><p class="lead">Choose the topic closest to your situation.</p><ul class="res">${ALL.filter(t=>t.sid===sid).map(t=>`<li><button data-go="${t.id}"><b>${t.n}</b>${done[t.id]?" ✓":""}${t.ex?"":` <em style="color:var(--mute);font-weight:400">· overview</em>`}<small>${t.w}</small></button></li>`).join("")}</ul>`;
+ $("#view").innerHTML=`<h1>${s[2]}</h1><p class="lead">${ALL.filter(t=>t.sid===sid&&t.ex).length} full lessons with practice · ${ALL.filter(t=>t.sid===sid&&!t.ex).length} overviews. Choose the topic closest to your situation.</p><ul class="res">${ALL.filter(t=>t.sid===sid).map(t=>`<li><button data-go="${t.id}"><b>${t.n}</b>${done[t.id]?" ✓":""}${t.ex?"":` <em style="color:var(--mute);font-weight:400">· overview</em>`}<small>${t.w}</small></button></li>`).join("")}</ul>`;
 }
 function lesson(t){
  const list=ALL.filter(x=>x.sid===t.sid),i=list.indexOf(t),nx=list[(i+1)%list.length];
@@ -389,7 +2058,7 @@ function lesson(t){
  <div class="box"><h3>What it is</h3><p>${t.w}</p></div>
  ${t.ex?`<div class="box"><h3>When you’ll see it</h3><p>${t.u}</p></div>
  <div class="box ex"><h3>Worked example</h3><p class="q">${t.ex[0]}</p><ol>${t.ex.slice(1).map(x=>`<li>${x}</li>`).join("")}</ol></div>
- <div class="box warn"><h3>Watch out</h3><p>${t.m}</p></div>`:`<div class="box"><h3>Lesson status</h3><p>This is an overview. The full worked lesson for this topic is coming soon.</p></div>`}
+ <div class="box warn"><h3>Watch out</h3><p>${t.m}</p></div>`:`<div class="box"><h3>Lesson status</h3><p>This is an overview. Its full worked lesson with practice is coming soon.${(r=>r.length?` These full lessons in ${t.sn} are ready now:</p><p>${r.map(x=>`<a href="#${x.id}" data-go="${x.id}">${x.n}</a>`).join(" · ")}`:"")(ALL.filter(x=>x.sid===t.sid&&x.ex).slice(0,6))}</p></div>`}
  <div class="acts">${t.ex?`<button class="btn fill" data-go="p-${t.id}">${done[t.id]?"✓ Understood · practice again":"I understand this → practice"}</button>`:""}${nx!==t?`<button class="btn" data-go="${nx.id}">Next: ${nx.n} →</button>`:""}</div>`;
 }
 
@@ -542,7 +2211,7 @@ Modular arithmetic
 What is 23 mod 7?|2|7 goes into 23 three times (21), so the remainder is 2.
 What is 100 mod 9?|1|9 goes into 100 eleven times (99), so the remainder is 1.
 It is 10 o’clock. What hour is it 5 hours later on a 12-hour clock?|3|10 + 5 = 15. On a 12-hour clock, 15 − 12 = 3.`;
-const Q={};QD.split("\n\n").forEach(b=>{const l=b.trim().split("\n");Q[l[0]]=l.slice(1).map(x=>x.split("|"))});
+const Q={};QD.split("\n\n").forEach(b=>{const l=b.trim().split("\n");Q[l[0]]=l.slice(1).map(x=>x.split("|"))});Object.assign(Q,NEWQ);
 const norm=v=>v.toLowerCase().replace(/\s+/g,"").replace(/[−–]/g,"-").replace(/π/g,"pi").replace(/[°$,]/g,"").replace(/degrees?/g,"").replace(/[xy]=/g,"").replace(/²/g,"^2").replace(/³/g,"^3").replace(/⁴/g,"^4").replace(/⁵/g,"^5").replace(/\.$/,"");
 function confetti(){
  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
@@ -571,14 +2240,18 @@ function practice(t){
  $("#qs").onclick=e=>{const b=e.target.closest("[data-chk]");if(b)check(+b.dataset.chk)};
  $("#qs").onkeydown=e=>{if(e.key==="Enter"&&e.target.id&&e.target.id[0]==="a")check(+e.target.id.slice(1))};
 }
+const mob=()=>matchMedia("(max-width:800px)").matches;
+function setMenu(o){if(mob())$("#side").classList.toggle("open",o);else{$(".layout").classList.toggle("closed",!o);LSs("ma-menu",o?"1":"0")}$("#menuBtn").setAttribute("aria-expanded",String(o))}
+const menuOpen=()=>mob()?$("#side").classList.contains("open"):!$(".layout").classList.contains("closed");
 function route(){
  const h=location.hash.slice(1);cur=h;$("#q").value="";
  const pr=h.startsWith("p-"),t=ALL.find(x=>x.id===(pr?h.slice(2):h)),prac=!!(t&&pr&&t.ex);
  if(t){cur=t.id;open[t.sid]=true;prac?practice(t):lesson(t)}
  else if(h.startsWith("s-")&&S.some(x=>"s-"+x[0]===h)){open[h.slice(2)]=true;subject(h.slice(2))}
  else home();
- $("#view").className="in"+(prac?" wide":"");
- nav();$("#side").classList.remove("open");$("#menuBtn").setAttribute("aria-expanded","false");$("#main").scrollTop=0;
+ $("#view").className="in"+(prac||!(t||h.startsWith("s-"))?" wide":"");
+ if(t&&!prac)LSs("ma-last",t.id);
+ nav();if(mob())setMenu(false);$("#main").scrollTop=0;
 }
 $("#q").oninput=e=>{
  const w=e.target.value.toLowerCase().split(/\s+/).filter(Boolean);if(!w.length){route();return}
@@ -586,7 +2259,7 @@ $("#q").oninput=e=>{
  $("#view").innerHTML=`<h1>${r.length?"Matching topics":"No match yet"}</h1>`+(r.length?`<ul class="res">${r.map(t=>`<li><button data-go="${t.id}"><b>${t.n}</b><small>${t.sym} ${t.sn}: ${t.w}</small></button></li>`).join("")}</ul>`:`<p class="lead">Try fewer or different words, or pick a subject below. We’re adding more topics all the time.</p><div class="grid">${S.map(tile).join("")}</div>`);
 };
 document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){e.preventDefault();location.hash=b.dataset.go;if(location.hash.slice(1)===b.dataset.go)route()}});
-$("#menuBtn").onclick=()=>{const o=$("#side").classList.toggle("open");$("#menuBtn").setAttribute("aria-expanded",o)};
+$("#menuBtn").onclick=()=>setMenu(!menuOpen());
 
 
 
@@ -671,6 +2344,7 @@ function openSettings(){
 }
 $("#setBtn").onclick=openSettings;$("#setX").onclick=()=>dlg.close();dlg.onclose=()=>{if(curPk)curPk.stop()};chip();$("#cdNo").onclick=()=>cd.close();
 $("#cdYes").onclick=()=>{["ma-profile","ma-session","ma-done"].forEach(LSd);location.href="deleted.html"};
+if(!mob()&&LSg("ma-menu")==="0")setMenu(false);else $("#menuBtn").setAttribute("aria-expanded",String(!mob()));
 addEventListener("hashchange",route);route();
 </script>
 </body>
