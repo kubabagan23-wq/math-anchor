@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MathAnchor – Account deleted</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--mark:#FFD23F;--markink:#12263A;--teal:#0E7C6B;--bad:#B3261E;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;--bad:#FF8A80;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:400 1rem/1.6 "Instrument Sans",system-ui,"Noto Sans",sans-serif;padding-top:env(safe-area-inset-top,0px);
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+h1{font:800 clamp(1.9rem,5vw,2.4rem)/1.1 "Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;margin:0 0 16px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+a{color:var(--teal);font-weight:600}
+header{background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:1040px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:10px;height:60px}
+.logo{margin-right:auto;display:flex;align-items:center;gap:8px;font:800 1.25rem "Bricolage Grotesque",sans-serif;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo .m{background:var(--mark);color:var(--markink);padding:0 6px;border-radius:4px;margin-right:2px}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;text-decoration:none;color:var(--ink);display:inline-block}
+.btn.fill{background:var(--mark);color:var(--markink);border-color:var(--markink)}
+.btn:disabled{opacity:.6;cursor:default}
+.lang{position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px;list-style:none;margin:0;width:200px;max-height:60vh;overflow:auto;display:none;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:5}
+.menu.open{display:block}
+.menu button{width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+.menu button:hover,.menu button[aria-current="true"]{background:var(--grid)}
+.menu button[disabled]{opacity:.5;cursor:default}
+main{flex:1;width:100%;max-width:440px;margin:0 auto;padding:32px 20px 40px}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:24px;box-shadow:6px 6px 0 var(--mark)}
+label{display:block;font-weight:600;margin:14px 0 4px}
+input[type=text],input[type=email],input[type=password]{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg)}
+.go{width:100%;margin-top:18px;padding:12px;font-size:1.05rem;text-align:center}
+.msg{min-height:1.3em;margin-top:12px;font-size:.92rem}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--teal)}
+.alt,.help{margin-top:16px;color:var(--mute);text-align:center;font-size:.95rem}
+.back{display:block;text-align:center;margin-top:20px}
+.center{text-align:center}.big{font-size:3.2rem;line-height:1;margin-bottom:10px}
+.stack{display:grid;gap:10px;margin-top:20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style id="themes">
+:root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;color-scheme:dark}
+:root[data-theme="ocean"]{--bg:#EEF6FB;--grid:#D2E5F2;--ink:#0B2A43;--mute:#48667E;--card:#FFFFFF;--line:#B4D0E4;--teal:#0A6EA8;--mark:#7CD4FF;--markink:#0B2A43;color-scheme:light}
+:root[data-theme="forest"]{--bg:#F1F6EE;--grid:#D8E5D0;--ink:#1B3322;--mute:#52684F;--card:#FFFFFF;--line:#BED2B4;--teal:#2E7D32;--mark:#B6E36B;--markink:#1B3322;color-scheme:light}
+:root[data-theme="sunset"]{--bg:#FFF4EC;--grid:#F6DECB;--ink:#3A1F2B;--mute:#7A5A5F;--card:#FFFFFF;--line:#EBCDB8;--teal:#C2410C;--mark:#FFB05C;--markink:#3A1F2B;color-scheme:light}
+:root[data-theme="midnight"]{--bg:#11111F;--grid:#1D1D33;--ink:#EDEBFF;--mute:#A9A6CF;--card:#1A1A2E;--line:#33335A;--teal:#8EA2FF;--mark:#FFD23F;--markink:#12263A;color-scheme:dark}
+</style>
+<script>try{var t=localStorage.getItem("ma-theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<header><div class="bar"><a class="logo" href="index.html"><span class="m">Math</span>Anchor</a></div></header>
+<main><div class="card center"><div class="big">👋</div><h1 id="t"></h1><p id="b"></p><div class="stack"><a class="btn fill" href="index.html" id="h"></a><a class="btn" href="signup.html" id="s"></a></div></div></main>
+<script>
+const D={"en": {"delT": "Your account was deleted", "delB": "All of your data has been removed. We’re sorry to see you go, and you’re always welcome back.", "back": "Back to home", "signup": "Sign up"}, "es": {"delT": "Tu cuenta fue eliminada", "delB": "Todos tus datos fueron eliminados. Lamentamos verte partir, siempre serás bienvenido.", "back": "Volver al inicio", "signup": "Registrarse"}, "it": {"delT": "Il tuo account è stato eliminato", "delB": "Tutti i tuoi dati sono stati rimossi. Ci dispiace vederti andare via, sei sempre il benvenuto.", "back": "Torna alla home", "signup": "Registrati"}, "pl": {"delT": "Twoje konto zostało usunięte", "delB": "Wszystkie Twoje dane zostały usunięte. Szkoda, że odchodzisz, zawsze możesz wrócić.", "back": "Wróć na stronę główną", "signup": "Zarejestruj się"}, "ru": {"delT": "Ваш аккаунт удалён", "delB": "Все ваши данные удалены. Нам жаль, что вы уходите, вы всегда можете вернуться.", "back": "На главную", "signup": "Регистрация"}, "uk": {"delT": "Ваш акаунт видалено", "delB": "Усі ваші дані видалено. Шкода, що ви йдете, ви завжди можете повернутися.", "back": "На головну", "signup": "Реєстрація"}, "zh": {"delT": "你的账户已删除", "delB": "你的所有数据已被删除。很遗憾看到你离开，随时欢迎你回来。", "back": "返回首页", "signup": "注册"}, "hi": {"delT": "आपका खाता हटा दिया गया", "delB": "आपका सारा डेटा हटा दिया गया है। आपके जाने का हमें दुख है, आप कभी भी वापस आ सकते हैं।", "back": "होम पर वापस जाएँ", "signup": "साइन अप"}, "de": {"delT": "Dein Konto wurde gelöscht", "delB": "Alle deine Daten wurden entfernt. Schade, dass du gehst, du bist jederzeit willkommen.", "back": "Zurück zur Startseite", "signup": "Registrieren"}, "fr": {"delT": "Votre compte a été supprimé", "delB": "Toutes vos données ont été supprimées. Nous sommes désolés de vous voir partir, vous êtes toujours le bienvenu.", "back": "Retour à l’accueil", "signup": "S’inscrire"}};let l="en";try{l=localStorage.getItem("ma-lang")||"en"}catch(e){}if(!D[l])l="en";
+document.documentElement.lang=l;document.getElementById("t").textContent=D[l].delT;document.getElementById("b").textContent=D[l].delB;document.getElementById("h").textContent=D[l].back;document.getElementById("s").textContent=D[l].signup;
+try{["ma-profile","ma-session","ma-done"].forEach(function(k){localStorage.removeItem(k)})}catch(e){}
+</script>
+</body>
+</html>
