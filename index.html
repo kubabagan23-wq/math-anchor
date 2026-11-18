@@ -72,6 +72,7 @@ input{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;b
 .err{color:#C0392B;font-size:.88rem;min-height:1.2em;margin-top:8px}
 @media (max-width:760px){.hero,.why,.topics{grid-template-columns:1fr}.hero{padding-top:32px}.btn{padding:8px 10px}.logo{font-size:1.05rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+footer.ma-foot{margin:36px auto 0;padding:18px 16px 26px;text-align:center;font-size:.88rem;color:var(--mute,#4A6070);border-top:1px solid var(--line,#B9CFC6)}footer.ma-foot a{color:inherit;font-weight:600}
 </style>
 <style id="themes">
 :root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
@@ -141,7 +142,6 @@ input{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;b
   <button class="btn" data-open="signup" data-i="cta">Get started free</button>
  </div>
 </main>
-<footer>© 2026 MathAnchor</footer>
 
 <dialog id="dlg">
  <h2 id="dT"></h2>
@@ -154,6 +154,7 @@ input{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;b
 </dialog>
 
 <script>
+const FT={"en": ["© {y} MathAnchor. All rights reserved.", "Contact us"], "es": ["© {y} MathAnchor. Todos los derechos reservados.", "Contáctanos"], "it": ["© {y} MathAnchor. Tutti i diritti riservati.", "Contattaci"], "pl": ["© {y} MathAnchor. Wszelkie prawa zastrzeżone.", "Kontakt"], "ru": ["© {y} MathAnchor. Все права защищены.", "Связаться с нами"], "uk": ["© {y} MathAnchor. Усі права захищено.", "Зв’язатися з нами"], "zh": ["© {y} MathAnchor。保留所有权利。", "联系我们"], "hi": ["© {y} MathAnchor। सर्वाधिकार सुरक्षित।", "संपर्क करें"], "de": ["© {y} MathAnchor. Alle Rechte vorbehalten.", "Kontakt"], "fr": ["© {y} MathAnchor. Tous droits réservés.", "Nous contacter"], "pt": ["© {y} MathAnchor. Todos os direitos reservados.", "Fale conosco"], "ar": ["© {y} MathAnchor. جميع الحقوق محفوظة.", "تواصل معنا"], "ja": ["© {y} MathAnchor. All rights reserved.", "お問い合わせ"], "ko": ["© {y} MathAnchor. 모든 권리 보유.", "문의하기"], "tr": ["© {y} MathAnchor. Tüm hakları saklıdır.", "Bize ulaşın"]};function ftSet(c){const f=FT[c]||FT.en;const a=document.getElementById("ftC"),b=document.getElementById("ftU");if(a)a.textContent=f[0].replace("{y}",new Date().getFullYear());if(b)b.textContent=f[1]}
 const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["de","Deutsch"],["fr","Français"],["pt","Português"],["ar","العربية"],["ja","日本語"],["ko","한국어"],["tr","Türkçe"]];
 const K=["login","signup","h1","sub","cta","ctaT","ctaP"];
 const T={
@@ -166,8 +167,12 @@ uk:["Увійти","Реєстрація","Застрягли на кроці? �
 zh:["登录","注册","卡在某一步？从这里开始。","用你的语言，一步一步讲清每个数学主题。","免费开始","今天就开始搞懂数学","免费加入，无需信用卡。选一个主题，解开困惑。"],
 hi:["लॉग इन","साइन अप","किसी स्टेप पर अटके हैं? यहाँ से शुरू करें।","गणित के हर विषय की साफ़, चरण-दर-चरण व्याख्या, आपकी भाषा में।","मुफ़्त शुरू करें","आज ही गणित समझना शुरू करें","मुफ़्त जुड़ें। कार्ड की ज़रूरत नहीं। कोई विषय चुनें।"],
 de:["Anmelden","Registrieren","Bei einem Schritt hängen geblieben? Starte hier.","Klare Schritt-für-Schritt-Erklärungen zu jedem Mathethema, in deiner Sprache.","Kostenlos starten","Verstehe Mathe ab heute","Kostenlos. Keine Karte nötig. Thema wählen und weiterkommen."],
-fr:["Connexion","S’inscrire","Bloqué sur une étape ? Commencez ici.","Des explications claires, pas à pas, pour chaque sujet de maths, dans votre langue.","Commencer gratuitement","Comprenez les maths dès aujourd’hui","Inscription gratuite. Sans carte. Choisissez un sujet."]};
-const FORM={en:["Email","Name","Password","Cancel","Create account"],es:["Correo","Nombre","Contraseña","Cancelar","Crear cuenta"],it:["Email","Nome","Password","Annulla","Crea account"],pl:["E-mail","Imię","Hasło","Anuluj","Utwórz konto"],ru:["Эл. почта","Имя","Пароль","Отмена","Создать аккаунт"],uk:["Ел. пошта","Ім’я","Пароль","Скасувати","Створити акаунт"],zh:["邮箱","姓名","密码","取消","创建账户"],hi:["ईमेल","नाम","पासवर्ड","रद्द करें","खाता बनाएँ"],de:["E-Mail","Name","Passwort","Abbrechen","Konto erstellen"],fr:["E-mail","Nom","Mot de passe","Annuler","Créer un compte"]};
+fr:["Connexion","S’inscrire","Bloqué sur une étape ? Commencez ici.","Des explications claires, pas à pas, pour chaque sujet de maths, dans votre langue.","Commencer gratuitement","Comprenez les maths dès aujourd’hui","Inscription gratuite. Sans carte. Choisissez un sujet."],pt:["Entrar","Cadastrar-se","Travou em um passo? Comece aqui.","Explicações claras, passo a passo, para cada tema de matemática, no seu idioma.","Comece grátis","Comece a entender matemática hoje","Entrada gratuita. Sem cartão. Escolha um tema e destrave."],
+ar:["تسجيل الدخول","إنشاء حساب","علقت في خطوة؟ ابدأ من هنا.","شروحات واضحة خطوة بخطوة لكل موضوع في الرياضيات، بلغتك.","ابدأ مجاناً","ابدأ فهم الرياضيات اليوم","الانضمام مجاني. بلا بطاقة. اختر موضوعاً وتخطَّ العقبة."],
+ja:["ログイン","新規登録","ステップでつまずいた？ここから始めよう。","足し算から微積分まで、すべての数学トピックを、あなたの言語でわかりやすく一歩ずつ解説。","無料で始める","今日から数学がわかる","登録無料。クレジットカード不要。トピックを選んで、つまずきを解消。"],
+ko:["로그인","회원가입","한 단계에서 막혔나요? 여기서 시작하세요.","수 세기부터 미적분까지, 모든 수학 주제를 여러분의 언어로 차근차근 쉽게 설명합니다.","무료로 시작하기","오늘부터 수학을 이해해 보세요","무료 가입. 카드 필요 없음. 주제를 고르고 막힘을 해결하세요."],
+tr:["Giriş yap","Kayıt ol","Bir adımda mı takıldın? Buradan başla.","Saymadan kalkülüse kadar her matematik konusu için açık, adım adım anlatımlar, kendi dilinde.","Ücretsiz başla","Matematiği bugün anlamaya başla","Katılım ücretsiz. Kart gerekmez. Bir konu seç ve takıldığın yeri aş."]};
+const FORM={en:["Email","Name","Password","Cancel","Create account"],es:["Correo","Nombre","Contraseña","Cancelar","Crear cuenta"],it:["Email","Nome","Password","Annulla","Crea account"],pl:["E-mail","Imię","Hasło","Anuluj","Utwórz konto"],ru:["Эл. почта","Имя","Пароль","Отмена","Создать аккаунт"],uk:["Ел. пошта","Ім’я","Пароль","Скасувати","Створити акаунт"],zh:["邮箱","姓名","密码","取消","创建账户"],hi:["ईमेल","नाम","पासवर्ड","रद्द करें","खाता बनाएँ"],de:["E-Mail","Name","Passwort","Abbrechen","Konto erstellen"],fr:["E-mail","Nom","Mot de passe","Annuler","Créer un compte"],pt:["E-mail","Nome","Senha","Cancelar","Criar conta"],ar:["البريد الإلكتروني","الاسم","كلمة المرور","إلغاء","إنشاء حساب"],ja:["メールアドレス","名前","パスワード","キャンセル","アカウント作成"],ko:["이메일","이름","비밀번호","취소","계정 만들기"],tr:["E-posta","Ad","Şifre","İptal","Hesap oluştur"]};
 const READY=Object.keys(T);let lang="en",mode="signup";
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const menu=$("#menu"),btn=$("#langBtn"),dlg=$("#dlg");
@@ -175,7 +180,7 @@ LANGS.forEach(([c,n])=>{const li=document.createElement("li"),b=document.createE
 function toggle(o){menu.classList.toggle("open",o);btn.setAttribute("aria-expanded",o)}
 btn.onclick=e=>{e.stopPropagation();toggle(!menu.classList.contains("open"))};
 document.addEventListener("click",()=>toggle(false));
-function setLang(c){lang=c;try{localStorage.setItem("ma-lang",c)}catch(e){}document.documentElement.lang=c;$("#langName").textContent=LANGS.find(l=>l[0]===c)[1];
+function setLang(c){lang=c;try{localStorage.setItem("ma-lang",c)}catch(e){}document.documentElement.lang=c;document.documentElement.dir=c==="ar"?"rtl":"ltr";ftSet(c);$("#langName").textContent=LANGS.find(l=>l[0]===c)[1];
  K.forEach((k,i)=>$$('[data-i="'+k+'"]').forEach(el=>el.textContent=T[c][i]));
  ["email","name","pass","cancel"].forEach((k,i)=>$$('[data-i="'+k+'"]').forEach(el=>el.textContent=FORM[c][i]));
  $$(".menu button").forEach(b=>b.setAttribute("aria-current",b.dataset.c===c));draw()}
@@ -193,5 +198,6 @@ $$(".step").forEach(b=>b.onclick=()=>b.setAttribute("aria-expanded",b.getAttribu
 let sv="en";try{sv=localStorage.getItem("ma-lang")||"en"}catch(e){}
 setLang(READY.includes(sv)?sv:"en");
 </script>
+<footer class="ma-foot"><span id="ftC"></span> · <a id="ftU" href="mailto:supportmathanchor@gmail.com"></a> · <a href="mailto:supportmathanchor@gmail.com" id="ftE">supportmathanchor@gmail.com</a></footer>
 </body>
 </html>
