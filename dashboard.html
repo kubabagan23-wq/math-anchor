@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MathAnchor – Dashboard</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--mark:#FFD23F;--markink:#12263A;--teal:#0E7C6B;color-scheme:light}
@@ -63,6 +66,19 @@ main{flex:1;overflow-y:auto;padding:28px 24px 56px;background-image:linear-gradi
 .res button{width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
 .res button:hover{border-color:var(--ink)}
 .res small{color:var(--mute);display:block}
+dialog{border:2px solid var(--ink);border-radius:14px;background:var(--card);color:var(--ink);width:min(540px,94vw);max-height:90vh;padding:0}
+dialog::backdrop{background:rgba(10,20,30,.55)}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
+.dh h2{font-size:1.4rem}
+.db{padding:4px 20px 20px;overflow:auto;max-height:calc(90vh - 66px)}
+.sx{padding:16px 0;border-bottom:1px solid var(--line)}.sx:last-child{border:0}
+.sx h3{font-size:1rem;margin-bottom:8px}
+.row2{display:flex;gap:8px;margin-bottom:8px}.row2 input,select{flex:1;min-width:0;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);font:inherit;color:inherit}
+select{width:100%}
+.st{min-height:1.2em;font-size:.88rem;margin:6px 0 0}.st.err{color:#C0392B}.st.ok{color:var(--teal)}.st.mute{color:var(--mute)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn.bad{border-color:#C0392B;color:#C0392B}.btn.bad.fill{background:#C0392B;color:#fff}
+@media (prefers-color-scheme:dark){.st.err{color:#FF8A80}.btn.bad{border-color:#FF8A80;color:#FF8A80}}
 .in.wide{max-width:1000px}
 .pr{display:grid;grid-template-columns:5fr 6fr;gap:16px;align-items:start}
 .help{position:sticky;top:0;margin:16px 0;font-size:.95rem}
@@ -87,19 +103,32 @@ aside{position:fixed;z-index:30;top:calc(60px + env(safe-area-inset-top,0px));bo
 aside.open{transform:none}main{padding:22px 16px 48px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<style id="themes">
+:root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;color-scheme:dark}
+:root[data-theme="ocean"]{--bg:#EEF6FB;--grid:#D2E5F2;--ink:#0B2A43;--mute:#48667E;--card:#FFFFFF;--line:#B4D0E4;--teal:#0A6EA8;--mark:#7CD4FF;--markink:#0B2A43;color-scheme:light}
+:root[data-theme="forest"]{--bg:#F1F6EE;--grid:#D8E5D0;--ink:#1B3322;--mute:#52684F;--card:#FFFFFF;--line:#BED2B4;--teal:#2E7D32;--mark:#B6E36B;--markink:#1B3322;color-scheme:light}
+:root[data-theme="sunset"]{--bg:#FFF4EC;--grid:#F6DECB;--ink:#3A1F2B;--mute:#7A5A5F;--card:#FFFFFF;--line:#EBCDB8;--teal:#C2410C;--mark:#FFB05C;--markink:#3A1F2B;color-scheme:light}
+:root[data-theme="midnight"]{--bg:#11111F;--grid:#1D1D33;--ink:#EDEBFF;--mute:#A9A6CF;--card:#1A1A2E;--line:#33335A;--teal:#8EA2FF;--mark:#FFD23F;--markink:#12263A;color-scheme:dark}
+</style>
+<script>try{var t=localStorage.getItem("ma-theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <header>
  <button class="btn" id="menuBtn" aria-label="Show subjects" aria-expanded="false">☰ Subjects</button>
  <a class="logo" href="index.html"><span>Math</span>Anchor</a>
  <input class="search" id="q" type="search" placeholder="What are you stuck on? e.g. “solve for x”" aria-label="Search topics" autocomplete="off">
+ <button class="btn" id="setBtn" aria-label="Settings" title="Settings">⚙</button>
 </header>
 <div class="layout">
  <aside id="side" aria-label="Subjects"><h2>Pick any subject</h2><div id="nav"></div></aside>
  <main id="main"><div class="in" id="view"></div></main>
 </div>
 
+<dialog id="set" aria-labelledby="setT"><div class="dh"><h2 id="setT">Settings</h2><button class="btn" id="setX" aria-label="Close settings">✕</button></div><div class="db" id="setBody"></div></dialog>
+<dialog id="cd" aria-labelledby="cdT"><div class="db" style="padding-top:20px"><h2 id="cdT" style="font-size:1.4rem;margin-bottom:10px">Are you sure you want to delete this account?</h2><p>You will not be able to recover any of it. Your account details and progress will be permanently removed.</p><div class="row2" style="margin-top:14px"><button class="btn" id="cdNo" style="flex:1">Cancel</button><button class="btn bad fill" id="cdYes" style="flex:1">Yes, delete my account</button></div></div></dialog>
 <script>
+try{if(!localStorage.getItem("ma-session"))location.replace("login.html")}catch(e){}
 // Each topic: [name, what it is, when you'll see it, common mistake, [problem, ...steps]]
 const S=[
 ["arith","+","Arithmetic",[
@@ -305,6 +334,7 @@ Functional analysis|Analysis on spaces of functions.
 Mathematical physics|The math behind relativity and quantum mechanics.`]
 ];
 N.forEach(n=>S.push([n[0],n[1],n[2],n[3].split("\n").map(l=>l.split("|"))]));
+
 
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const ALL=[];S.forEach(([sid,sym,sn,ts])=>ts.forEach(t=>ALL.push({id:slug(t[0]),sid,sym,sn,n:t[0],w:t[1],u:t[2],m:t[3],ex:t[4]})));
@@ -535,6 +565,41 @@ $("#q").oninput=e=>{
 document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){e.preventDefault();location.hash=b.dataset.go;if(location.hash.slice(1)===b.dataset.go)route()}});
 $("#menuBtn").onclick=()=>{const o=$("#side").classList.toggle("open");$("#menuBtn").setAttribute("aria-expanded",o)};
 
+
+
+const LSg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},LSs=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},LSd=k=>{try{localStorage.removeItem(k)}catch(e){}};
+const eh=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const prof=()=>{try{return JSON.parse(LSg("ma-profile")||"null")||{}}catch(e){return {}}};
+async function maHash(pw,salt){if(window.crypto&&crypto.subtle&&window.TextEncoder){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+pw));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}return "p:"+btoa(unescape(encodeURIComponent(salt+pw)))}
+const THEMES=[["auto","Auto"],["light","Light"],["dark","Dark"],["ocean","Ocean"],["forest","Forest"],["sunset","Sunset"],["midnight","Midnight"]];
+const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["de","Deutsch"],["fr","Français"],["pt","Português"],["ar","العربية"],["ja","日本語"],["ko","한국어"],["tr","Türkçe"]],READY=["en","es","it","pl","ru","uk","zh","hi","de","fr"];
+const setTheme=v=>{LSs("ma-theme",v);if(v==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",v)};
+const dlg=$("#set"),cd=$("#cd"),say=(id,t,c)=>{const e=$("#"+id);e.textContent=t;e.className="st "+(c||"")};
+function openSettings(){
+ const p=prof(),th=LSg("ma-theme")||"auto",lg=LSg("ma-lang")||"en";
+ $("#setBody").innerHTML=`
+<div class="sx"><h3>Username</h3><div class="row2"><input id="iu" value="${eh(p.username||"")}" maxlength="20" autocomplete="username" aria-label="Username"><button class="btn fill" id="svU">Save</button></div><p class="st" id="stU"></p></div>
+<div class="sx"><h3>Email</h3><div class="row2"><input id="ie" type="email" value="${eh(p.email||"")}" autocomplete="email" aria-label="Email"><button class="btn fill" id="svE">Save</button></div><p class="st" id="stE"></p></div>
+<div class="sx"><h3>Password</h3><div class="row2"><input id="ip0" type="password" placeholder="Current password" autocomplete="current-password" aria-label="Current password"></div><div class="row2"><input id="ip" type="password" placeholder="New password (8+ characters)" autocomplete="new-password" aria-label="New password"><button class="btn fill" id="svP">Save</button></div><p class="st" id="stP"></p></div>
+<div class="sx"><h3>Language</h3><select id="sl" aria-label="Language">${LANGS.map(l=>`<option value="${l[0]}" ${l[0]===lg?"selected":""} ${READY.includes(l[0])?"":"disabled"}>${l[1]}${READY.includes(l[0])?"":" (soon)"}</option>`).join("")}</select><p class="st mute">Applies to the welcome, login and sign-up pages. Lessons are in English for now.</p></div>
+<div class="sx"><h3>Theme</h3><div class="seg">${THEMES.map(t=>`<button class="btn" data-th="${t[0]}" aria-pressed="${t[0]===th}">${t[1]}</button>`).join("")}</div></div>
+<div class="sx"><button class="btn" id="out">Log out</button></div>
+<div class="sx"><h3>Delete account</h3><p class="st mute">Permanently removes your account details and progress from this device.</p><button class="btn bad" id="delBtn">Delete my account</button></div>
+<div class="sx"><h3>Contact us</h3><p style="margin:0">✉ <a href="mailto:supportmathanchor@gmail.com">supportmathanchor@gmail.com</a></p></div>`;
+ $("#svU").onclick=()=>{const v=$("#iu").value.trim();if(!/^[A-Za-z0-9_]{3,20}$/.test(v))return say("stU","Use 3–20 letters, numbers or underscores.","err");const q=prof();q.username=v;LSs("ma-profile",JSON.stringify(q));say("stU","Saved ✓","ok")};
+ $("#svE").onclick=()=>{const v=$("#ie").value.trim();if(!/^\S+@\S+\.\S+$/.test(v))return say("stE","Enter a valid email address.","err");const q=prof();q.email=v.toLowerCase();LSs("ma-profile",JSON.stringify(q));say("stE","Saved ✓","ok")};
+ $("#svP").onclick=async()=>{const q=prof(),a=$("#ip0").value,n=$("#ip").value;
+  if(n.length<8)return say("stP","Use at least 8 characters.","err");
+  if(q.hash&&q.hash!==await maHash(a,q.salt))return say("stP","Your current password isn’t right.","err");
+  q.salt=Math.random().toString(36).slice(2);q.hash=await maHash(n,q.salt);LSs("ma-profile",JSON.stringify(q));$("#ip0").value=$("#ip").value="";say("stP","Password updated ✓","ok")};
+ $("#sl").onchange=e=>LSs("ma-lang",e.target.value);
+ dlg.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);dlg.querySelectorAll("[data-th]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+ $("#out").onclick=()=>{LSd("ma-session");location.href="index.html"};
+ $("#delBtn").onclick=()=>cd.showModal();
+ dlg.showModal();
+}
+$("#setBtn").onclick=openSettings;$("#setX").onclick=()=>dlg.close();$("#cdNo").onclick=()=>cd.close();
+$("#cdYes").onclick=()=>{["ma-profile","ma-session","ma-done"].forEach(LSd);location.href="deleted.html"};
 addEventListener("hashchange",route);route();
 </script>
 </body>
