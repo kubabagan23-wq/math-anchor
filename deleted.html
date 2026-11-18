@@ -43,6 +43,7 @@ input[type=text],input[type=email],input[type=password]{width:100%;padding:11px;
 .center{text-align:center}.big{font-size:3.2rem;line-height:1;margin-bottom:10px}
 .stack{display:grid;gap:10px;margin-top:20px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+footer.ma-foot{margin:36px auto 0;padding:18px 16px 26px;text-align:center;font-size:.88rem;color:#4A6070;border-top:1px solid #B9CFC6}footer.ma-foot a{color:inherit;font-weight:600}
 </style>
 <style id="themes">
 :root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
@@ -62,5 +63,6 @@ const D={"en": {"delT": "Your account was deleted", "delB": "All of your data ha
 document.documentElement.lang=l;document.getElementById("t").textContent=D[l].delT;document.getElementById("b").textContent=D[l].delB;document.getElementById("h").textContent=D[l].back;document.getElementById("s").textContent=D[l].signup;
 try{["ma-profile","ma-session","ma-done"].forEach(function(k){localStorage.removeItem(k)})}catch(e){}
 </script>
+<footer class="ma-foot">© <script>document.write(new Date().getFullYear())</script> MathAnchor. All rights reserved. · <a href="mailto:supportmathanchor@gmail.com">Contact us: supportmathanchor@gmail.com</a></footer>
 </body>
 </html>
