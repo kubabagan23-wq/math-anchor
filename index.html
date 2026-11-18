@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Free math explanations for every topic from arithmetic to graduate math: worked examples, common mistakes and practice questions.">
+<meta property="og:title" content="MathAnchor – Every math topic, explained">
+<meta property="og:description" content="Free math explanations for every topic from arithmetic to graduate math: worked examples, common mistakes and practice questions.">
+<meta property="og:image" content="logo-profile.png">
 <title>MathAnchor – Every math topic, explained</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
@@ -73,6 +77,8 @@ input{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;b
 @media (max-width:760px){.hero,.why,.topics{grid-template-columns:1fr}.hero{padding-top:32px}.btn{padding:8px 10px}.logo{font-size:1.05rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 footer.ma-foot{margin:36px auto 0;padding:18px 16px 26px;text-align:center;font-size:.88rem;color:var(--mute,#4A6070);border-top:1px solid var(--line,#B9CFC6)}footer.ma-foot a{color:inherit;font-weight:600}
+@media (max-width:430px){.bar{gap:6px}.bar .btn{padding-left:10px;padding-right:10px;font-size:.9rem}}
+@media (max-width:380px){.wrap{padding:0 12px}.bar{gap:4px}.logo{font-size:1.05rem}.bar .btn{padding-left:8px;padding-right:8px;font-size:.85rem}}
 </style>
 <style id="themes">
 :root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
@@ -155,7 +161,7 @@ footer.ma-foot{margin:36px auto 0;padding:18px 16px 26px;text-align:center;font-
 
 <script>
 const FT={"en": ["© {y} MathAnchor. All rights reserved.", "Contact us"], "es": ["© {y} MathAnchor. Todos los derechos reservados.", "Contáctanos"], "it": ["© {y} MathAnchor. Tutti i diritti riservati.", "Contattaci"], "pl": ["© {y} MathAnchor. Wszelkie prawa zastrzeżone.", "Kontakt"], "ru": ["© {y} MathAnchor. Все права защищены.", "Связаться с нами"], "uk": ["© {y} MathAnchor. Усі права захищено.", "Зв’язатися з нами"], "zh": ["© {y} MathAnchor。保留所有权利。", "联系我们"], "hi": ["© {y} MathAnchor। सर्वाधिकार सुरक्षित।", "संपर्क करें"], "de": ["© {y} MathAnchor. Alle Rechte vorbehalten.", "Kontakt"], "fr": ["© {y} MathAnchor. Tous droits réservés.", "Nous contacter"], "pt": ["© {y} MathAnchor. Todos os direitos reservados.", "Fale conosco"], "ar": ["© {y} MathAnchor. جميع الحقوق محفوظة.", "تواصل معنا"], "ja": ["© {y} MathAnchor. All rights reserved.", "お問い合わせ"], "ko": ["© {y} MathAnchor. 모든 권리 보유.", "문의하기"], "tr": ["© {y} MathAnchor. Tüm hakları saklıdır.", "Bize ulaşın"]};function ftSet(c){const f=FT[c]||FT.en;const a=document.getElementById("ftC"),b=document.getElementById("ftU");if(a)a.textContent=f[0].replace("{y}",new Date().getFullYear());if(b)b.textContent=f[1]}
-const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["de","Deutsch"],["fr","Français"],["pt","Português"],["ar","العربية"],["ja","日本語"],["ko","한국어"],["tr","Türkçe"]];
+const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["fr","Français"]];try{if(LANGS.map(l=>l[0]).indexOf(localStorage.getItem("ma-lang"))<0&&localStorage.getItem("ma-lang"))localStorage.setItem("ma-lang","en")}catch(e){}
 const K=["login","signup","h1","sub","cta","ctaT","ctaP"];
 const T={
 en:["Log in","Sign up","Stuck on a step? Start here.","Clear, step-by-step explanations for every math topic, from counting to calculus, in your language.","Get started free","Start understanding math today","Free to join. No credit card. Pick a topic and get unstuck."],
@@ -198,6 +204,6 @@ $$(".step").forEach(b=>b.onclick=()=>b.setAttribute("aria-expanded",b.getAttribu
 let sv="en";try{sv=localStorage.getItem("ma-lang")||"en"}catch(e){}
 setLang(READY.includes(sv)?sv:"en");
 </script>
-<footer class="ma-foot"><span id="ftC"></span> · <a id="ftU" href="mailto:supportmathanchor@gmail.com"></a> · <a href="mailto:supportmathanchor@gmail.com" id="ftE">supportmathanchor@gmail.com</a></footer>
+<footer class="ma-foot"><span id="ftC"></span> · <a id="ftU" href="mailto:supportmathanchor@gmail.com"></a> · <a href="mailto:supportmathanchor@gmail.com" id="ftE">supportmathanchor@gmail.com</a> · <a href="privacy.html">About &amp; privacy</a></footer>
 </body>
 </html>
