@@ -79,6 +79,28 @@ select{width:100%}
 .seg{display:flex;gap:6px;flex-wrap:wrap}.seg .btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .btn.bad{border-color:#C0392B;color:#C0392B}.btn.bad.fill{background:#C0392B;color:#fff}
 @media (prefers-color-scheme:dark){.st.err{color:#FF8A80}.btn.bad{border-color:#FF8A80;color:#FF8A80}}
+.pf{display:inline-block;border-radius:50%;overflow:hidden;flex:none;vertical-align:middle}.pf svg{display:block}.pfi{object-fit:cover}
+.pf [class]{transform-box:fill-box;transform-origin:center}
+@keyframes pf-bob{50%{transform:translateY(-4px)}}@keyframes pf-float{50%{transform:translateY(-6px)}}
+@keyframes pf-blink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes pf-wig{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes pf-pulse{50%{transform:scale(1.1)}}@keyframes pf-spin{to{transform:rotate(360deg)}}
+@keyframes pf-flick{50%{transform:scaleY(1.3)}}@keyframes pf-swing{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+.pf .bob{animation:pf-bob 2.4s ease-in-out infinite}.pf .float{animation:pf-float 3s ease-in-out infinite}
+.pf .blink{animation:pf-blink 4s infinite}.pf .wig{animation:pf-wig 1.6s ease-in-out infinite}
+.pf .pulse{animation:pf-pulse 1.6s ease-in-out infinite}.pf .spin{animation:pf-spin 12s linear infinite}
+.pf .flick{transform-origin:50% 0;animation:pf-flick .5s ease-in-out infinite}
+.pf .swing{transform-box:view-box;transform-origin:50px 12px;animation:pf-swing 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.pf [class]{animation:none!important}}
+.pk-top{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.pk-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.pk-tabs button{border:1.5px solid var(--line);background:transparent;border-radius:8px;padding:6px 10px;cursor:pointer;font:inherit;color:inherit}
+.pk-tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pk-body{margin-top:12px}.pk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px;max-height:210px;overflow:auto;padding:2px}
+.pk-grid button{border:2px solid transparent;border-radius:50%;padding:2px;background:none;cursor:pointer}.pk-grid button.sel{border-color:var(--ink)}
+.pk video{width:100%;max-width:260px;border-radius:10px;display:block;margin:8px 0}.pk .hint{font-size:.85rem;color:var(--mute);margin:6px 0 0}
+.pk input[type=file]{max-width:100%}
+.me{display:flex;align-items:center;gap:8px;font-weight:600;white-space:nowrap}.me b{max-width:130px;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:800px){.me b{display:none}}
 .in.wide{max-width:1000px}
 .pr{display:grid;grid-template-columns:5fr 6fr;gap:16px;align-items:start}
 .help{position:sticky;top:0;margin:16px 0;font-size:.95rem}
@@ -118,6 +140,7 @@ aside.open{transform:none}main{padding:22px 16px 48px}}
  <button class="btn" id="menuBtn" aria-label="Show subjects" aria-expanded="false">☰ Subjects</button>
  <a class="logo" href="index.html"><span>Math</span>Anchor</a>
  <input class="search" id="q" type="search" placeholder="What are you stuck on? e.g. “solve for x”" aria-label="Search topics" autocomplete="off">
+ <span class="me" id="me"></span>
  <button class="btn" id="setBtn" aria-label="Settings" title="Settings">⚙</button>
 </header>
 <div class="layout">
@@ -128,7 +151,7 @@ aside.open{transform:none}main{padding:22px 16px 48px}}
 <dialog id="set" aria-labelledby="setT"><div class="dh"><h2 id="setT">Settings</h2><button class="btn" id="setX" aria-label="Close settings">✕</button></div><div class="db" id="setBody"></div></dialog>
 <dialog id="cd" aria-labelledby="cdT"><div class="db" style="padding-top:20px"><h2 id="cdT" style="font-size:1.4rem;margin-bottom:10px">Are you sure you want to delete this account?</h2><p>You will not be able to recover any of it. Your account details and progress will be permanently removed.</p><div class="row2" style="margin-top:14px"><button class="btn" id="cdNo" style="flex:1">Cancel</button><button class="btn bad fill" id="cdYes" style="flex:1">Yes, delete my account</button></div></div></dialog>
 <script>
-try{if(!localStorage.getItem("ma-session"))location.replace("login.html")}catch(e){}
+try{if(!localStorage.getItem("ma-session")){document.body.innerHTML='<div style="font:16px/1.5 system-ui,sans-serif;max-width:460px;margin:60px auto;padding:22px;border:2px solid #12263A;border-radius:14px;background:#fff;color:#12263A;box-shadow:6px 6px 0 #FFD23F"><b style="font-size:1.2rem">Please log in first</b><p>Your dashboard opens after you log in or sign up.</p><p><a href="login.html">Log in</a> &nbsp;·&nbsp; <a href="signup.html">Sign up</a> &nbsp;·&nbsp; <a href="index.html">Home</a></p></div>'}}catch(e){}
 // Each topic: [name, what it is, when you'll see it, common mistake, [problem, ...steps]]
 const S=[
 ["arith","+","Arithmetic",[
@@ -570,7 +593,52 @@ $("#menuBtn").onclick=()=>{const o=$("#side").classList.toggle("open");$("#menuB
 const LSg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},LSs=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},LSd=k=>{try{localStorage.removeItem(k)}catch(e){}};
 const eh=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const prof=()=>{try{return JSON.parse(LSg("ma-profile")||"null")||{}}catch(e){return {}}};
-async function maHash(pw,salt){if(window.crypto&&crypto.subtle&&window.TextEncoder){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+pw));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}return "p:"+btoa(unescape(encodeURIComponent(salt+pw)))}
+function maSha(m){var K=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],H=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],b=unescape(encodeURIComponent(m)),l=b.length,w=[],i,j;for(i=0;i<l;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);w[l>>2]|=128<<(24-(l%4)*8);w[(((l+8)>>6)+1)*16-1]=l*8;for(i=0;i<w.length;i+=16){var a=H.slice(),W=[];for(j=0;j<64;j++){if(j<16)W[j]=w[i+j]|0;else{var x=W[j-15],y=W[j-2];W[j]=(((x>>>7|x<<25)^(x>>>18|x<<14)^(x>>>3))+W[j-7]+((y>>>17|y<<15)^(y>>>19|y<<13)^(y>>>10))+W[j-16])|0}var e=a[4],t1=(a[7]+((e>>>6|e<<26)^(e>>>11|e<<21)^(e>>>25|e<<7))+((e&a[5])^(~e&a[6]))+K[j]+W[j])|0,aa=a[0],t2=(((aa>>>2|aa<<30)^(aa>>>13|aa<<19)^(aa>>>22|aa<<10))+((aa&a[1])^(aa&a[2])^(a[1]&a[2])))|0;a=[(t1+t2)|0,a[0],a[1],a[2],(a[3]+t1)|0,a[4],a[5],a[6]]}for(j=0;j<8;j++)H[j]=(H[j]+a[j])|0}return H.map(function(v){return("00000000"+(v>>>0).toString(16)).slice(-8)}).join("")}
+async function maHash(pw,salt){return maSha(salt+pw)}
+
+const AN=[
+["#FFE0B2",`<g class="bob"><path d="M20 38 L30 14 L44 30 Q50 28 56 30 L70 14 L80 38 Q82 62 50 82 Q18 62 20 38Z" fill="#F57C00"/><path d="M26 52 Q50 86 74 52 Q62 66 50 66 Q38 66 26 52Z" fill="#fff"/><g class="blink"><circle cx="38" cy="48" r="4" fill="#222"/><circle cx="62" cy="48" r="4" fill="#222"/></g><circle cx="50" cy="66" r="4" fill="#222"/></g>`],
+["#C8E6C9",`<g class="bob"><circle cx="28" cy="28" r="10" fill="#222"/><circle cx="72" cy="28" r="10" fill="#222"/><circle cx="50" cy="54" r="30" fill="#fff"/><ellipse cx="38" cy="52" rx="8" ry="10" fill="#222" transform="rotate(20 38 52)"/><ellipse cx="62" cy="52" rx="8" ry="10" fill="#222" transform="rotate(-20 62 52)"/><g class="blink"><circle cx="38" cy="51" r="3" fill="#fff"/><circle cx="62" cy="51" r="3" fill="#fff"/></g><ellipse cx="50" cy="65" rx="4" ry="3" fill="#222"/></g>`],
+["#E1BEE7",`<g class="wig"><path d="M22 40 L26 14 L44 28 Q50 27 56 28 L74 14 L78 40 Q80 74 50 78 Q20 74 22 40Z" fill="#90A4AE"/><g class="blink"><circle cx="38" cy="48" r="5" fill="#C5E1A5"/><circle cx="62" cy="48" r="5" fill="#C5E1A5"/><circle cx="38" cy="48" r="2" fill="#222"/><circle cx="62" cy="48" r="2" fill="#222"/></g><path d="M46 58h8l-4 5z" fill="#F48FB1"/><path d="M30 62L12 58M30 66L12 68M70 62L88 58M70 66L88 68" stroke="#455A64" stroke-width="1.5"/></g>`],
+["#B3E5FC",`<g class="bob"><line x1="50" y1="14" x2="50" y2="26" stroke="#546E7A" stroke-width="3"/><circle class="pulse" cx="50" cy="12" r="5" fill="#EF5350"/><rect x="24" y="26" width="52" height="46" rx="10" fill="#B0BEC5"/><g class="blink"><rect x="34" y="40" width="10" height="10" rx="2" fill="#26C6DA"/><rect x="56" y="40" width="10" height="10" rx="2" fill="#26C6DA"/></g><rect x="38" y="60" width="24" height="4" rx="2" fill="#546E7A"/></g>`],
+["#D1C4E9",`<g class="bob"><g class="wig"><line x1="50" y1="20" x2="50" y2="8" stroke="#388E3C" stroke-width="3"/><circle cx="50" cy="8" r="4" fill="#FFEB3B"/></g><path d="M50 20Q84 20 78 56Q70 82 50 82Q30 82 22 56Q16 20 50 20Z" fill="#81C784"/><g class="blink"><ellipse cx="38" cy="52" rx="8" ry="11" fill="#1B1B1B" transform="rotate(-20 38 52)"/><ellipse cx="62" cy="52" rx="8" ry="11" fill="#1B1B1B" transform="rotate(20 62 52)"/></g></g>`],
+["#F8BBD0",`<g class="float"><path d="M24 52Q24 18 50 18Q76 18 76 52Z" fill="#AB47BC"/><g class="wig"><path d="M24 52Q20 78 30 80Q34 66 38 52ZM40 52Q38 82 48 82Q50 66 52 52ZM54 52Q54 82 64 82Q64 66 66 52ZM66 52Q72 80 80 76Q76 62 76 52Z" fill="#AB47BC"/></g><g class="blink"><circle cx="40" cy="40" r="5" fill="#fff"/><circle cx="60" cy="40" r="5" fill="#fff"/><circle cx="40" cy="41" r="2.5" fill="#222"/><circle cx="60" cy="41" r="2.5" fill="#222"/></g></g>`],
+["#CFD8DC",`<g class="float"><path d="M26 82V44Q26 16 50 16Q74 16 74 44V82L64 74L56 82L50 74L44 82L36 74Z" fill="#fff"/><g class="blink"><ellipse cx="42" cy="42" rx="4" ry="6" fill="#222"/><ellipse cx="58" cy="42" rx="4" ry="6" fill="#222"/></g><ellipse cx="50" cy="58" rx="5" ry="6" fill="#222"/></g>`],
+["#D7CCC8",`<g class="bob"><path d="M22 28L34 20Q50 24 66 20L78 28Q82 70 50 82Q18 70 22 28Z" fill="#8D6E63"/><circle cx="38" cy="44" r="12" fill="#fff"/><circle cx="62" cy="44" r="12" fill="#fff"/><g class="blink"><circle cx="38" cy="44" r="5" fill="#222"/><circle cx="62" cy="44" r="5" fill="#222"/></g><path d="M45 54H55L50 66Z" fill="#FFA000"/></g>`],
+["#DCEDC8",`<g class="bob"><ellipse cx="50" cy="58" rx="32" ry="24" fill="#66BB6A"/><circle cx="34" cy="34" r="12" fill="#66BB6A"/><circle cx="66" cy="34" r="12" fill="#66BB6A"/><circle cx="34" cy="34" r="8" fill="#fff"/><circle cx="66" cy="34" r="8" fill="#fff"/><g class="blink"><circle cx="34" cy="35" r="4" fill="#222"/><circle cx="66" cy="35" r="4" fill="#222"/></g><path d="M32 62Q50 76 68 62" stroke="#2E7D32" stroke-width="3" fill="none" stroke-linecap="round"/></g>`],
+["#C5CAE9",`<g class="float"><path d="M50 12Q70 28 66 62H34Q30 28 50 12Z" fill="#ECEFF1"/><circle cx="50" cy="38" r="8" fill="#4FC3F7"/><path d="M34 52L22 70L36 66ZM66 52L78 70L64 66Z" fill="#EF5350"/><path class="flick" d="M42 64Q50 92 58 64Z" fill="#FFB300"/></g>`],
+["#FFF9C4",`<g class="pulse"><path d="M50 14L60 38L86 40L66 56L72 82L50 68L28 82L34 56L14 40L40 38Z" fill="#FFC107" stroke="#F57F17" stroke-width="3" stroke-linejoin="round"/><g class="blink"><circle cx="43" cy="50" r="3" fill="#222"/><circle cx="57" cy="50" r="3" fill="#222"/></g><path d="M44 58Q50 64 56 58" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>`],
+["#81D4FA",`<g class="spin"><path d="M50 8v10M50 82v10M8 50h10M82 50h10M20 20l7 7M73 73l7 7M80 20l-7 7M27 73l-7 7" stroke="#FFB300" stroke-width="6" stroke-linecap="round"/></g><circle cx="50" cy="50" r="22" fill="#FFCA28"/><g class="blink"><circle cx="43" cy="46" r="3" fill="#222"/><circle cx="57" cy="46" r="3" fill="#222"/></g><path d="M42 56Q50 64 58 56" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>`],
+["#1A237E",`<circle class="pulse" cx="18" cy="20" r="2" fill="#fff"/><circle class="pulse" cx="82" cy="28" r="2" fill="#fff"/><circle class="pulse" cx="74" cy="80" r="2" fill="#fff"/><circle class="pulse" cx="22" cy="74" r="2" fill="#fff"/><circle cx="50" cy="50" r="20" fill="#FF8A65"/><circle cx="43" cy="44" r="4" fill="#E64A19"/><circle cx="57" cy="57" r="3" fill="#E64A19"/><g class="wig"><ellipse cx="50" cy="50" rx="36" ry="10" fill="none" stroke="#FFD54F" stroke-width="4" transform="rotate(-20 50 50)"/></g>`],
+["#B2DFDB",`<g class="bob"><circle cx="50" cy="50" r="32" fill="#FFD23F"/><text x="50" y="65" font-size="46" font-weight="800" text-anchor="middle" fill="#12263A" font-family="Georgia,serif">π</text></g>`],
+["#FFD23F",`<g class="swing"><g fill="none" stroke="#12263A" stroke-width="6" stroke-linecap="round"><circle cx="50" cy="22" r="6" stroke="#0E7C6B"/><path d="M50 28V74M38 38H62M24 60Q26 78 50 80Q74 78 76 60"/></g><path d="M18 62L24 52L30 62ZM70 62L76 52L82 62Z" fill="#12263A"/></g>`]
+];
+const pfHTML=(v,sz)=>{v=String(v||"");if(v.indexOf("data:image/")===0)return `<img class="pf pfi" style="width:${sz}px;height:${sz}px" src="${v.replace(/"/g,"")}" alt="">`;
+ const i=parseInt(v.split(":")[1],10),a=AN[i>=0&&i<AN.length?i:0];return `<span class="pf" style="width:${sz}px;height:${sz}px;background:${a[0]}"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true">${a[1]}</svg></span>`};
+function makePicker(host,initial,onChange){
+ let val=initial||"anim:0",tab=val.indexOf("data:")===0?"lib":"anim",stream=null;
+ const q=(s,r)=>(r||host).querySelector(s);
+ const stop=()=>{if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}};
+ const prev=()=>{const e=q(".pk-prev");if(e)e.innerHTML=pfHTML(val,72)};
+ const set=v=>{val=v;if(onChange)onChange(v);prev();host.querySelectorAll(".pk-grid button").forEach(b=>b.classList.toggle("sel",b.dataset.v===v))};
+ const crop=(el,w,h)=>{const c=document.createElement("canvas");c.width=c.height=192;const s=Math.min(w,h);c.getContext("2d").drawImage(el,(w-s)/2,(h-s)/2,s,s,0,0,192,192);return c.toDataURL("image/jpeg",.85)};
+ function draw(){stop();
+  host.innerHTML=`<div class="pk"><div class="pk-top"><div class="pk-prev"></div><div class="pk-tabs" role="tablist">${[["lib","📁 Photo library"],["cam","📷 Take a photo"],["anim","✨ Animated"]].map(x=>`<button type="button" role="tab" data-t="${x[0]}" aria-selected="${tab===x[0]}">${x[1]}</button>`).join("")}</div></div><div class="pk-body"></div></div>`;
+  prev();const body=q(".pk-body");
+  host.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{tab=b.dataset.t;draw()});
+  if(tab==="anim"){body.innerHTML=`<div class="pk-grid">${AN.map((a,i)=>`<button type="button" data-v="anim:${i}" class="${val==="anim:"+i?"sel":""}" aria-label="Animated avatar ${i+1}">${pfHTML("anim:"+i,52)}</button>`).join("")}</div>`;body.querySelectorAll("button").forEach(b=>b.onclick=()=>set(b.dataset.v))}
+  else if(tab==="lib"){body.innerHTML=`<input type="file" accept="image/*" aria-label="Choose a photo"><p class="hint">Pick a photo from your library. It’s cropped to a square.</p>`;
+   q("input",body).onchange=e=>{const f=e.target.files[0];if(!f||f.type.indexOf("image/")!==0)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>set(crop(im,im.width,im.height));im.src=r.result};r.readAsDataURL(f)}}
+  else{body.innerHTML=`<button type="button" class="btn" id="pkCam">Open camera</button><video playsinline muted hidden></video><button type="button" class="btn fill" id="pkSnap" hidden>Take photo</button><p class="hint"></p>`;
+   const v=q("video",body),hint=q(".hint",body);
+   q("#pkCam",body).onclick=()=>{if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){hint.textContent="The camera isn’t available here. Try Photo library instead.";return}
+    navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}}).then(s=>{stream=s;v.srcObject=s;v.hidden=false;v.play();q("#pkSnap",body).hidden=false;q("#pkCam",body).hidden=true}).catch(()=>{hint.textContent="Couldn’t open the camera. Check your permissions or use Photo library."})};
+   q("#pkSnap",body).onclick=()=>{if(v.videoWidth)set(crop(v,v.videoWidth,v.videoHeight));stop();draw()}}
+ }
+ draw();return {stop,get:()=>val};
+}
+let curPk=null;
+const chip=()=>{const p=prof();$("#me").innerHTML=pfHTML(p.avatar,30)+"<b>"+eh(p.username||"")+"</b>"};
 const THEMES=[["auto","Auto"],["light","Light"],["dark","Dark"],["ocean","Ocean"],["forest","Forest"],["sunset","Sunset"],["midnight","Midnight"]];
 const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["de","Deutsch"],["fr","Français"],["pt","Português"],["ar","العربية"],["ja","日本語"],["ko","한국어"],["tr","Türkçe"]],READY=["en","es","it","pl","ru","uk","zh","hi","de","fr"];
 const setTheme=v=>{LSs("ma-theme",v);if(v==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",v)};
@@ -578,6 +646,7 @@ const dlg=$("#set"),cd=$("#cd"),say=(id,t,c)=>{const e=$("#"+id);e.textContent=t
 function openSettings(){
  const p=prof(),th=LSg("ma-theme")||"auto",lg=LSg("ma-lang")||"en";
  $("#setBody").innerHTML=`
+<div class="sx"><h3>Profile picture</h3><div id="pk"></div><div class="row2" style="margin-top:10px"><button class="btn fill" id="svAv">Save picture</button></div><p class="st" id="stAv"></p></div>
 <div class="sx"><h3>Username</h3><div class="row2"><input id="iu" value="${eh(p.username||"")}" maxlength="20" autocomplete="username" aria-label="Username"><button class="btn fill" id="svU">Save</button></div><p class="st" id="stU"></p></div>
 <div class="sx"><h3>Email</h3><div class="row2"><input id="ie" type="email" value="${eh(p.email||"")}" autocomplete="email" aria-label="Email"><button class="btn fill" id="svE">Save</button></div><p class="st" id="stE"></p></div>
 <div class="sx"><h3>Password</h3><div class="row2"><input id="ip0" type="password" placeholder="Current password" autocomplete="current-password" aria-label="Current password"></div><div class="row2"><input id="ip" type="password" placeholder="New password (8+ characters)" autocomplete="new-password" aria-label="New password"><button class="btn fill" id="svP">Save</button></div><p class="st" id="stP"></p></div>
@@ -586,7 +655,7 @@ function openSettings(){
 <div class="sx"><button class="btn" id="out">Log out</button></div>
 <div class="sx"><h3>Delete account</h3><p class="st mute">Permanently removes your account details and progress from this device.</p><button class="btn bad" id="delBtn">Delete my account</button></div>
 <div class="sx"><h3>Contact us</h3><p style="margin:0">✉ <a href="mailto:supportmathanchor@gmail.com">supportmathanchor@gmail.com</a></p></div>`;
- $("#svU").onclick=()=>{const v=$("#iu").value.trim();if(!/^[A-Za-z0-9_]{3,20}$/.test(v))return say("stU","Use 3–20 letters, numbers or underscores.","err");const q=prof();q.username=v;LSs("ma-profile",JSON.stringify(q));say("stU","Saved ✓","ok")};
+ $("#svU").onclick=()=>{const v=$("#iu").value.trim();if(!/^[A-Za-z0-9_]{3,20}$/.test(v))return say("stU","Use 3–20 letters, numbers or underscores.","err");const q=prof();q.username=v;LSs("ma-profile",JSON.stringify(q));say("stU","Saved ✓","ok");chip()};
  $("#svE").onclick=()=>{const v=$("#ie").value.trim();if(!/^\S+@\S+\.\S+$/.test(v))return say("stE","Enter a valid email address.","err");const q=prof();q.email=v.toLowerCase();LSs("ma-profile",JSON.stringify(q));say("stE","Saved ✓","ok")};
  $("#svP").onclick=async()=>{const q=prof(),a=$("#ip0").value,n=$("#ip").value;
   if(n.length<8)return say("stP","Use at least 8 characters.","err");
@@ -596,9 +665,11 @@ function openSettings(){
  dlg.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{setTheme(b.dataset.th);dlg.querySelectorAll("[data-th]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
  $("#out").onclick=()=>{LSd("ma-session");location.href="index.html"};
  $("#delBtn").onclick=()=>cd.showModal();
+ let pend=p.avatar||"anim:0";curPk=makePicker($("#pk"),pend,v=>pend=v);
+ $("#svAv").onclick=()=>{const q=prof();q.avatar=pend;LSs("ma-profile",JSON.stringify(q));chip();say("stAv","Saved ✓","ok")};
  dlg.showModal();
 }
-$("#setBtn").onclick=openSettings;$("#setX").onclick=()=>dlg.close();$("#cdNo").onclick=()=>cd.close();
+$("#setBtn").onclick=openSettings;$("#setX").onclick=()=>dlg.close();dlg.onclose=()=>{if(curPk)curPk.stop()};chip();$("#cdNo").onclick=()=>cd.close();
 $("#cdYes").onclick=()=>{["ma-profile","ma-session","ma-done"].forEach(LSd);location.href="deleted.html"};
 addEventListener("hashchange",route);route();
 </script>
