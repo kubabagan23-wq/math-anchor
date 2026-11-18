@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MathAnchor – Sign up</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--mark:#FFD23F;--markink:#12263A;--teal:#0E7C6B;--bad:#B3261E;color-scheme:light}
@@ -38,6 +41,15 @@ input{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:8px;b
 .back{display:block;text-align:center;margin-top:22px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<style id="themes">
+:root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;color-scheme:dark}
+:root[data-theme="ocean"]{--bg:#EEF6FB;--grid:#D2E5F2;--ink:#0B2A43;--mute:#48667E;--card:#FFFFFF;--line:#B4D0E4;--teal:#0A6EA8;--mark:#7CD4FF;--markink:#0B2A43;color-scheme:light}
+:root[data-theme="forest"]{--bg:#F1F6EE;--grid:#D8E5D0;--ink:#1B3322;--mute:#52684F;--card:#FFFFFF;--line:#BED2B4;--teal:#2E7D32;--mark:#B6E36B;--markink:#1B3322;color-scheme:light}
+:root[data-theme="sunset"]{--bg:#FFF4EC;--grid:#F6DECB;--ink:#3A1F2B;--mute:#7A5A5F;--card:#FFFFFF;--line:#EBCDB8;--teal:#C2410C;--mark:#FFB05C;--markink:#3A1F2B;color-scheme:light}
+:root[data-theme="midnight"]{--bg:#11111F;--grid:#1D1D33;--ink:#EDEBFF;--mute:#A9A6CF;--card:#1A1A2E;--line:#33335A;--teal:#8EA2FF;--mark:#FFD23F;--markink:#12263A;color-scheme:dark}
+</style>
+<script>try{var t=localStorage.getItem("ma-theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <header><div class="bar">
@@ -55,6 +67,7 @@ input{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:8px;b
    <button class="btn fill go" type="submit" data-i="signup">Sign up</button>
   </form>
   <p class="alt"><span data-i="has">Already have an account?</span> <a href="login.html" data-i="login">Log in</a></p>
+ <p class="alt">✉ <a href="mailto:supportmathanchor@gmail.com">supportmathanchor@gmail.com</a></p>
  </div>
  <a class="back" href="index.html" data-i="back">Back to home</a>
 </main>
@@ -73,9 +86,17 @@ function setLang(c){lang=c;document.documentElement.lang=c;try{localStorage.setI
  $$("[data-i]").forEach(el=>{const v=T[c][el.dataset.i];if(v)el.textContent=v});
  $$(".menu button").forEach(b=>b.setAttribute("aria-current",b.dataset.c===c));
  document.title="MathAnchor – "+T[c][SIGNUP?"signup":"login"];$("#msg").textContent=""}
-$("#f").onsubmit=e=>{e.preventDefault();const m=$("#msg"),em=$("#em").value.trim(),pw=$("#pw").value;
+const LSg=k=>{try{return localStorage.getItem(k)}catch(e){return null}},LSs=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+async function maHash(pw,salt){if(window.crypto&&crypto.subtle&&window.TextEncoder){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+pw));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}return "p:"+btoa(unescape(encodeURIComponent(salt+pw)))}
+const maProf=()=>{try{return JSON.parse(LSg("ma-profile")||"null")||{}}catch(e){return {}}};
+const BAD={en:"Incorrect email or password.",es:"Correo o contraseña incorrectos.",it:"Email o password errate.",pl:"Nieprawidłowy e-mail lub hasło.",ru:"Неверная почта или пароль.",uk:"Невірна пошта або пароль.",zh:"邮箱或密码不正确。",hi:"ईमेल या पासवर्ड गलत है।",de:"E-Mail oder Passwort falsch.",fr:"E-mail ou mot de passe incorrect."};
+$("#f").onsubmit=async e=>{e.preventDefault();const m=$("#msg"),em=$("#em").value.trim(),pw=$("#pw").value;
  const bad=!/^\S+@\S+\.\S+$/.test(em)||pw.length<8||(SIGNUP&&$("#un").value.trim().length<3);
- m.className="msg "+(bad?"err":"ok");m.textContent=T[lang][bad?(SIGNUP?"errS":"errL"):"note"];if(!bad)location.href="dashboard.html"};
+ m.className="msg "+(bad?"err":"ok");
+ if(bad){m.textContent=T[lang].errS;return}
+ const salt=Math.random().toString(36).slice(2);
+ LSs("ma-profile",JSON.stringify({username:$("#un").value.trim(),email:em.toLowerCase(),salt,hash:await maHash(pw,salt)}));
+ LSs("ma-session","1");location.href="dashboard.html"};
 let s="en";try{s=localStorage.getItem("ma-lang")||"en"}catch(e){}
 setLang(T[s]?s:"en");
 </script>
