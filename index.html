@@ -90,7 +90,9 @@ footer.ma-foot{margin:36px auto 0;padding:18px 16px 26px;text-align:center;font-
 :root[data-theme="sunset"]{--bg:#FFF4EC;--grid:#F6DECB;--ink:#3A1F2B;--mute:#7A5A5F;--card:#FFFFFF;--line:#EBCDB8;--teal:#C2410C;--mark:#FFB05C;--markink:#3A1F2B;color-scheme:light}
 :root[data-theme="midnight"]{--bg:#11111F;--grid:#1D1D33;--ink:#EDEBFF;--mute:#A9A6CF;--card:#1A1A2E;--line:#33335A;--teal:#8EA2FF;--mark:#FFD23F;--markink:#12263A;color-scheme:dark}
 </style>
+<script src="auth.js"></script>
 <script>try{var t=localStorage.getItem("ma-theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script>try{var _p=window.MAA&&MAA.pending();if(_p){if(_p.type==="recovery"&&_p.access_token)location.replace("reset.html");else location.replace("login.html")}}catch(e){}</script>
 </head>
 <body>
 <header><div class="wrap bar">

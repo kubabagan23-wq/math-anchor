@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MathAnchor – Reset password</title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--mark:#FFD23F;--markink:#12263A;--teal:#0E7C6B;--bad:#B3261E;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;--bad:#FF8A80;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:400 1rem/1.6 "Instrument Sans",system-ui,"Noto Sans",sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+h1{font:800 clamp(1.9rem,5vw,2.4rem)/1.1 "Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;margin:0 0 18px}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+a{color:var(--teal);font-weight:600}
+header{background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:1040px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:10px;height:60px}
+.logo{font:800 1.25rem "Bricolage Grotesque",sans-serif;margin-right:auto;color:var(--ink);text-decoration:none;white-space:nowrap}
+.logo span{background:var(--mark);color:var(--markink);padding:0 6px;border-radius:4px;margin-right:2px}
+.btn{border:1.5px solid var(--ink);background:transparent;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer}
+.btn.fill{background:var(--mark);color:var(--markink);border-color:var(--markink)}
+.lang{position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px;list-style:none;margin:0;width:200px;max-height:60vh;overflow:auto;display:none;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:5}
+.menu.open{display:block}
+.menu button{width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+.menu button:hover,.menu button[aria-current="true"]{background:var(--grid)}
+.menu button[disabled]{opacity:.5;cursor:default}
+main{max-width:420px;margin:0 auto;padding:36px 20px 48px}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:24px;box-shadow:6px 6px 0 var(--mark)}
+label{display:block;font-weight:600;margin:14px 0 4px}
+input{width:100%;padding:11px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg)}
+.go{width:100%;margin-top:20px;padding:12px;font-size:1.05rem}
+.msg{min-height:1.3em;margin-top:12px;font-size:.9rem}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--teal)}
+.alt{margin-top:18px;color:var(--mute);text-align:center}
+.intro{margin:0 0 4px;color:var(--mute)}[hidden]{display:none!important}
+.back{display:block;text-align:center;margin-top:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+footer.ma-foot{margin:36px auto 0;padding:18px 16px 26px;text-align:center;font-size:.88rem;color:var(--mute,#4A6070);border-top:1px solid var(--line,#B9CFC6)}footer.ma-foot a{color:inherit;font-weight:600}
+</style>
+<style id="themes">
+:root[data-theme="light"]{--bg:#F2F7F4;--grid:#D3E3DC;--ink:#12263A;--mute:#4A6070;--card:#FFFFFF;--line:#B9CFC6;--teal:#0E7C6B;color-scheme:light}
+:root[data-theme="dark"]{--bg:#0F1C26;--grid:#1B3041;--ink:#E8F0EE;--mute:#9DB3BF;--card:#16293A;--line:#2C4558;--teal:#4FD1B8;color-scheme:dark}
+:root[data-theme="ocean"]{--bg:#EEF6FB;--grid:#D2E5F2;--ink:#0B2A43;--mute:#48667E;--card:#FFFFFF;--line:#B4D0E4;--teal:#0A6EA8;--mark:#7CD4FF;--markink:#0B2A43;color-scheme:light}
+:root[data-theme="forest"]{--bg:#F1F6EE;--grid:#D8E5D0;--ink:#1B3322;--mute:#52684F;--card:#FFFFFF;--line:#BED2B4;--teal:#2E7D32;--mark:#B6E36B;--markink:#1B3322;color-scheme:light}
+:root[data-theme="sunset"]{--bg:#FFF4EC;--grid:#F6DECB;--ink:#3A1F2B;--mute:#7A5A5F;--card:#FFFFFF;--line:#EBCDB8;--teal:#C2410C;--mark:#FFB05C;--markink:#3A1F2B;color-scheme:light}
+:root[data-theme="midnight"]{--bg:#11111F;--grid:#1D1D33;--ink:#EDEBFF;--mute:#A9A6CF;--card:#1A1A2E;--line:#33335A;--teal:#8EA2FF;--mark:#FFD23F;--markink:#12263A;color-scheme:dark}
+</style>
+<script src="auth.js"></script>
+<script>try{var t=localStorage.getItem("ma-theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+<header><div class="bar">
+ <a class="logo" href="index.html"><span>Math</span>Anchor</a>
+ <div class="lang"><button class="btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Language">🌐 <span id="langName">English</span></button><ul class="menu" id="menu"></ul></div>
+</div></header>
+<main>
+ <div class="card">
+  <h1 id="h1">Reset your password</h1>
+  <p id="intro" class="intro"></p>
+  <form id="f" novalidate>
+   <div id="reqBox"><label for="em" id="lEm">Email</label><input id="em" type="email" autocomplete="email"></div>
+   <div id="newBox" hidden><label for="np" id="lNp"></label><input id="np" type="password" autocomplete="new-password"><label for="cp" id="lCp"></label><input id="cp" type="password" autocomplete="new-password"></div>
+   <div class="msg" id="msg" role="alert"></div>
+   <button class="btn fill go" type="submit" id="go">Send reset link</button>
+  </form>
+  <p class="alt" id="noUser"></p>
+ </div>
+ <a class="back" href="login.html" id="toLogin">Back to log in</a>
+</main>
+<script>
+const FT={"en": ["© {y} MathAnchor. All rights reserved.", "Contact us"], "es": ["© {y} MathAnchor. Todos los derechos reservados.", "Contáctanos"], "it": ["© {y} MathAnchor. Tutti i diritti riservati.", "Contattaci"], "pl": ["© {y} MathAnchor. Wszelkie prawa zastrzeżone.", "Kontakt"], "ru": ["© {y} MathAnchor. Все права защищены.", "Связаться с нами"], "uk": ["© {y} MathAnchor. Усі права захищено.", "Зв’язатися з нами"], "zh": ["© {y} MathAnchor。保留所有权利。", "联系我们"], "hi": ["© {y} MathAnchor। सर्वाधिकार सुरक्षित।", "संपर्क करें"], "de": ["© {y} MathAnchor. Alle Rechte vorbehalten.", "Kontakt"], "fr": ["© {y} MathAnchor. Tous droits réservés.", "Nous contacter"], "pt": ["© {y} MathAnchor. Todos os direitos reservados.", "Fale conosco"], "ar": ["© {y} MathAnchor. جميع الحقوق محفوظة.", "تواصل معنا"], "ja": ["© {y} MathAnchor. All rights reserved.", "お問い合わせ"], "ko": ["© {y} MathAnchor. 모든 권리 보유.", "문의하기"], "tr": ["© {y} MathAnchor. Tüm hakları saklıdır.", "Bize ulaşın"]};function ftSet(c){const f=FT[c]||FT.en;const a=document.getElementById("ftC"),b=document.getElementById("ftU");if(a)a.textContent=f[0].replace("{y}",new Date().getFullYear());if(b)b.textContent=f[1];fbSet(c)}const FB={"en": ["Feedback", "MathAnchor feedback", "What happened, or what could be better? Please write it here:", "Details (filled in automatically):"], "es": ["Opinión", "Comentarios sobre MathAnchor", "¿Qué pasó o qué se podría mejorar? Cuéntalo aquí:", "Detalles (se rellenan solos):"], "it": ["Feedback", "Feedback su MathAnchor", "Cosa è successo o cosa si potrebbe migliorare? Scrivilo qui:", "Dettagli (compilati automaticamente):"], "pl": ["Opinia", "Opinia o MathAnchor", "Co się stało lub co można poprawić? Opisz to tutaj:", "Szczegóły (uzupełnione automatycznie):"], "ru": ["Отзыв", "Отзыв о MathAnchor", "Что случилось или что можно улучшить? Напиши здесь:", "Подробности (заполняются автоматически):"], "uk": ["Відгук", "Відгук про MathAnchor", "Що сталося або що можна покращити? Напиши тут:", "Подробиці (заповнюються автоматично):"], "zh": ["反馈", "MathAnchor 反馈", "发生了什么，或哪里可以改进？请写在这里：", "详细信息（自动填写）："], "hi": ["प्रतिक्रिया", "MathAnchor पर प्रतिक्रिया", "क्या हुआ या क्या बेहतर हो सकता है? यहाँ लिखें:", "विवरण (अपने आप भरा गया):"], "fr": ["Avis", "Avis sur MathAnchor", "Que s’est-il passé ou que pourrait-on améliorer ? Écrivez-le ici :", "Détails (remplis automatiquement) :"]};function fbSet(c){var f=FB[c]||FB.en,e=document.getElementById("ftF");if(!e)return;var pg=document.title.replace(/^MathAnchor – /,"");e.textContent=f[0];e.href="mailto:supportmathanchor@gmail.com?subject="+encodeURIComponent(f[1]+" – "+pg)+"&body="+encodeURIComponent(f[2]+"\n\n\n\n---\n"+f[3]+"\nPage: "+document.title+"\nLink: "+location.href+"\nLanguage: "+c+"\nScreen: "+innerWidth+"x"+innerHeight)}
+const LANGS=[["en","English"],["es","Español"],["it","Italiano"],["pl","Polski"],["ru","Русский"],["uk","Українська"],["zh","中文"],["hi","हिन्दी"],["fr","Français"]];try{if(LANGS.map(l=>l[0]).indexOf(localStorage.getItem("ma-lang"))<0&&localStorage.getItem("ma-lang"))localStorage.setItem("ma-lang","en")}catch(e){}
+const T={"en": {"login": "Log in", "signup": "Sign up", "email": "Email", "pass": "Password", "no": "New here?", "has": "Already have an account?", "back": "Back to home", "user": "Username", "errL": "Check your details: a valid email and a password of 8+ characters.", "errS": "Check your details: username of 3+ characters, a valid email and a password of 8+ characters.", "note": "Preview only: nothing was sent or saved."}, "es": {"login": "Iniciar sesión", "signup": "Registrarse", "email": "Correo", "pass": "Contraseña", "no": "¿Eres nuevo?", "has": "¿Ya tienes cuenta?", "back": "Volver al inicio", "user": "Nombre de usuario", "errL": "Revisa tus datos: un correo válido y una contraseña de 8+ caracteres.", "errS": "Revisa tus datos: usuario de 3+ caracteres, correo válido y contraseña de 8+ caracteres.", "note": "Solo vista previa: no se envió ni guardó nada."}, "it": {"login": "Accedi", "signup": "Registrati", "email": "Email", "pass": "Password", "no": "Sei nuovo?", "has": "Hai già un account?", "back": "Torna alla home", "user": "Nome utente", "errL": "Controlla i dati: email valida e password di almeno 8 caratteri.", "errS": "Controlla i dati: nome utente di almeno 3 caratteri, email valida e password di almeno 8 caratteri.", "note": "Solo anteprima: nulla è stato inviato o salvato."}, "pl": {"login": "Zaloguj się", "signup": "Zarejestruj się", "email": "E-mail", "pass": "Hasło", "no": "Pierwszy raz tutaj?", "has": "Masz już konto?", "back": "Wróć na stronę główną", "user": "Nazwa użytkownika", "errL": "Sprawdź dane: poprawny e-mail i hasło min. 8 znaków.", "errS": "Sprawdź dane: nazwa użytkownika min. 3 znaki, poprawny e-mail i hasło min. 8 znaków.", "note": "Tylko podgląd: nic nie zostało wysłane ani zapisane."}, "ru": {"login": "Войти", "signup": "Регистрация", "email": "Эл. почта", "pass": "Пароль", "no": "Впервые здесь?", "has": "Уже есть аккаунт?", "back": "На главную", "user": "Имя пользователя", "errL": "Проверьте данные: корректная почта и пароль от 8 символов.", "errS": "Проверьте данные: имя от 3 символов, корректная почта и пароль от 8 символов.", "note": "Только предпросмотр: ничего не отправлено и не сохранено."}, "uk": {"login": "Увійти", "signup": "Реєстрація", "email": "Ел. пошта", "pass": "Пароль", "no": "Вперше тут?", "has": "Уже є акаунт?", "back": "На головну", "user": "Ім’я користувача", "errL": "Перевірте дані: коректна пошта та пароль від 8 символів.", "errS": "Перевірте дані: ім’я від 3 символів, коректна пошта та пароль від 8 символів.", "note": "Лише попередній перегляд: нічого не надіслано й не збережено."}, "zh": {"login": "登录", "signup": "注册", "email": "邮箱", "pass": "密码", "no": "新用户？", "has": "已有账户？", "back": "返回首页", "user": "用户名", "errL": "请检查：有效的邮箱，以及至少 8 位的密码。", "errS": "请检查：用户名至少 3 个字符，有效的邮箱，以及至少 8 位的密码。", "note": "仅为预览：没有发送或保存任何内容。"}, "hi": {"login": "लॉग इन", "signup": "साइन अप", "email": "ईमेल", "pass": "पासवर्ड", "no": "नए हैं?", "has": "पहले से खाता है?", "back": "होम पर वापस जाएँ", "user": "यूज़रनेम", "errL": "जानकारी जाँचें: सही ईमेल और कम से कम 8 अक्षरों का पासवर्ड।", "errS": "जानकारी जाँचें: कम से कम 3 अक्षरों का यूज़रनेम, सही ईमेल और कम से कम 8 अक्षरों का पासवर्ड।", "note": "केवल प्रीव्यू: कुछ भी भेजा या सहेजा नहीं गया।"}, "de": {"login": "Anmelden", "signup": "Registrieren", "email": "E-Mail", "pass": "Passwort", "no": "Neu hier?", "has": "Schon ein Konto?", "back": "Zurück zur Startseite", "user": "Benutzername", "errL": "Bitte prüfen: gültige E-Mail und Passwort mit mindestens 8 Zeichen.", "errS": "Bitte prüfen: Benutzername mit mindestens 3 Zeichen, gültige E-Mail und Passwort mit mindestens 8 Zeichen.", "note": "Nur Vorschau: nichts wurde gesendet oder gespeichert."}, "fr": {"login": "Connexion", "signup": "S’inscrire", "email": "E-mail", "pass": "Mot de passe", "no": "Nouveau ici ?", "has": "Déjà un compte ?", "back": "Retour à l’accueil", "user": "Nom d’utilisateur", "errL": "Vérifiez : un e-mail valide et un mot de passe de 8 caractères minimum.", "errS": "Vérifiez : un nom d’utilisateur de 3 caractères minimum, un e-mail valide et un mot de passe de 8 caractères minimum.", "note": "Aperçu seulement : rien n’a été envoyé ni enregistré."}, "pt": {"login": "Entrar", "signup": "Cadastrar-se", "email": "E-mail", "pass": "Senha", "no": "Novo por aqui?", "has": "Já tem uma conta?", "back": "Voltar ao início", "user": "Nome de usuário", "errL": "Verifique os dados: um e-mail válido e uma senha de 8+ caracteres.", "errS": "Verifique os dados: nome de usuário de 3+ caracteres, e-mail válido e senha de 8+ caracteres.", "note": "Apenas pré-visualização: nada foi enviado ou salvo."},"ar": {"login": "تسجيل الدخول", "signup": "إنشاء حساب", "email": "البريد الإلكتروني", "pass": "كلمة المرور", "no": "جديد هنا؟", "has": "لديك حساب بالفعل؟", "back": "العودة إلى الصفحة الرئيسية", "user": "اسم المستخدم", "errL": "تحقق من بياناتك: بريد إلكتروني صالح وكلمة مرور من 8 أحرف على الأقل.", "errS": "تحقق من بياناتك: اسم مستخدم من 3 أحرف على الأقل وبريد صالح وكلمة مرور من 8 أحرف على الأقل.", "note": "معاينة فقط: لم يتم إرسال أو حفظ أي شيء."},"ja": {"login": "ログイン", "signup": "新規登録", "email": "メールアドレス", "pass": "パスワード", "no": "初めての方は", "has": "すでにアカウントをお持ちですか？", "back": "ホームに戻る", "user": "ユーザー名", "errL": "入力内容を確認してください：有効なメールアドレスと8文字以上のパスワード。", "errS": "入力内容を確認してください：3文字以上のユーザー名、有効なメールアドレス、8文字以上のパスワード。", "note": "プレビューのみ：何も送信・保存されていません。"},"ko": {"login": "로그인", "signup": "회원가입", "email": "이메일", "pass": "비밀번호", "no": "처음이신가요?", "has": "이미 계정이 있으신가요?", "back": "홈으로 돌아가기", "user": "사용자 이름", "errL": "입력 내용을 확인하세요: 올바른 이메일과 8자 이상의 비밀번호.", "errS": "입력 내용을 확인하세요: 3자 이상의 사용자 이름, 올바른 이메일, 8자 이상의 비밀번호.", "note": "미리보기 전용: 아무것도 전송되거나 저장되지 않았습니다."},"tr": {"login": "Giriş yap", "signup": "Kayıt ol", "email": "E-posta", "pass": "Şifre", "no": "Burada yeni misin?", "has": "Zaten hesabın var mı?", "back": "Ana sayfaya dön", "user": "Kullanıcı adı", "errL": "Bilgilerini kontrol et: geçerli bir e-posta ve en az 8 karakterli bir şifre.", "errS": "Bilgilerini kontrol et: en az 3 karakterli kullanıcı adı, geçerli bir e-posta ve en az 8 karakterli şifre.", "note": "Yalnızca önizleme: hiçbir şey gönderilmedi veya kaydedilmedi."}};
+let lang="en",mode="req",key=null,done=false;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const menu=$("#menu"),btn=$("#langBtn");
+LANGS.forEach(([c,n])=>{const li=document.createElement("li"),b=document.createElement("button");b.textContent=n;b.dataset.c=c;b.onclick=()=>{setLang(c);toggle(false)};li.append(b);menu.append(li)});
+function toggle(o){menu.classList.toggle("open",o);btn.setAttribute("aria-expanded",o)}
+btn.onclick=e=>{e.stopPropagation();toggle(!menu.classList.contains("open"))};
+document.addEventListener("click",()=>toggle(false));
+let msgKey=null,msgOk=false,msgRaw=null;
+function say(k,ok){msgKey=k;msgRaw=null;msgOk=!!ok;paint()}
+function sayRaw(t){msgKey=null;msgRaw=t;msgOk=false;paint()}
+function paint(){const m=$("#msg");m.className="msg "+(msgOk?"ok":"err");m.textContent=msgRaw||(msgKey?MAA.m(msgKey):"")}
+function render(){const t=k=>MAA.m(k);
+ $("#h1").textContent=t(mode==="new"?"nT":"rT");
+ $("#intro").textContent=done?"":(mode==="new"?"":t("rI"));
+ $("#lEm").textContent=T[lang].email;$("#lNp").textContent=t("nP");$("#lCp").textContent=t("cP");
+ $("#go").textContent=t(mode==="new"?"nBtn":"rBtn");$("#noUser").textContent=t("noUser");$("#toLogin").textContent=t("toLogin");
+ document.title="MathAnchor – "+t(mode==="new"?"nT":"rT");paint()}
+function setLang(c){lang=c;document.documentElement.lang=c;ftSet(c);try{localStorage.setItem("ma-lang",c)}catch(e){}
+ $("#langName").textContent=LANGS.find(l=>l[0]===c)[1];
+ $$(".menu button").forEach(b=>b.setAttribute("aria-current",b.dataset.c===c));render()}
+function setMode(m){mode=m;$("#reqBox").hidden=m!=="req";$("#newBox").hidden=m!=="new"}
+function finish(){done=true;$("#f .go").hidden=true;$("#reqBox").hidden=true;$("#newBox").hidden=true;$("#noUser").hidden=true}
+$("#f").onsubmit=async e=>{e.preventDefault();const go=$("#go");
+ if(mode==="req"){const em=$("#em").value.trim();
+  if(!/^\S+@\S+\.\S+$/.test(em)){sayRaw(T[lang].errL);return}
+  go.disabled=true;say("busy",true);
+  try{await MAA.recover(em);say("recSent",true);finish();render()}catch(x){say(x.kind&&x.kind!=="bad"?x.kind:"generic");go.disabled=false}
+  return}
+ const a=$("#np").value,b=$("#cp").value;
+ if(a.length<8){say("weak");return}
+ if(a!==b){say("mism");return}
+ go.disabled=true;say("busy",true);
+ try{await MAA.setPasswordWithToken(key,a);MAA.clearPending();key=null;say("pwDone",true);finish();render()}
+ catch(x){say(x.kind||"generic");go.disabled=false;if(x.kind==="expired"){MAA.clearPending();key=null;setMode("req");render()}}};
+let s="en";try{s=localStorage.getItem("ma-lang")||"en"}catch(e){}
+if(!T[s])s="en";
+const p=MAA.pending();
+if(p&&p.access_token&&p.type==="recovery"){key=p.access_token;setMode("new")}
+else if(p&&(p.error_code||p.error)){MAA.clearPending();say("expired")}
+setLang(s);
+</script>
+<footer class="ma-foot"><span id="ftC"></span> · <a id="ftU" href="mailto:supportmathanchor@gmail.com"></a> · <a href="mailto:supportmathanchor@gmail.com" id="ftE">supportmathanchor@gmail.com</a> · <a id="ftF" href="mailto:supportmathanchor@gmail.com"></a> · <a href="privacy.html">About &amp; privacy</a></footer>
+<script>ftSet(document.documentElement.lang||"en")</script>
+</body>
+</html>
