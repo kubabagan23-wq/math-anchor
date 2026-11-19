@@ -147,5 +147,28 @@ var PEND=null;
 function pending(){try{return JSON.parse(sessionStorage.getItem("ma-pend")||"null")||PEND}catch(e){return PEND}}
 function clearPending(){PEND=null;try{sessionStorage.removeItem("ma-pend")}catch(e){}}
 function wipeLocal(){["ma-profile","ma-done","ma-streak","ma-last","ma-uid","ma-auth","ma-session","ma-pend-av"].forEach(LD)}
+
+/* show/hide password buttons on every password field */
+var EYE={en:["Show password","Hide password"],es:["Mostrar contraseña","Ocultar contraseña"],it:["Mostra password","Nascondi password"],pl:["Pokaż hasło","Ukryj hasło"],ru:["Показать пароль","Скрыть пароль"],uk:["Показати пароль","Сховати пароль"],zh:["显示密码","隐藏密码"],hi:["पासवर्ड दिखाएँ","पासवर्ड छिपाएँ"],fr:["Afficher le mot de passe","Masquer le mot de passe"]};
+function eyeTxt(show){var e=EYE[lg()]||EYE.en;return e[show?1:0]}
+function addEye(i){
+  if(i.dataset.eye||i.type!=="password")return;i.dataset.eye="1";
+  var w=document.createElement("span");w.className="ma-pw";
+  i.parentNode.insertBefore(w,i);w.appendChild(i);
+  var b=document.createElement("button");b.type="button";b.className="ma-eye";
+  function paint(){var sh=i.type==="text";b.setAttribute("aria-label",eyeTxt(sh));b.title=eyeTxt(sh);b.setAttribute("aria-pressed",sh?"true":"false");
+    b.innerHTML=sh?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.1 10.1 0 0 1 12 20C5 20 1 12 1 12a18 18 0 0 1 5.1-5.9M9.9 4.2A9 9 0 0 1 12 4c7 0 11 8 11 8a18 18 0 0 1-2.2 3.2M1 1l22 22"/></svg>':'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>'}
+  b.onclick=function(){i.type=i.type==="password"?"text":"password";paint();i.focus()};
+  paint();w.appendChild(b);
+  new MutationObserver(paint).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+}
+function scanEyes(){var l=document.querySelectorAll("input[type=password]");for(var k=0;k<l.length;k++)addEye(l[k])}
+(function(){
+  var st=document.createElement("style");
+  st.textContent=".ma-pw{position:relative;display:block;flex:1;min-width:0}.ma-pw>input{padding-right:44px!important;width:100%;min-width:0;box-sizing:border-box}.ma-eye{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;color:var(--mute,#4A6070);cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:0}.ma-pw>input::-ms-reveal,.ma-pw>input::-ms-clear{display:none}.ma-eye:hover{color:var(--ink,#12263A)}";
+  (document.head||document.documentElement).appendChild(st);
+  function go(){scanEyes();new MutationObserver(scanEyes).observe(document.body,{childList:true,subtree:true})}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go();
+})();
 window.MAA={m:m,lg:lg,msgOf:msgOf,configured:configured,getSess:getSess,fresh:fresh,signUp:signUp,signIn:signIn,recover:recover,adopt:adopt,updateUser:updateUser,setPasswordWithToken:setPasswordWithToken,verifyPassword:verifyPassword,getProfile:getProfile,putProfile:putProfile,deleteAccount:deleteAccount,signOut:signOut,pending:pending,clearPending:clearPending,clearSess:clearSess,wipeLocal:wipeLocal,page:page};
 })();
