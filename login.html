@@ -98,7 +98,7 @@ $("#f").onsubmit=async e=>{e.preventDefault();const m=$("#msg"),em=$("#em").valu
  try{await MAA.signIn(em,pw);location.href="dashboard.html"}
  catch(x){m.className="msg err";m.textContent=MAA.msgOf(x);go.disabled=false}};
 (async()=>{const p=MAA.pending();if(!p)return;
- if(p.error_code||p.error){MAA.clearPending();keepMsg=true;say("expired");return}
+ if(p.error_code||p.error){MAA.clearPending();keepMsg=true;say(p.error_code==="otp_expired"?"usedLink":"expired");return}
  if(p.type==="recovery"&&p.access_token){location.replace("reset.html");return}
  if(p.access_token){say("busy",true);try{await MAA.adopt(p);MAA.clearPending();location.replace("dashboard.html")}catch(x){MAA.clearPending();say("generic")}}})();
 let s="en";try{s=localStorage.getItem("ma-lang")||"en"}catch(e){}
